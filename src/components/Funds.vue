@@ -48,7 +48,7 @@
           v-else
           class="my-2 font-bold bg-[#ffdddd] rounded-l-full leading-[2.5rem] absolute bottom-0 left-0 w-full border-r-2 border-[#ffffff]"
         >
-          Hạn mức
+          Limitation
         </p>
       </div>
     </template>
