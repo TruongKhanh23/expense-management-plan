@@ -52,6 +52,9 @@ import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import momo from "@/assets/images/momo.svg";
+import vnpay from "@/assets/images/vnpay.png";
+import zalopay from "@/assets/images/zalopay.png";
 
 export default {
   components: {
@@ -109,7 +112,6 @@ export default {
         dataIndex: "amount",
       },
     ];
-
     const dataHandleIncome = [
       {
         key: "1",
@@ -267,7 +269,7 @@ export default {
       },
       {
         id: "necessity",
-        src: "../src/assets/images/momo.svg",
+        src: momo,
         percentage: 72.5,
         wallet: "Túi thần tài",
         name: "Nhu cầu thiết yếu",
@@ -275,7 +277,7 @@ export default {
       },
       {
         id: "freedom",
-        src: "../src/assets/images/momo.svg",
+        src: momo,
         percentage: 3,
         wallet: "Qũy nhóm",
         name: "Tự do tài chính",
@@ -283,7 +285,7 @@ export default {
       },
       {
         id: "education",
-        src: "../src/assets/images/vnpay.png",
+        src: vnpay,
         percentage: 3,
         wallet: "Ví chính",
         name: "Giáo dục đào tạo",
@@ -291,7 +293,7 @@ export default {
       },
       {
         id: "relax",
-        src: "../src/assets/images/momo.svg",
+        src: momo,
         percentage: 7.5,
         wallet: "Ví chính",
         name: "Hưởng thụ",
@@ -299,7 +301,7 @@ export default {
       },
       {
         id: "giving",
-        src: "../src/assets/images/zalopay.png",
+        src: zalopay,
         percentage: 3,
         wallet: "Ví chính",
         name: "Cho đi",
@@ -307,7 +309,7 @@ export default {
       },
       {
         id: "longTermSaving",
-        src: "../src/assets/images/zalopay.png",
+        src: zalopay,
         percentage: 11,
         wallet: "Tài khoản tích lũy",
         name: "Tiết kiệm dài hạn",
