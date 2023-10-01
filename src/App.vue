@@ -48,10 +48,10 @@
 </template>
 <script>
 import { Col, Tabs, TabPane } from "ant-design-vue";
-import Funds from "@/components/Funds.vue";
-import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
-import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import Funds from "./components/Funds.vue";
+import IncomeDebt from "./components/IncomeDebt.vue";
+import HandleIncome from "./components/HandleIncome.vue";
+import EstimateNecessity from "./components/EstimateNecessity.vue";
 
 export default {
   components: {

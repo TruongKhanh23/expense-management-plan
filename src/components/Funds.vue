@@ -55,7 +55,7 @@
   </Slider>
 </template>
 <script>
-import Slider from "@/components/reusable/Slider.vue";
+import Slider from "../components/reusable/Slider.vue";
 import "@splidejs/vue-splide/css";
 
 export default {
