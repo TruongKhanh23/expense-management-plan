@@ -18,7 +18,7 @@
     <template #content="{ data }">
       <div class="mx-2 text-center">
         <div v-if="data.src" class="flex justify-center items-center">
-          <img :src="data.src" class="w-16 h-16" />
+          <img :src="data.src" class="w-16 h-16 rounded-lg" />
         </div>
         <h3 class="font-bold my-2">{{ data.wallet }}</h3>
         <div
