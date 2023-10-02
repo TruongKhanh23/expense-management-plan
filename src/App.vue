@@ -41,20 +41,30 @@
       </a-col>
 
       <a-col :md="{ span: 10 }">
-        <HandleIncome :columns="columnsHandleIncome" :data="dataHandleIncome" />
+        <HandleIncome
+          :columnsHandleIncome="columnsHandleIncome"
+          :dataHandleIncome="dataHandleIncome"
+        />
       </a-col>
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { Col, Tabs, TabPane } from "ant-design-vue";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import Testing from "@/components/Testing.vue";
 import momo from "@/assets/images/momo.svg";
 import vnpay from "@/assets/images/vnpay.png";
 import zalopay from "@/assets/images/zalopay.png";
+
+type TableDataType = {
+  type: string;
+  fund: string;
+  amount: number;
+};
 
 export default {
   components: {
@@ -65,6 +75,7 @@ export default {
     IncomeDebt,
     HandleIncome,
     EstimateNecessity,
+    Testing,
   },
   setup() {
     const columnsIncome = [
@@ -101,7 +112,16 @@ export default {
       {
         title: "Loại",
         dataIndex: "type",
-        maxWidth: 50,
+        filters: [
+          { text: "necessity", value: "necessity" },
+          { text: "freedom", value: "freedom" },
+          { text: "enjoy", value: "enjoy" },
+          { text: "education", value: "education" },
+          { text: "giving", value: "giving" },
+          { text: "longTermSaving", value: "longTermSaving" },
+        ],
+        onFilter: (value: string, record: TableDataType) =>
+          record.type.indexOf(value) === 0,
       },
       {
         title: "Quỹ",
@@ -112,6 +132,7 @@ export default {
         dataIndex: "amount",
       },
     ];
+
     const dataHandleIncome = [
       {
         key: "1",
