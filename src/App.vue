@@ -18,8 +18,8 @@
         </a-tab-pane>
         <a-tab-pane key="3" tab="Xử lý thu nhập">
           <HandleIncome
-            :columns="columnsHandleIncome"
-            :data="dataHandleIncome"
+            :columnsHandleIncome="columnsHandleIncome"
+            :dataHandleIncome="dataHandleIncome"
           />
         </a-tab-pane>
       </a-tabs>
@@ -55,7 +55,6 @@ import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
-import Testing from "@/components/Testing.vue";
 import momo from "@/assets/images/momo.svg";
 import vnpay from "@/assets/images/vnpay.png";
 import zalopay from "@/assets/images/zalopay.png";
@@ -75,7 +74,6 @@ export default {
     IncomeDebt,
     HandleIncome,
     EstimateNecessity,
-    Testing,
   },
   setup() {
     const columnsIncome = [
