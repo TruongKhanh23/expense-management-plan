@@ -1,6 +1,6 @@
 <template>
   <div class="md:px-4">
-    <a-table :columns="columns" :data-source="data">
+    <a-table :columns="columns" :data-source="data" @change="onChange">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'amount'">
           <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
@@ -17,25 +17,35 @@
     </a-table>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { Table, Tag } from "ant-design-vue";
+import type { TableColumnType, TableProps } from "ant-design-vue";
+
+type TableDataType = {
+  key: string;
+  wallet: string;
+  type: string;
+  fund: string;
+  amount: number;
+};
+
 export default {
   components: {
     ATag: Tag,
     ATable: Table,
   },
   props: {
-    columns: {
-      type: Object,
-      require: true,
+    columnsHandleIncome: {
+      type: Array as () => TableColumnType<TableDataType>[],
+      default: () => [],
     },
-    data: {
-      type: Object,
-      require: true,
+    dataHandleIncome: {
+      type: Array as () => TableDataType[],
+      default: () => [],
     },
   },
-  setup() {
-    const tagTypeColor = {
+  setup(props) {
+    const tagTypeColor: Record<string, string> = {
       necessity: "pink",
       freedom: "blue",
       enjoy: "green",
@@ -43,14 +53,27 @@ export default {
       giving: "default",
       longTermSaving: "orange",
     };
-    function tagColor(type) {
-      console.log("went tag", type);
-      if (Object.prototype.hasOwnProperty.call(tagTypeColor, type)) {
-        console.log("tagTypeColor[type]", tagTypeColor[type]);
+    function tagColor(type: string) {
+      if (type in tagTypeColor) {
         return tagTypeColor[type];
       }
     }
-    return { tagColor };
+    const columns: TableColumnType<TableDataType>[] = props.columnsHandleIncome as TableColumnType<TableDataType>[];
+
+    const data: TableDataType[] = props.dataHandleIncome;
+    const onChange: TableProps<TableDataType>["onChange"] = (
+      pagination,
+      filters,
+      sorter,
+    ) => {
+      console.log("params", pagination, filters, sorter);
+    };
+    return { tagColor, columns, data, onChange };
   },
 };
 </script>
+<style scoped>
+:deep(.ant-btn) {
+  background-color: red !important;
+}
+</style>
