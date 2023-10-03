@@ -4,7 +4,7 @@
 
     <!-- Mobile View -->
     <div class="md:hidden">
-      <a-tabs v-model:activeKey="activeKey" centered>
+      <a-tabs centered>
         <a-tab-pane key="1" tab="Dự chi thiết yếu">
           <EstimateNecessity :necessityLimitation="necessityLimitation" />
         </a-tab-pane>
@@ -18,8 +18,8 @@
         </a-tab-pane>
         <a-tab-pane key="3" tab="Xử lý thu nhập">
           <HandleIncome
-            :columns="columnsHandleIncome"
-            :data="dataHandleIncome"
+            :columnsHandleIncome="columnsHandleIncome"
+            :dataHandleIncome="dataHandleIncome"
           />
         </a-tab-pane>
       </a-tabs>
@@ -41,13 +41,17 @@
       </a-col>
 
       <a-col :md="{ span: 10 }">
-        <HandleIncome :columns="columnsHandleIncome" :data="dataHandleIncome" />
+        <HandleIncome
+          :columnsHandleIncome="columnsHandleIncome"
+          :dataHandleIncome="dataHandleIncome"
+        />
       </a-col>
     </div>
   </div>
 </template>
-<script>
-import { Col, Tabs, TabPane } from "ant-design-vue";
+<script lang="ts">
+import { ref } from "vue"
+import { Col, Tabs, TabPane, TableColumnType } from "ant-design-vue";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -55,6 +59,20 @@ import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import momo from "@/assets/images/momo.svg";
 import vnpay from "@/assets/images/vnpay.png";
 import zalopay from "@/assets/images/zalopay.png";
+
+type TableDataType = {
+  key: string;
+  wallet: string;
+  type: string;
+  fund: string;
+  amount: number;
+};
+
+type DataIncomeType = {
+  key: string;
+  source: string;
+  amount: number;
+};
 
 export default {
   components: {
@@ -80,7 +98,7 @@ export default {
         key: "amount",
       },
     ];
-    const dataIncome = [
+    const dataIncome: DataIncomeType[] = [
       {
         key: "1",
         source: "Lương",
@@ -97,11 +115,19 @@ export default {
         amount: 4500000,
       },
     ];
-    const columnsHandleIncome = [
+    const columnsHandleIncome: TableColumnType<TableDataType>[] = [
       {
         title: "Loại",
         dataIndex: "type",
-        maxWidth: 50,
+        filters: [
+          { text: "necessity", value: "necessity" },
+          { text: "freedom", value: "freedom" },
+          { text: "enjoy", value: "enjoy" },
+          { text: "education", value: "education" },
+          { text: "giving", value: "giving" },
+          { text: "longTermSaving", value: "longTermSaving" },
+        ],
+        onFilter: (value, record) => record.type.startsWith(value as string),
       },
       {
         title: "Quỹ",
@@ -112,7 +138,8 @@ export default {
         dataIndex: "amount",
       },
     ];
-    const dataHandleIncome = [
+
+    const dataHandleIncome: TableDataType[] = [
       {
         key: "1",
         wallet: "Momo",
@@ -249,7 +276,7 @@ export default {
     ];
     const totalIncome = calculateTotalAmount(dataIncome);
 
-    function calculateTotalAmount(data) {
+    function calculateTotalAmount(data: DataIncomeType[]) {
       let totalAmount = 0;
 
       for (const element of data) {
@@ -317,10 +344,13 @@ export default {
       },
     ];
 
-    const necessityLimitation =
-      (funds.find((item) => item.id === "necessity").percentage * totalIncome) /
-      100;
-    console.log("necessityLimitation", necessityLimitation);
+    // Calculate  Necessity Limitation
+    const necessityItem = funds.find((item) => item.id === "necessity") ?? { percentage: 0 };
+    const necessityLimitation = ref(0)
+    if (typeof necessityItem.percentage === 'number' && typeof totalIncome === 'number') {
+      necessityLimitation.value = (necessityItem.percentage * totalIncome) / 100;
+    }
+
     return {
       columnsIncome,
       dataIncome,
