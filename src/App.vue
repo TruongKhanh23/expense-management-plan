@@ -4,7 +4,7 @@
 
     <!-- Mobile View -->
     <div class="md:hidden">
-      <a-tabs v-model:activeKey="activeKey" centered>
+      <a-tabs centered>
         <a-tab-pane key="1" tab="Dự chi thiết yếu">
           <EstimateNecessity :necessityLimitation="necessityLimitation" />
         </a-tab-pane>
@@ -50,6 +50,7 @@
   </div>
 </template>
 <script lang="ts">
+import { ref } from "vue"
 import { Col, Tabs, TabPane } from "ant-design-vue";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
@@ -60,8 +61,16 @@ import vnpay from "@/assets/images/vnpay.png";
 import zalopay from "@/assets/images/zalopay.png";
 
 type TableDataType = {
+  key: string;
+  wallet: string;
   type: string;
   fund: string;
+  amount: number;
+};
+
+type DataIncomeType = {
+  key: string;
+  source: string;
   amount: number;
 };
 
@@ -89,7 +98,7 @@ export default {
         key: "amount",
       },
     ];
-    const dataIncome = [
+    const dataIncome: DataIncomeType[] = [
       {
         key: "1",
         source: "Lương",
@@ -106,7 +115,7 @@ export default {
         amount: 4500000,
       },
     ];
-    const columnsHandleIncome = [
+    const columnsHandleIncome: TableDataType[] = [
       {
         title: "Loại",
         dataIndex: "type",
@@ -118,8 +127,7 @@ export default {
           { text: "giving", value: "giving" },
           { text: "longTermSaving", value: "longTermSaving" },
         ],
-        onFilter: (value: string, record: TableDataType) =>
-          record.type.indexOf(value) === 0,
+        onFilter: (value, record) => record.type.startsWith(value as string),
       },
       {
         title: "Quỹ",
@@ -131,7 +139,7 @@ export default {
       },
     ];
 
-    const dataHandleIncome = [
+    const dataHandleIncome: TableDataType[] = [
       {
         key: "1",
         wallet: "Momo",
@@ -268,7 +276,7 @@ export default {
     ];
     const totalIncome = calculateTotalAmount(dataIncome);
 
-    function calculateTotalAmount(data) {
+    function calculateTotalAmount(data: DataIncomeType[]) {
       let totalAmount = 0;
 
       for (const element of data) {
@@ -336,10 +344,13 @@ export default {
       },
     ];
 
-    const necessityLimitation =
-      (funds.find((item) => item.id === "necessity").percentage * totalIncome) /
-      100;
-    console.log("necessityLimitation", necessityLimitation);
+    // Calculate  Necessity Limitation
+    const necessityItem = funds.find((item) => item.id === "necessity") ?? { percentage: 0 };
+    const necessityLimitation = ref(0)
+    if (typeof necessityItem.percentage === 'number' && typeof totalIncome === 'number') {
+      necessityLimitation.value = (necessityItem.percentage * totalIncome) / 100;
+    }
+    
     return {
       columnsIncome,
       dataIncome,

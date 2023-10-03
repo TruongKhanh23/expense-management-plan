@@ -23,9 +23,10 @@ import type { TableColumnType, TableProps } from "ant-design-vue";
 
 type TableDataType = {
   key: string;
-  name: string;
-  age: number;
-  address: string;
+  wallet: string;
+  type: string;
+  fund: string;
+  amount: number;
 };
 
 export default {
@@ -35,16 +36,16 @@ export default {
   },
   props: {
     columnsHandleIncome: {
-      type: Object,
-      default: () => {},
+      type: Array as () => TableDataType[],
+      default: () => [],
     },
     dataHandleIncome: {
-      type: Object,
-      default: () => {},
+      type: Array as () => TableDataType[],
+      default: () => [],
     },
   },
   setup(props) {
-    const tagTypeColor = {
+    const tagTypeColor: Record<string, string> = {
       necessity: "pink",
       freedom: "blue",
       enjoy: "green",
@@ -52,14 +53,12 @@ export default {
       giving: "default",
       longTermSaving: "orange",
     };
-    function tagColor(type) {
-      console.log("went tag", type);
-      if (Object.prototype.hasOwnProperty.call(tagTypeColor, type)) {
-        console.log("tagTypeColor[type]", tagTypeColor[type]);
+    function tagColor(type: string) {
+      if (type in tagTypeColor) {
         return tagTypeColor[type];
       }
     }
-    const columns: TableColumnType<TableDataType>[] = props.columnsHandleIncome;
+    const columns: TableColumnType<TableDataType>[] = props.columnsHandleIncome as TableColumnType<TableDataType>[];
 
     const data: TableDataType[] = props.dataHandleIncome;
     const onChange: TableProps<TableDataType>["onChange"] = (
@@ -73,3 +72,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+:deep(.ant-btn) {
+  background-color: red !important;
+}
+</style>
