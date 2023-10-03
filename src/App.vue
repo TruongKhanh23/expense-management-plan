@@ -51,7 +51,7 @@
 </template>
 <script lang="ts">
 import { ref } from "vue"
-import { Col, Tabs, TabPane } from "ant-design-vue";
+import { Col, Tabs, TabPane, TableColumnType } from "ant-design-vue";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -115,7 +115,7 @@ export default {
         amount: 4500000,
       },
     ];
-    const columnsHandleIncome: TableDataType[] = [
+    const columnsHandleIncome: TableColumnType<TableDataType>[] = [
       {
         title: "Loại",
         dataIndex: "type",
@@ -350,7 +350,7 @@ export default {
     if (typeof necessityItem.percentage === 'number' && typeof totalIncome === 'number') {
       necessityLimitation.value = (necessityItem.percentage * totalIncome) / 100;
     }
-    
+
     return {
       columnsIncome,
       dataIncome,

@@ -36,7 +36,7 @@ export default {
   },
   props: {
     columnsHandleIncome: {
-      type: Array as () => TableDataType[],
+      type: Array as () => TableColumnType<TableDataType>[],
       default: () => [],
     },
     dataHandleIncome: {
