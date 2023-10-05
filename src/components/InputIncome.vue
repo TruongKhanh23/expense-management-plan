@@ -76,8 +76,7 @@ export default {
 
     if (incomesStorageString !== null) {
       incomesStorage = JSON.parse(incomesStorageString);
-      console.log("incomesStorage", incomesStorage);
-      emit("action:updateDataIncome", incomesStorage)
+      emit("action:updateDataIncome", incomesStorage);
     }
 
     const dynamicValidateForm = reactive<{ incomes: Income[] }>({
@@ -99,9 +98,13 @@ export default {
     const onFinish = (values: any) => {
       console.log("Received values of form:", values);
       console.log("dynamicValidateForm.incomes:", dynamicValidateForm.incomes);
-      window.localStorage.setItem("incomes", JSON.stringify(dynamicValidateForm.incomes));
-      emit("action:updateDataIncome", dynamicValidateForm.incomes)
+      window.localStorage.setItem(
+        "incomes",
+        JSON.stringify(dynamicValidateForm.incomes),
+      );
+      emit("action:updateDataIncome", dynamicValidateForm.incomes);
     };
+
     return { formRef, removeUser, dynamicValidateForm, addUser, onFinish };
   },
 };

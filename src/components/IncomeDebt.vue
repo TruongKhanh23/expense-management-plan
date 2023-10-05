@@ -22,7 +22,7 @@
 import { ref, computed } from "vue"
 import { Table } from "ant-design-vue";
 import InputIncome from "@/components/InputIncome.vue"
-import { calculateTotalIncome } from "@/utils/number.util"
+
 export default {
   components: {
     ATable: Table,
@@ -37,17 +37,21 @@ export default {
       type: Object,
       require: true,
     },
+    totalIncome: {
+      type: Number,
+      require: true,
+    }
   },
-  setup(){
+  emits: ["action:updateDataTotalIncome"],
+  setup(_, { emit }){
     const dataIncomeStorage = ref(0)
     const dataIncome = computed(() => dataIncomeStorage.value)
-    const totalIncome = computed(() => calculateTotalIncome(dataIncomeStorage.value))
 
     function handleUpdateDataIncome(values) {
       dataIncomeStorage.value = values
-      console.log("dataIncomeStorage", dataIncomeStorage);
+      emit("action:updateDataTotalIncome", dataIncomeStorage.value)
     }
-    return { dataIncomeStorage, dataIncome, handleUpdateDataIncome, totalIncome }
+    return { dataIncomeStorage, dataIncome, handleUpdateDataIncome }
   }
 };
 </script>

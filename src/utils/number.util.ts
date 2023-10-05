@@ -5,8 +5,6 @@ type DataIncomeType = {
 };
 
 export function calculateTotalIncome(data: DataIncomeType[]) {
-  console.log("data calculateTotalIncome", data);
-
   if (!Array.isArray(data)) {
     return 0;
   }
@@ -15,7 +13,6 @@ export function calculateTotalIncome(data: DataIncomeType[]) {
 
   for (const element of data) {
     totalAmount += Number(element.amount);
-    console.log("totalAmount", totalAmount);
   }
 
   return totalAmount;
