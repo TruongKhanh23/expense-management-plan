@@ -1,6 +1,6 @@
 <template>
   <a-form
-    :model="formState"
+    :model="funds"
     name="horizontal_login"
     layout="inline"
     autocomplete="off"
@@ -29,7 +29,7 @@
                 },
               ]"
             >
-              <a-input v-model:value="formState.necessity" />
+              <a-input v-model:value="funds.necessity" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -43,7 +43,7 @@
                 },
               ]"
             >
-              <a-input v-model:value="formState.financialFreedom" />
+              <a-input v-model:value="funds.financialFreedom" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -57,7 +57,7 @@
                 },
               ]"
             >
-              <a-input v-model:value="formState.education" />
+              <a-input v-model:value="funds.education" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -68,7 +68,7 @@
                 { required: true, message: 'Please input enjoy percentage!' },
               ]"
             >
-              <a-input v-model:value="formState.enjoy" />
+              <a-input v-model:value="funds.enjoy" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -79,7 +79,7 @@
                 { required: true, message: 'Please input giving percentage!' },
               ]"
             >
-              <a-input v-model:value="formState.giving" />
+              <a-input v-model:value="funds.giving" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -93,7 +93,7 @@
                 },
               ]"
             >
-              <a-input v-model:value="formState.longTermSaving" />
+              <a-input v-model:value="funds.longTermSaving" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -107,7 +107,7 @@
 import { reactive, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
 
-interface FormState {
+interface Funds {
   necessity: number;
   financialFreedom: number;
   education: number;
@@ -126,7 +126,7 @@ export default {
     AButton: Button,
   },
   setup() {
-    const formState = reactive<FormState>({
+    const funds = reactive<Funds>({
       necessity: 0,
       financialFreedom: 0,
       education: 0,
@@ -135,7 +135,16 @@ export default {
       longTermSaving: 0,
     });
     const onFinish = (values: any) => {
-      console.log("Success:", values);
+      let totalPercent: number = 0
+      Object.keys(values).forEach((field) => {
+        totalPercent = totalPercent + parseInt(values[field])
+      })
+      // Check total percent      
+      if (totalPercent != 100) {
+        alert("Total of funds percentage must be 100%! Please modify!")
+      } else {
+        console.log("totalPercent.value", totalPercent);
+      }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -143,15 +152,15 @@ export default {
     };
     const disabled = computed(() => {
       return !(
-        formState.necessity &&
-        formState.financialFreedom &&
-        formState.education &&
-        formState.enjoy &&
-        formState.giving &&
-        formState.longTermSaving
+        funds.necessity &&
+        funds.financialFreedom &&
+        funds.education &&
+        funds.enjoy &&
+        funds.giving &&
+        funds.longTermSaving
       );
     });
-    return { formState, onFinish, onFinishFailed, disabled };
+    return { funds, onFinish, onFinishFailed, disabled };
   },
 };
 </script>
