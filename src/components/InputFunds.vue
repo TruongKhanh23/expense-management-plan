@@ -35,7 +35,7 @@
           <a-col :span="4">
             <a-form-item
               label="Financial Freedom"
-              name="financialFreedom"
+              name="freedom"
               :rules="[
                 {
                   required: true,
@@ -43,7 +43,7 @@
                 },
               ]"
             >
-              <a-input v-model:value="funds.financialFreedom" />
+              <a-input v-model:value="funds.freedom" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -62,13 +62,13 @@
           </a-col>
           <a-col :span="4">
             <a-form-item
-              label="Enjoy"
-              name="enjoy"
+              label="Relax"
+              name="relax"
               :rules="[
-                { required: true, message: 'Please input enjoy percentage!' },
+                { required: true, message: 'Please input relax percentage!' },
               ]"
             >
-              <a-input v-model:value="funds.enjoy" />
+              <a-input v-model:value="funds.relax" />
             </a-form-item>
           </a-col>
           <a-col :span="4">
@@ -104,16 +104,20 @@
   </a-form>
 </template>
 <script lang="ts">
-import { reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
 
 interface Funds {
   necessity: number;
-  financialFreedom: number;
+  freedom: number;
   education: number;
-  enjoy: number;
+  relax: number;
   giving: number;
   longTermSaving: number;
+}
+interface FundItem {
+  id: string;
+  percentage: number;
 }
 
 export default {
@@ -128,22 +132,26 @@ export default {
   setup() {
     const funds = reactive<Funds>({
       necessity: 0,
-      financialFreedom: 0,
+      freedom: 0,
       education: 0,
-      enjoy: 0,
+      relax: 0,
       giving: 0,
       longTermSaving: 0,
     });
+    const fundsStorageString = ref(JSON.parse(localStorage.getItem("funds") ?? ""));
+
     const onFinish = (values: any) => {
-      let totalPercent: number = 0
+      let totalPercent: number = 0;
       Object.keys(values).forEach((field) => {
-        totalPercent = totalPercent + parseInt(values[field])
-      })
-      // Check total percent      
+        totalPercent = totalPercent + parseInt(values[field]);
+        fundsStorageString.value.find((item: FundItem) => item.id === field).percentage = parseInt(values[field])
+      });
+      
+      // Check total percent
       if (totalPercent != 100) {
-        alert("Total of funds percentage must be 100%! Please modify!")
+        alert("Total of funds percentage must be 100%! Please modify!");
       } else {
-        console.log("totalPercent.value", totalPercent);
+        localStorage.setItem("funds", JSON.stringify(fundsStorageString.value))
       }
     };
 
@@ -153,9 +161,9 @@ export default {
     const disabled = computed(() => {
       return !(
         funds.necessity &&
-        funds.financialFreedom &&
+        funds.freedom &&
         funds.education &&
-        funds.enjoy &&
+        funds.relax &&
         funds.giving &&
         funds.longTermSaving
       );
