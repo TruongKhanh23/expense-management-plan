@@ -66,7 +66,6 @@ import {
   dataIncome,
   columnsHandleIncome,
   dataHandleIncome,
-  funds,
 } from "@/assets/data/sample";
 
 export default {
@@ -81,9 +80,6 @@ export default {
     InputFunds,
   },
   setup() {
-    // Save funds to localStorage
-    localStorage.setItem("funds", JSON.stringify(funds))
-    
     const totalIncomeStorage = ref(0);
     const totalIncome = computed(() => totalIncomeStorage.value);
 
@@ -111,7 +107,6 @@ export default {
     return {
       columnsIncome,
       dataIncome,
-      funds,
       totalIncome,
       columnsHandleIncome,
       dataHandleIncome,

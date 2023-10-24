@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase/firestore": "^4.3.0",
     "@splidejs/vue-splide": "^0.6.12",
     "ant-design-vue": "^4.0.3",
+    "firebase": "^10.5.0",
     "tailwind-merge": "^1.14.0",
     "vue": "^3.3.4"
   },
