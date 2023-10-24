@@ -18,7 +18,6 @@ type DataIncomeType = {
   amount: number;
 };
 
-
 export const columnsIncome = [
   {
     title: "Nguồn thu nhập",
@@ -186,64 +185,5 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Khám bệnh",
     type: "necessity",
     amount: 300000,
-  },
-];
-
-export const funds = [
-  {
-    id: "",
-    src: "",
-    percentage: "",
-    wallet: "",
-    name: "",
-    classColor: "",
-  },
-  {
-    id: "necessity",
-    src: momo,
-    percentage: 72.5,
-    wallet: "Túi thần tài",
-    name: "Nhu cầu thiết yếu",
-    classColor: "bg-[#ffabab]",
-  },
-  {
-    id: "freedom",
-    src: momo,
-    percentage: 3,
-    wallet: "Qũy nhóm",
-    name: "Tự do tài chính",
-    classColor: "bg-[#63b5ff]",
-  },
-  {
-    id: "education",
-    src: vnpay,
-    percentage: 3,
-    wallet: "Ví chính",
-    name: "Giáo dục đào tạo",
-    classColor: "bg-[#97a2ff]",
-  },
-  {
-    id: "relax",
-    src: momo,
-    percentage: 7.5,
-    wallet: "Ví chính",
-    name: "Hưởng thụ",
-    classColor: "bg-[#76de82]",
-  },
-  {
-    id: "giving",
-    src: zalopay,
-    percentage: 3,
-    wallet: "Ví chính",
-    name: "Cho đi",
-    classColor: "bg-[#c0c0c0]",
-  },
-  {
-    id: "longTermSaving",
-    src: zalopay,
-    percentage: 11,
-    wallet: "Tài khoản tích lũy",
-    name: "Tiết kiệm dài hạn",
-    classColor: "bg-[#f9a484]",
   },
 ];

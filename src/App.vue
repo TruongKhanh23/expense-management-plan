@@ -52,14 +52,21 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { Col, Tabs, TabPane } from "ant-design-vue";
 import Funds from "./components/Funds.vue";
 import IncomeDebt from "./components/IncomeDebt.vue";
 import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
-import InputFunds from "./components/InputFunds.vue"
+import InputFunds from "./components/InputFunds.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
+import { db } from "@/main";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
 import {
   columnsIncome,
@@ -86,23 +93,65 @@ export default {
     function handleUpdateTotalIncome(dataIncome: any) {
       totalIncomeStorage.value = calculateTotalIncome(dataIncome);
     }
+    const funds: any = ref([
+      {
+        id: "",
+        src: "",
+        percentage: "",
+        wallet: "",
+        name: "",
+        classColor: "",
+      },
+    ]);
 
-    // Calculate  Necessity Limitation
-    const necessityItem = funds.find((item) => item.id === "necessity") ?? {
-      percentage: 0,
-    };
-    const necessityLimitation = computed(() => {
-      console.log("totalIncome.value", totalIncome.value);
-      
-      console.log("necessityLimitation", typeof necessityItem.percentage === "number" &&
-      typeof totalIncome.value === "number"
-        ? (necessityItem.percentage * totalIncome.value) / 100
-        : 0)
-      return typeof necessityItem.percentage === "number" &&
-      typeof totalIncome.value === "number"
-        ? (necessityItem.percentage * totalIncome.value) / 100
-        : 0
+    onBeforeMount(async () => {
+      await getFunds();
     });
+
+    // Calculate Necessity Limitation
+    const necessityItem = computed(() => {
+      return (
+        funds.value.find((item: any) => item.id === "necessity") ?? {
+          percentage: 0,
+        }
+      );
+    });
+    const necessityLimitation = computed(() => {
+      return typeof necessityItem.value.percentage === "number" &&
+        typeof totalIncome.value === "number"
+        ? (necessityItem.value.percentage * totalIncome.value) / 100
+        : 0;
+    });
+
+    const getFunds = async () => {
+      const pathSegments = [
+        "users",
+        "admin",
+        "years",
+        "2023",
+        "months",
+        "01-2023",
+        "funds",
+      ];
+      try {
+        onSnapshot(
+          query(collection(db, ...pathSegments), orderBy("percentage", "desc")),
+          (snap: any) => {
+            snap.forEach((doc: any) => {
+              const data = doc.data();
+              const fund = {
+                id: doc.id,
+                ...data,
+              };
+
+              funds.value.push(fund);
+            });
+          },
+        );
+      } catch (error) {
+        alert("Get funds failed");
+      }
+    };
 
     return {
       columnsIncome,
@@ -112,6 +161,7 @@ export default {
       dataHandleIncome,
       necessityLimitation,
       handleUpdateTotalIncome,
+      funds,
     };
   },
 };
