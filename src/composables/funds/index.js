@@ -23,20 +23,42 @@ export async function getFunds() {
         classColor: "",
       },
     ]);
-    onSnapshot(query(collection(db, ...pathSegments), orderBy("percentage", "desc")), (snap) => {
-      snap.forEach((doc) => {
-        const data = doc.data();
-        const fund = {
-          id: doc.id,
-          ...data,
-        };
+    onSnapshot(
+      query(collection(db, ...pathSegments), orderBy("percentage", "desc")),
+      (snap) => {
+        snap.forEach((doc) => {
+          const data = doc.data();
+          const fund = {
+            id: doc.id,
+            ...data,
+          };
 
-        funds.value.push(fund);
-      });
-      localStorage.setItem("funds", JSON.stringify(funds.value));
-    });
+          funds.value.push(fund);
+        });
+        localStorage.setItem("funds", JSON.stringify(funds.value));
+      },
+    );
     return funds.value;
   } catch (error) {
     alert("Get funds failed");
   }
+}
+
+export function getFundsPercentage() {
+  const initialValue = {
+    necessity: 0,
+    freedom: 0,
+    education: 0,
+    relax: 0,
+    giving: 0,
+    longTermSaving: 0,
+  };
+  const funds = JSON.parse(localStorage.getItem("funds") ?? "");
+  const result = funds.reduce((accumulator, item) => {
+    if (item.id in accumulator) {
+      accumulator[item.id] = item.percentage;
+    }
+    return accumulator;
+  }, initialValue);
+  return result;
 }

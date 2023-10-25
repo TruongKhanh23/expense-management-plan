@@ -106,6 +106,7 @@
 <script lang="ts">
 import { ref, reactive, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
+import { getFundsPercentage } from "@/composables/funds/index.js";
 
 interface Funds {
   necessity: number;
@@ -130,28 +131,34 @@ export default {
     AButton: Button,
   },
   setup() {
-    const funds = reactive<Funds>({
-      necessity: 0,
-      freedom: 0,
-      education: 0,
-      relax: 0,
-      giving: 0,
-      longTermSaving: 0,
-    });
-    const fundsStorageString = ref(JSON.parse(localStorage.getItem("funds") ?? ""));
+    const funds = reactive<Funds>(
+      (getFundsPercentage() ?? {
+        necessity: 0,
+        freedom: 0,
+        education: 0,
+        relax: 0,
+        giving: 0,
+        longTermSaving: 0,
+      }) as Funds,
+    );
+    const fundsStorageString = ref(
+      JSON.parse(localStorage.getItem("funds") ?? ""),
+    );
 
     const onFinish = (values: any) => {
       let totalPercent: number = 0;
       Object.keys(values).forEach((field) => {
         totalPercent = totalPercent + parseInt(values[field]);
-        fundsStorageString.value.find((item: FundItem) => item.id === field).percentage = parseInt(values[field])
+        fundsStorageString.value.find(
+          (item: FundItem) => item.id === field,
+        ).percentage = parseInt(values[field]);
       });
-      
+
       // Check total percent
       if (totalPercent != 100) {
         alert("Total of funds percentage must be 100%! Please modify!");
       } else {
-        localStorage.setItem("funds", JSON.stringify(fundsStorageString.value))
+        localStorage.setItem("funds", JSON.stringify(fundsStorageString.value));
       }
     };
 
