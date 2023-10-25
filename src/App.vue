@@ -60,12 +60,10 @@ import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
 import InputFunds from "./components/InputFunds.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
-import { db } from "@/main";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-
+import { getFunds } from "@/composables/funds/index.js";
+import { getIncomes } from "@/composables/incomes/index.js";
 import {
   columnsIncome,
-  dataIncome,
   columnsHandleIncome,
   dataHandleIncome,
 } from "@/assets/data/sample";
@@ -82,22 +80,14 @@ export default {
     InputFunds,
   },
   setup() {
+    const funds: any = ref([]);
+    const dataIncome: any = ref([])
     const totalIncomeStorage = ref(0);
     const totalIncome = computed(() => totalIncomeStorage.value);
-
+    
     function handleUpdateTotalIncome(dataIncome: any) {
       totalIncomeStorage.value = calculateTotalIncome(dataIncome);
     }
-    const funds: any = ref([
-      {
-        id: "",
-        src: "",
-        percentage: "",
-        wallet: "",
-        name: "",
-        classColor: "",
-      },
-    ]);
 
     // Calculate Necessity Limitation
     const necessityItem = computed(() => {
@@ -114,42 +104,9 @@ export default {
         : 0;
     });
 
-    async function getFunds() {
-      try {
-        onSnapshot(
-          query(
-            collection(
-              db,
-              "users",
-              "admin",
-              "years",
-              "2023",
-              "months",
-              "01-2023",
-              "funds",
-            ),
-            orderBy("percentage", "desc"),
-          ),
-          (snap: any) => {
-            snap.forEach((doc: any) => {
-              const data = doc.data();
-              const fund = {
-                id: doc.id,
-                ...data,
-              };
-
-              funds.value.push(fund);
-            });
-            localStorage.setItem("funds", JSON.stringify(funds.value));
-          },
-        );
-      } catch (error) {
-        alert("Get funds failed");
-      }
-    }
-
     onBeforeMount(async () => {
-      await getFunds();
+      funds.value = await getFunds();
+      dataIncome.value = await getIncomes()
     });
 
     return {
