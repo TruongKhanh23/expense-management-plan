@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto mt-12">
     <Funds :funds="funds" :totalIncome="totalIncome" />
-    <InputFunds class="mb-4" />
+    <InputFunds class="mb-4" :funds="funds" />
     <!-- Mobile View -->
     <div class="md:hidden">
       <a-tabs centered>
@@ -61,12 +61,7 @@ import EstimateNecessity from "./components/EstimateNecessity.vue";
 import InputFunds from "./components/InputFunds.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { db } from "@/main";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import {
   columnsIncome,
@@ -104,10 +99,6 @@ export default {
       },
     ]);
 
-    onBeforeMount(async () => {
-      await getFunds();
-    });
-
     // Calculate Necessity Limitation
     const necessityItem = computed(() => {
       return (
@@ -123,19 +114,22 @@ export default {
         : 0;
     });
 
-    const getFunds = async () => {
-      const pathSegments = [
-        "users",
-        "admin",
-        "years",
-        "2023",
-        "months",
-        "01-2023",
-        "funds",
-      ];
+    async function getFunds() {
       try {
         onSnapshot(
-          query(collection(db, ...pathSegments), orderBy("percentage", "desc")),
+          query(
+            collection(
+              db,
+              "users",
+              "admin",
+              "years",
+              "2023",
+              "months",
+              "01-2023",
+              "funds",
+            ),
+            orderBy("percentage", "desc"),
+          ),
           (snap: any) => {
             snap.forEach((doc: any) => {
               const data = doc.data();
@@ -146,12 +140,17 @@ export default {
 
               funds.value.push(fund);
             });
+            localStorage.setItem("funds", JSON.stringify(funds.value));
           },
         );
       } catch (error) {
         alert("Get funds failed");
       }
-    };
+    }
+
+    onBeforeMount(async () => {
+      await getFunds();
+    });
 
     return {
       columnsIncome,
