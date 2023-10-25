@@ -22,8 +22,8 @@
         </div>
         <h3 class="font-bold my-2">{{ data.wallet }}</h3>
         <div
-          class="font-bold h-12 flex justify-center items-center rounded-lg text-white mx-10 lg:mx-0"
-          :class="data.classColor"
+          class="font-bold h-12 flex justify-center items-center rounded-lg mx-10 lg:mx-0"
+          :class="data.id && 'bg-[#E6F4FF]'"
         >
           {{ data.name }}
         </div>
@@ -36,7 +36,7 @@
       <div class="text-center">
         <p
           v-if="data.percentage"
-          class="my-2 font-bold md:bg-[#ffdddd] leading-[2.5rem] left-0 w-full"
+          class="my-2 font-bold md:bg-[#FAFAFA] leading-[2.5rem] left-0 w-full"
         >
           {{
             new Intl.NumberFormat().format(
@@ -46,7 +46,7 @@
         </p>
         <p
           v-else
-          class="my-2 font-bold bg-[#ffdddd] rounded-l-full leading-[2.5rem] absolute bottom-0 left-0 w-full border-r-2 border-[#ffffff]"
+          class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] absolute bottom-0 left-0 w-full border-r-2 border-[#ffffff]"
         >
           Limitation
         </p>
