@@ -1,7 +1,3 @@
-import momo from "@/assets/images/momo.svg";
-import vnpay from "@/assets/images/vnpay.png";
-import zalopay from "@/assets/images/zalopay.png";
-
 import { TableColumnType } from "ant-design-vue";
 
 type TableDataType = {
@@ -9,12 +5,6 @@ type TableDataType = {
   wallet: string;
   type: string;
   fund: string;
-  amount: number;
-};
-
-type DataIncomeType = {
-  key: string;
-  source: string;
   amount: number;
 };
 
@@ -26,12 +16,6 @@ export const columnsIncome = [
     width: 200,
   },
   { title: "Số tiền", dataIndex: "amount", key: "amount" },
-];
-
-export const dataIncome: DataIncomeType[] = [
-  { key: "1", source: "Lương", amount: 13500000 },
-  { key: "2", source: "Ba cho", amount: 2000000 },
-  { key: "3", source: "Mẹ cho", amount: 4500000 },
 ];
 
 export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
