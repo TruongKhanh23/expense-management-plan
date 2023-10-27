@@ -47,7 +47,7 @@
   </a-form>
 </template>
 <script lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { Form, Space, FormItem, Input, Button } from "ant-design-vue";
@@ -68,19 +68,26 @@ export default {
     PlusOutlined,
     AButton: Button,
   },
+  props: {
+    incomes: {
+      type: Array,
+      default: () => [],
+    },
+  },
   emits: ["action:updateDataIncome"],
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const formRef = ref<FormInstance>();
-    const incomesStorageString = localStorage.getItem("incomes");
-    let incomesStorage;
+    const incomesStorageString = computed(() => {
+      return props.incomes ?? []
+    });
 
-    if (incomesStorageString !== null) {
-      incomesStorage = JSON.parse(incomesStorageString);
-      emit("action:updateDataIncome", incomesStorage);
-    }
+    const incomesStorage = computed(() => {
+      emit("action:updateDataIncome", incomesStorageString.value);
+      return incomesStorageString.value;
+    });
 
     const dynamicValidateForm = reactive<{ incomes: Income[] }>({
-      incomes: incomesStorageString !== null ? incomesStorage : [],
+      incomes: incomesStorageString.value ? incomesStorage : ([] as any),
     });
     const removeUser = (item: Income) => {
       const index = dynamicValidateForm.incomes.indexOf(item);
@@ -95,13 +102,9 @@ export default {
         id: Date.now(),
       });
     };
-    const onFinish = (values: any) => {
-      console.log("Received values of form:", values);
-      console.log("dynamicValidateForm.incomes:", dynamicValidateForm.incomes);
-      window.localStorage.setItem(
-        "incomes",
-        JSON.stringify(dynamicValidateForm.incomes),
-      );
+    const onFinish = () => {
+      const stringifyIncomes = JSON.stringify(dynamicValidateForm.incomes);
+      window.localStorage.setItem("incomes", stringifyIncomes);
       emit("action:updateDataIncome", dynamicValidateForm.incomes);
     };
 

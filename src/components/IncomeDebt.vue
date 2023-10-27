@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 my-4 md:my-0">
     <div class="min-h-[300px]">
-      <InputIncome @action:updateDataIncome="handleUpdateDataIncome" />
+      <InputIncome @action:updateDataIncome="handleUpdateDataIncome" :incomes="dataIncome" />
       <p class="my-2 font-bold text-center">
         Tổng thu nhập: {{ new Intl.NumberFormat().format(totalIncome) }}
       </p>
@@ -43,9 +43,11 @@ export default {
     }
   },
   emits: ["action:updateDataTotalIncome"],
-  setup(_, { emit }){
-    const dataIncomeStorage = ref(0)
-    const dataIncome = computed(() => dataIncomeStorage.value)
+  setup(props, { emit }){
+    const dataIncomeStorage = ref(null)
+    const dataIncome = computed(() => {
+      return props.data
+    })
 
     function handleUpdateDataIncome(values) {
       dataIncomeStorage.value = values

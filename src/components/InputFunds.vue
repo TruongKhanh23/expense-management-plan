@@ -104,18 +104,10 @@
   </a-form>
 </template>
 <script lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
-import { getFundsPercentage } from "@/composables/funds/index.js";
+import { getFundsPercentage, setFunds } from "@/composables/funds/index.js";
 
-interface Funds {
-  necessity: number;
-  freedom: number;
-  education: number;
-  relax: number;
-  giving: number;
-  longTermSaving: number;
-}
 interface FundItem {
   id: string;
   percentage: number;
@@ -130,52 +122,50 @@ export default {
     AInput: Input,
     AButton: Button,
   },
-  setup() {
-    const funds = reactive<Funds>(
-      (getFundsPercentage() ?? {
-        necessity: 0,
-        freedom: 0,
-        education: 0,
-        relax: 0,
-        giving: 0,
-        longTermSaving: 0,
-      }) as Funds,
+  props: {
+    funds: {
+      type: Object,
+      require: true,
+    },
+  },
+  setup(props) {
+    const initialfunds = computed(
+      () =>
+        getFundsPercentage(props.funds) ?? {
+          necessity: 0,
+          freedom: 0,
+          education: 0,
+          relax: 0,
+          giving: 0,
+          longTermSaving: 0,
+        },
     );
-    const fundsStorageString = ref(
-      JSON.parse(localStorage.getItem("funds") ?? ""),
-    );
+    const currentFunds = computed(() => props.funds ?? {});
 
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
       let totalPercent: number = 0;
+      const funds = ref(currentFunds.value);
+
       Object.keys(values).forEach((field) => {
-        totalPercent = totalPercent + parseInt(values[field]);
-        fundsStorageString.value.find(
-          (item: FundItem) => item.id === field,
-        ).percentage = parseInt(values[field]);
+        totalPercent = totalPercent + parseFloat(values[field]);
       });
 
       // Check total percent
       if (totalPercent != 100) {
         alert("Total of funds percentage must be 100%! Please modify!");
       } else {
-        localStorage.setItem("funds", JSON.stringify(fundsStorageString.value));
+        Object.keys(values).forEach((field) => {
+          funds.value.find((item: FundItem) => item.id === field).percentage =
+            parseFloat(values[field]);
+        });
+        localStorage.setItem("funds", JSON.stringify(funds.value));
       }
     };
 
     const onFinishFailed = (errorInfo: any) => {
       console.log("Failed:", errorInfo);
     };
-    const disabled = computed(() => {
-      return !(
-        funds.necessity &&
-        funds.freedom &&
-        funds.education &&
-        funds.relax &&
-        funds.giving &&
-        funds.longTermSaving
-      );
-    });
-    return { funds, onFinish, onFinishFailed, disabled };
+    return { funds: initialfunds, onFinish, onFinishFailed };
   },
 };
 </script>
