@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto mt-12">
     <Funds :funds="funds" :totalIncome="totalIncome" />
-    <InputFunds class="mb-4" :funds="funds" />
+    <InputFunds class="mb-4 hidden md:flex" :funds="funds" />
     <!-- Mobile View -->
     <div class="md:hidden">
       <a-tabs centered>
@@ -81,10 +81,10 @@ export default {
   },
   setup() {
     const funds: any = ref([]);
-    const dataIncome: any = ref([])
+    const dataIncome: any = ref([]);
     const totalIncomeStorage = ref(0);
     const totalIncome = computed(() => totalIncomeStorage.value);
-    
+
     function handleUpdateTotalIncome(dataIncome: any) {
       totalIncomeStorage.value = calculateTotalIncome(dataIncome);
     }
@@ -106,7 +106,7 @@ export default {
 
     onBeforeMount(async () => {
       funds.value = await getFunds();
-      dataIncome.value = await getIncomes()
+      dataIncome.value = await getIncomes();
     });
 
     return {
