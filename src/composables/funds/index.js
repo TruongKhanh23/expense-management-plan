@@ -1,13 +1,6 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 export async function getFunds() {
   try {
@@ -68,36 +61,4 @@ export function getFundsPercentage(funds) {
     return accumulator;
   }, initialValue);
   return result;
-}
-
-export async function setFunds(funds) {
-  // doc(firestoreInstance, "collectionName", "documentId")
-  // setDoc(collectionReference, dataObject)
-  console.log("funds setFunds", funds);
-  try {
-    for (const element of funds) {
-      if (element.id) {
-        const { id, ...rest } = element;
-        console.log("id", id);
-        console.log("rest", rest);
-        await setDoc(
-          doc(
-            db,
-            "users",
-            "admin",
-            "years",
-            "2023",
-            "months",
-            "01-2023",
-            "funds",
-            id,
-          ),
-          rest,
-        );
-      }
-    }
-    alert(`Set fund ${id} successfully`);
-  } catch (error) {
-    alert("Failed to set fund");
-  }
 }

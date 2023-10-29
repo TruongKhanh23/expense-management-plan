@@ -106,7 +106,7 @@
 <script lang="ts">
 import { ref, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
-import { getFundsPercentage, setFunds } from "@/composables/funds/index.js";
+import { getFundsPercentage } from "@/composables/funds/index.js";
 
 interface FundItem {
   id: string;
