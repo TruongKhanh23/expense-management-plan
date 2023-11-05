@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto mt-12">
     <Funds :funds="funds" :totalIncome="totalIncome" />
-    <InputFunds class="mb-4 hidden md:flex" :funds="funds" />
+    <InputFunds class="mb-4" :funds="funds" />
     <!-- Mobile View -->
     <div class="md:hidden">
       <a-tabs centered>
