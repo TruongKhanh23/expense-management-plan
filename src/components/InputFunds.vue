@@ -28,7 +28,7 @@
                 name="necessity"
                 :rules="[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input necessity percentage!',
                   },
                 ]"
@@ -49,7 +49,7 @@
                 name="freedom"
                 :rules="[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input financial freedom percentage!',
                   },
                 ]"
@@ -70,7 +70,7 @@
                 name="education"
                 :rules="[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input education percentage!',
                   },
                 ]"
@@ -90,7 +90,10 @@
                 class="custom-ant-form-item"
                 name="relax"
                 :rules="[
-                  { required: true, message: 'Please input relax percentage!' },
+                  {
+                    required: false,
+                    message: 'Please input relax percentage!',
+                  },
                 ]"
               >
                 <a-input v-model:value="funds.relax">
@@ -109,7 +112,7 @@
                 name="giving"
                 :rules="[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input giving percentage!',
                   },
                 ]"
@@ -130,7 +133,7 @@
                 name="longTermSaving"
                 :rules="[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input long term saving percentage!',
                   },
                 ]"
@@ -151,7 +154,7 @@
 import { ref, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
 import { SettingOutlined } from "@ant-design/icons-vue";
-import { getFundsPercentage } from "@/composables/funds/index.js";
+import { getFundsPercentage, setFunds } from "@/composables/funds/index.js";
 
 interface FundItem {
   id: string;
@@ -198,13 +201,16 @@ export default {
 
       // Check total percent
       if (totalPercent != 100) {
-        alert("Total of funds percentage must be 100%! Please modify!");
+        alert(
+          `Total of funds percentage must be 100%! Please modify! Now is ${totalPercent}`,
+        );
       } else {
         Object.keys(values).forEach((field) => {
           funds.value.find((item: FundItem) => item.id === field).percentage =
             parseFloat(values[field]);
         });
         localStorage.setItem("funds", JSON.stringify(funds.value));
+        await setFunds(values);
       }
     };
 

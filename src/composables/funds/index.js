@@ -1,18 +1,27 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+
+const pathSegments = [
+  "users",
+  "admin",
+  "years",
+  "2023",
+  "months",
+  "01-2023",
+  "funds",
+];
 
 export async function getFunds() {
   try {
-    const pathSegments = [
-      "users",
-      "admin",
-      "years",
-      "2023",
-      "months",
-      "01-2023",
-      "funds",
-    ];
+    const count = ref(0);
     const funds = ref([
       {
         id: "",
@@ -26,6 +35,19 @@ export async function getFunds() {
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("percentage", "desc")),
       (snap) => {
+        count.value++;
+        if (count.value > 1) {
+          funds.value = [
+            {
+              id: "",
+              src: "",
+              percentage: "",
+              wallet: "",
+              name: "",
+              classColor: "",
+            },
+          ];
+        }
         snap.forEach((doc) => {
           const data = doc.data();
           const fund = {
@@ -61,4 +83,21 @@ export function getFundsPercentage(funds) {
     return accumulator;
   }, initialValue);
   return result;
+}
+
+export async function setFunds(values) {
+  try {
+    for (const fund of Object.keys(values)) {
+      await setDoc(
+        doc(db, ...pathSegments, fund),
+        {
+          percentage: values[fund],
+        },
+        { merge: true },
+      );
+    }
+    alert("Set funds successfully");
+  } catch (error) {
+    alert(`Set funds failed: ${error}`);
+  }
 }
