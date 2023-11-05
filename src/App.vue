@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto mt-12">
+  <div class="mx-4 mt-12">
     <Funds :funds="funds" :totalIncome="totalIncome" />
     <InputFunds class="mb-4" :funds="funds" />
     <!-- Mobile View -->
