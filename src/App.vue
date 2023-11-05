@@ -1,7 +1,6 @@
 <template>
   <div class="container mx-auto mt-12">
     <Funds :funds="funds" :totalIncome="totalIncome" />
-    <InputFundsTemp :funds="funds" />
     <InputFunds class="mb-4 hidden md:flex" :funds="funds" />
     <!-- Mobile View -->
     <div class="md:hidden">
@@ -60,7 +59,6 @@ import IncomeDebt from "./components/IncomeDebt.vue";
 import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
 import InputFunds from "./components/InputFunds.vue";
-import InputFundsTemp from "./components/InputFundsTemp.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
@@ -80,7 +78,6 @@ export default {
     HandleIncome,
     EstimateNecessity,
     InputFunds,
-    InputFundsTemp,
   },
   setup() {
     const funds: any = ref([]);

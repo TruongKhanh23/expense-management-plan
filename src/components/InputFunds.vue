@@ -1,111 +1,156 @@
 <template>
-  <a-form
-    :model="funds"
-    name="horizontal_login"
-    layout="inline"
-    autocomplete="off"
-    @finish="onFinish"
-    @finishFailed="onFinishFailed"
-  >
-    <a-row class="flex items-center justify-center">
-      <a-col :span="3">
-        <div class="flex items-center justify-center flex-col">
-          <p class="font-bold my-2 uppercase">Tỷ lệ quỹ</p>
-          <a-form-item>
-            <a-button type="default" html-type="submit">Cập nhật</a-button>
-          </a-form-item>
+  <div class="px-4">
+    <a-form
+      :model="funds"
+      name="horizontal_login"
+      autocomplete="off"
+      @finish="onFinish"
+      @finishFailed="onFinishFailed"
+    >
+      <div class="flex justify-between mb-2">
+        <div class="flex items-center">
+          <div class="mr-2 flex items-center"><SettingOutlined /></div>
+          <p class="font-bold">Thiết lập tỷ lệ</p>
         </div>
-      </a-col>
-      <a-col :span="21">
-        <a-row :gutter="20" class="pl-12">
-          <a-col :span="4">
-            <a-form-item
-              label="Necessity"
-              name="necessity"
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please input necessity percentage!',
-                },
-              ]"
-            >
-              <a-input v-model:value="funds.necessity" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item
-              label="Financial Freedom"
-              name="freedom"
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please input financial freedom percentage!',
-                },
-              ]"
-            >
-              <a-input v-model:value="funds.freedom" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item
-              label="Education"
-              name="education"
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please input education percentage!',
-                },
-              ]"
-            >
-              <a-input v-model:value="funds.education" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item
-              label="Relax"
-              name="relax"
-              :rules="[
-                { required: true, message: 'Please input relax percentage!' },
-              ]"
-            >
-              <a-input v-model:value="funds.relax" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item
-              label="Giving"
-              name="giving"
-              :rules="[
-                { required: true, message: 'Please input giving percentage!' },
-              ]"
-            >
-              <a-input v-model:value="funds.giving" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item
-              label="Long Term Saving"
-              name="longTermSaving"
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please input long term saving percentage!',
-                },
-              ]"
-            >
-              <a-input v-model:value="funds.longTermSaving" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-col>
-    </a-row>
-
-    <a-row> </a-row>
-  </a-form>
+        <a-form-item class="custom-ant-form-item">
+          <a-button type="default" html-type="submit">Cập nhật</a-button>
+        </a-form-item>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex flex-col md:flex-row md:space-x-4">
+          <div class="flex md:flex-col mb-2 h-fit">
+            <div class="md:w-full w-3/4 flex items-center">
+              <label for="Necessity">Chi tiêu thiết yếu</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="necessity"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input necessity percentage!',
+                  },
+                ]"
+              >
+                <a-input v-model:value="funds.necessity">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+          <div class="flex md:flex-col items-center justify-center mb-2">
+            <div class="md:w-full w-3/4">
+              <label for="input2">Tự do tài chính</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="freedom"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input financial freedom percentage!',
+                  },
+                ]"
+              >
+                <a-input v-model:value="funds.freedom">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+          <div class="flex md:flex-col items-center justify-center mb-2">
+            <div class="md:w-full w-3/4">
+              <label for="input3">Phát triển bản thân</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="education"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input education percentage!',
+                  },
+                ]"
+              >
+                <a-input v-model:value="funds.education">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+          <div class="flex md:flex-col items-center justify-center mb-2">
+            <div class="md:w-full w-3/4">
+              <label for="input4">Hưởng thụ</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="relax"
+                :rules="[
+                  { required: true, message: 'Please input relax percentage!' },
+                ]"
+              >
+                <a-input v-model:value="funds.relax">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+          <div class="flex md:flex-col items-center justify-center mb-2">
+            <div class="md:w-full w-3/4">
+              <label for="input5">Cho đi</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="giving"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input giving percentage!',
+                  },
+                ]"
+              >
+                <a-input v-model:value="funds.giving">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+          <div class="flex md:flex-col items-center justify-center mb-2">
+            <div class="md:w-full w-3/4">
+              <label for="input6">Tiết kiệm dài hạn</label>
+            </div>
+            <div class="md:w-full w-1/4">
+              <a-form-item
+                class="custom-ant-form-item"
+                name="longTermSaving"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input long term saving percentage!',
+                  },
+                ]"
+              >
+                <a-input v-model:value="funds.longTermSaving">
+                  <template #suffix> % </template>
+                </a-input>
+              </a-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a-form>
+  </div>
 </template>
+
 <script lang="ts">
 import { ref, computed } from "vue";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
+import { SettingOutlined } from "@ant-design/icons-vue";
 import { getFundsPercentage } from "@/composables/funds/index.js";
 
 interface FundItem {
@@ -121,6 +166,7 @@ export default {
     AFormItem: FormItem,
     AInput: Input,
     AButton: Button,
+    SettingOutlined,
   },
   props: {
     funds: {
@@ -191,5 +237,8 @@ export default {
 [data-theme="dark"] #components-form-demo-advanced-search .search-result-list {
   border: 1px dashed #434343;
   background: rgba(255, 255, 255, 0.04);
+}
+.custom-ant-form-item.ant-form-item {
+  margin-bottom: 0px !important;
 }
 </style>
