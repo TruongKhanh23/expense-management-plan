@@ -17,7 +17,7 @@
         </a-form-item>
       </div>
       <div class="flex flex-col">
-        <div class="flex flex-col md:flex-row md:space-x-4">
+        <div class="flex flex-col md:flex-row md:space-x-4 justify-between">
           <div class="flex md:flex-col mb-2 h-fit">
             <div class="md:w-full w-3/4 flex items-center">
               <label for="Necessity">Chi tiêu thiết yếu</label>
