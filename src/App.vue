@@ -1,7 +1,11 @@
 <template>
   <div class="xl:mx-[12rem] mx-4 mt-12">
-    <Funds :funds="funds" :totalIncome="totalIncome" />
-    <InputFunds class="mb-4" :funds="funds" />
+    <Funds
+      :funds="funds"
+      :totalIncome="totalIncome"
+      @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
+    />
+    <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
     <!-- Mobile View -->
     <div class="md:hidden">
       <a-tabs centered>
@@ -109,6 +113,11 @@ export default {
       dataIncome.value = await getIncomes();
     });
 
+    const isFundsEditable = ref(false);
+    function handleUpdateIsFundsEditable() {
+      isFundsEditable.value = !isFundsEditable.value;
+    }
+
     return {
       columnsIncome,
       dataIncome,
@@ -117,7 +126,9 @@ export default {
       dataHandleIncome,
       necessityLimitation,
       handleUpdateTotalIncome,
+      handleUpdateIsFundsEditable,
       funds,
+      isFundsEditable,
     };
   },
 };

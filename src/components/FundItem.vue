@@ -15,24 +15,40 @@
     <div class="flex-grow"></div>
   </div>
   <div class="text-center">
-    <p
+    <div
       v-if="data.percentage"
       class="my-2 font-bold md:bg-[#FAFAFA] leading-[2.5rem] left-0 w-full"
     >
       {{
         new Intl.NumberFormat().format((totalIncome * data.percentage) / 100)
       }}
-    </p>
-    <p
-      v-else
-      class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] absolute bottom-0 left-0 w-full border-r-2 border-[#ffffff]"
-    >
-      Limitation
-    </p>
+    </div>
+    <div v-else class="absolute bottom-0 left-0 w-full">
+      <div>
+        <p>Thiết lập tỷ lệ</p>
+        <a-switch
+          class="my-ant-switch"
+          v-model:checked="checked"
+          @change="updateIsFundsEditable"
+        />
+      </div>
+      <p
+        class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff]"
+      >
+        Limitation
+      </p>
+    </div>
   </div>
 </template>
 <script>
+import { ref } from "vue";
+import { Switch } from "ant-design-vue";
+
 export default {
+  components: {
+    ASwitch: Switch,
+  },
+  emits: ["action:updateIsFundsEditable"],
   props: {
     totalIncome: {
       type: Number,
@@ -43,5 +59,20 @@ export default {
       default: () => {},
     },
   },
+  setup(_, { emit }) {
+    const checked = ref(false);
+    function updateIsFundsEditable() {
+      emit("action:updateIsFundsEditable");
+    }
+    return { checked, updateIsFundsEditable };
+  },
 };
 </script>
+<style>
+.my-ant-switch.ant-switch {
+  background-color: grey;
+}
+.my-ant-switch.ant-switch-checked {
+  background-color: #1677ff;
+}
+</style>

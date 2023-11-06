@@ -9,7 +9,7 @@
     }"
   >
     <template #content="{ data }">
-      <FundItem :data="data" :totalIncome="totalIncome"
+      <FundItem @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')" :data="data" :totalIncome="totalIncome"
     /></template>
   </Slider>
   <Slider
@@ -24,7 +24,7 @@
     }"
   >
     <template #content="{ data }">
-      <FundItem :data="data" :totalIncome="totalIncome" />
+      <FundItem @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')" :data="data" :totalIncome="totalIncome" />
       <p>{{ md }}</p></template
     >
   </Slider>
@@ -39,6 +39,7 @@ export default {
     Slider,
     FundItem,
   },
+  emits: ["action:updateIsFundsEditable"],
   props: {
     funds: {
       type: Object,
