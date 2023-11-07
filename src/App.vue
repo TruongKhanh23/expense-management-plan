@@ -56,7 +56,7 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed } from "vue";
 import { Col, Tabs, TabPane } from "ant-design-vue";
 import Funds from "./components/Funds.vue";
 import IncomeDebt from "./components/IncomeDebt.vue";
@@ -86,11 +86,10 @@ export default {
   setup() {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
-    const totalIncomeStorage = ref(0);
-    const totalIncome = computed(() => totalIncomeStorage.value);
+    const totalIncome = ref(0)
 
     function handleUpdateTotalIncome(dataIncome: any) {
-      totalIncomeStorage.value = calculateTotalIncome(dataIncome);
+      totalIncome.value = calculateTotalIncome(dataIncome);
     }
 
     // Calculate Necessity Limitation
@@ -108,10 +107,10 @@ export default {
         : 0;
     });
 
-    onBeforeMount(async () => {
+    (async () => {
       funds.value = await getFunds();
       dataIncome.value = await getIncomes();
-    });
+    })();
 
     const isFundsEditable = ref(false);
     function handleUpdateIsFundsEditable() {

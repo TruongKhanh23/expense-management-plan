@@ -57,6 +57,7 @@ export default {
     const isEditable = ref(false);
     const dataIncomeStorage = ref(null);
     const dataIncome = computed(() => {
+      emit("action:updateDataTotalIncome", props.data);
       return props.data;
     });
 
