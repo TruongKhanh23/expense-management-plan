@@ -12,9 +12,10 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { computed } from "vue";
 import FundItem from "@/components/FundItem.vue";
 import Slider from "../components/reusable/Slider.vue";
+import detectDevice from "@/utils/device.util";
 import "@splidejs/vue-splide/css";
 
 export default {
@@ -34,38 +35,32 @@ export default {
     },
   },
   setup(props) {
-    const isMobile = ref(false);
+    const { isMobile, isTablet, isDesktop } = detectDevice();
 
     const sliderAttrs = computed(() => {
-      if (isMobile.value) {
+      if (isMobile) {
         return {
           perPage: 1,
+          arrows: false,
+          gap: 8,
+          pagination: false,
+        };
+      }
+      if (isTablet) {
+        return {
+          perPage: 4,
           arrows: false,
           gap: 0,
           pagination: false,
         };
-      } else {
+      }
+      if (isDesktop) {
         return {
           perPage: 7,
           arrows: false,
           gap: 0,
         };
       }
-    });
-
-    const checkIsMobile = () => {
-      isMobile.value = window.innerWidth <= 768;
-    };
-
-    onMounted(() => {
-      checkIsMobile();
-      // When page is rendered, screen size may be changed, use resize listner để call check mobile
-      window.addEventListener("resize", checkIsMobile);
-    });
-
-    // When component is destroyed, remove listener resize to save resource
-    onBeforeUnmount(() => {
-      window.removeEventListener("resize", checkIsMobile);
     });
 
     return { sliderAttrs };

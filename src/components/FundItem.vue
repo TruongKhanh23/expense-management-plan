@@ -5,7 +5,7 @@
     </div>
     <h3 class="font-bold my-2">{{ data.wallet }}</h3>
     <div
-      class="font-bold h-12 flex justify-center items-center rounded-lg mx-10 lg:mx-0"
+      class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0"
       :class="data.id && 'bg-[#E6F4FF]'"
     >
       {{ data.name }}
@@ -32,7 +32,7 @@
         </div>
         <h3 class="font-bold my-2">Tên ví</h3>
         <div
-          class="font-bold h-12 flex justify-center items-center rounded-lg mx-10 lg:mx-0 bg-[#E6F4FF] my-2"
+          class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0 bg-[#E6F4FF] my-2"
         >
           Tên quỹ
         </div>
