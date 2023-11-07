@@ -15,7 +15,7 @@ export const columnsIncome = [
     key: "source",
     width: 200,
   },
-  { title: "Số tiền", dataIndex: "amount", key: "amount" },
+  { title: "Số tiền", dataIndex: "amount", key: "amount", align: "right" },
 ];
 
 export const columnsHandleIncome: TableColumnType<TableDataType>[] = [

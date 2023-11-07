@@ -2,7 +2,7 @@
   <div class="px-4 my-4 md:my-0">
     <div class="min-h-[300px]">
       <div class="flex items-center justify-between">
-        <p class="my-2 font-bold text-center">
+        <p class="my-2 font-bold">
           Tổng thu nhập: {{ new Intl.NumberFormat().format(totalIncome) }}
         </p>
         <div class="flex flex-row">
