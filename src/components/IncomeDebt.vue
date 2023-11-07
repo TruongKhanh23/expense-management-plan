@@ -1,11 +1,16 @@
 <template>
   <div class="px-4 my-4 md:my-0">
     <div class="min-h-[300px]">
-      <InputIncome @action:updateDataIncome="handleUpdateDataIncome" :incomes="dataIncome" />
-      <p class="my-2 font-bold text-center">
-        Tổng thu nhập: {{ new Intl.NumberFormat().format(totalIncome) }}
-      </p>
-      <a-table :columns="columns" :data-source="dataIncome">
+      <div class="flex items-center justify-between">
+        <p class="my-2 font-bold text-center">
+          Tổng thu nhập: {{ new Intl.NumberFormat().format(totalIncome) }}
+        </p>
+        <div class="flex flex-row">
+          <p class="font-bold mr-2 hidden md:flex">Chế độ chỉnh sửa:</p>
+          <a-switch class="my-ant-switch" v-model:checked="isEditable" />
+        </div>
+      </div>
+      <a-table v-if="!isEditable" :columns="columns" :data-source="dataIncome">
         <template #bodyCell="{ column, text }">
           <template v-if="column.dataIndex === 'name'">
             <a>{{ text }}</a>
@@ -15,18 +20,23 @@
           </template>
         </template>
       </a-table>
+      <InputIncome v-else
+        @action:updateDataIncome="handleUpdateDataIncome"
+        :incomes="dataIncome"
+      />
     </div>
   </div>
 </template>
 <script>
-import { ref, computed } from "vue"
-import { Table } from "ant-design-vue";
-import InputIncome from "@/components/InputIncome.vue"
+import { ref, computed } from "vue";
+import { Table, Switch } from "ant-design-vue";
+import InputIncome from "@/components/InputIncome.vue";
 
 export default {
   components: {
     ATable: Table,
     InputIncome,
+    ASwitch: Switch,
   },
   props: {
     columns: {
@@ -40,20 +50,26 @@ export default {
     totalIncome: {
       type: Number,
       require: true,
-    }
+    },
   },
   emits: ["action:updateDataTotalIncome"],
-  setup(props, { emit }){
-    const dataIncomeStorage = ref(null)
+  setup(props, { emit }) {
+    const isEditable = ref(false);
+    const dataIncomeStorage = ref(null);
     const dataIncome = computed(() => {
-      return props.data
-    })
+      return props.data;
+    });
 
     function handleUpdateDataIncome(values) {
-      dataIncomeStorage.value = values
-      emit("action:updateDataTotalIncome", dataIncomeStorage.value)
+      dataIncomeStorage.value = values;
+      emit("action:updateDataTotalIncome", dataIncomeStorage.value);
     }
-    return { dataIncomeStorage, dataIncome, handleUpdateDataIncome }
-  }
+    return {
+      isEditable,
+      dataIncomeStorage,
+      dataIncome,
+      handleUpdateDataIncome,
+    };
+  },
 };
 </script>

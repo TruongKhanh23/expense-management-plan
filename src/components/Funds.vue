@@ -3,7 +3,7 @@
     <Slider :list="funds" :attrs="sliderAttrs">
       <template #content="{ data }">
         <FundItem
-          @action:updateIsFundsEditable="updateIsFundsEditable"
+          @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')"
           :data="data"
           :totalIncome="totalIncome"
         />

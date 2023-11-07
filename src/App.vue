@@ -31,7 +31,7 @@
     </div>
 
     <!-- Desktop View-->
-    <div class="flex flex-col md:flex-row hidden md:flex">
+    <div class="flex flex-col md:flex-row hidden md:flex my-4">
       <a-col :md="{ span: 6 }">
         <EstimateNecessity :necessityLimitation="necessityLimitation" />
       </a-col>
