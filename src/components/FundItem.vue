@@ -24,8 +24,20 @@
       }}
     </div>
     <div v-else class="absolute bottom-0 left-0 w-full">
+      <div class="md:hidden">
+        <div class="flex justify-center items-center">
+          <p class="w-16 h-16 rounded-lg border-2 border-[#000000] flex justify-center items-center">
+            Logo
+          </p>
+        </div>
+        <h3 class="font-bold my-2">Tên ví</h3>
+        <div
+          class="font-bold h-12 flex justify-center items-center rounded-lg mx-10 lg:mx-0 bg-[#E6F4FF] my-2"
+        >
+          Tên quỹ
+        </div>
+      </div>
       <div>
-        <p>Thiết lập tỷ lệ</p>
         <a-switch
           class="my-ant-switch"
           v-model:checked="checked"
@@ -33,7 +45,7 @@
         />
       </div>
       <p
-        class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff]"
+        class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff] mx-4 md:mx-0"
       >
         Limitation
       </p>

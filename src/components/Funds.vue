@@ -1,35 +1,18 @@
 <template>
-  <Slider
-    class="hidden md:inline"
-    :list="funds"
-    :attrs="{
-      perPage: 7,
-      arrows: false,
-      gap: 0,
-    }"
-  >
-    <template #content="{ data }">
-      <FundItem @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')" :data="data" :totalIncome="totalIncome"
-    /></template>
-  </Slider>
-  <Slider
-    class="md:hidden"
-    :list="funds.slice(1)"
-    :attrs="{
-      perPage: 1,
-      arrows: false,
-      gap: 0,
-      pagination: false,
-      start: 1,
-    }"
-  >
-    <template #content="{ data }">
-      <FundItem @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')" :data="data" :totalIncome="totalIncome" />
-      <p>{{ md }}</p></template
-    >
-  </Slider>
+  <div class="min-h-[240px]">
+    <Slider :list="funds" :attrs="sliderAttrs">
+      <template #content="{ data }">
+        <FundItem
+          @action:updateIsFundsEditable="updateIsFundsEditable"
+          :data="data"
+          :totalIncome="totalIncome"
+        />
+      </template>
+    </Slider>
+  </div>
 </template>
 <script>
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import FundItem from "@/components/FundItem.vue";
 import Slider from "../components/reusable/Slider.vue";
 import "@splidejs/vue-splide/css";
@@ -49,6 +32,43 @@ export default {
       type: Number,
       require: true,
     },
+  },
+  setup(props) {
+    const isMobile = ref(false);
+
+    const sliderAttrs = computed(() => {
+      if (isMobile.value) {
+        return {
+          perPage: 1,
+          arrows: false,
+          gap: 0,
+          pagination: false,
+        };
+      } else {
+        return {
+          perPage: 7,
+          arrows: false,
+          gap: 0,
+        };
+      }
+    });
+
+    const checkIsMobile = () => {
+      isMobile.value = window.innerWidth <= 768;
+    };
+
+    onMounted(() => {
+      checkIsMobile();
+      // When page is rendered, screen size may be changed, use resize listner để call check mobile
+      window.addEventListener("resize", checkIsMobile);
+    });
+
+    // When component is destroyed, remove listener resize to save resource
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", checkIsMobile);
+    });
+
+    return { sliderAttrs };
   },
 };
 </script>
