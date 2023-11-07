@@ -18,9 +18,18 @@
         @click="toggleDropDown(item.id)"
       />
       <div v-if="isDropDownOpen(item.id)">
-        <template v-for="subItem in item.details" :key="subItem">
+        <div class="flex flex-row mx-4 my-4 justify-between">
+          <p class="font-bold mr-2">Chế độ chỉnh sửa:</p>
+          <a-switch class="my-ant-switch" v-model:checked="isEditable" />
+        </div>
+        <template
+          v-if="!isEditable"
+          v-for="subItem in item.details"
+          :key="subItem"
+        >
           <EstimateNecessityRow :name="subItem.name" :amount="subItem.amount" />
         </template>
+        <EstimateNecessityEdit v-else :data="item"/>
       </div>
     </template>
   </div>
@@ -28,10 +37,14 @@
 <script>
 import { ref } from "vue";
 import EstimateNecessityRow from "../components/EstimateNecessityRow.vue";
+import { Switch } from "ant-design-vue";
+import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue"
 
 export default {
   components: {
     EstimateNecessityRow,
+    ASwitch: Switch,
+    EstimateNecessityEdit,
   },
   props: {
     necessityLimitation: {
@@ -40,6 +53,7 @@ export default {
     },
   },
   setup() {
+    const isEditable = ref(false);
     const dropDownOpen = ref([]);
     const data = [
       {
@@ -162,6 +176,7 @@ export default {
       calculateTotalExpense,
       toggleDropDown,
       isDropDownOpen,
+      isEditable,
     };
   },
 };

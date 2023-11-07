@@ -6,9 +6,11 @@
     <a-col flex="4" class="text-left pl-4" :class="nameColClass">{{
       name
     }}</a-col>
-    <a-col flex="1" class="pr-4" :class="amountColClass">{{
-      new Intl.NumberFormat().format(amount)
-    }}</a-col>
+    <a-col flex="1" class="pr-4" :class="amountColClass">
+      <p class="text-right">
+        {{ new Intl.NumberFormat().format(amount) }}
+      </p></a-col
+    >
   </a-row>
 </template>
 <script>
