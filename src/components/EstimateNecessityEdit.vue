@@ -10,7 +10,6 @@
         v-for="(item, index) in dynamicValidateForm.estimateNecessity"
         :key="item.id"
         style="display: flex; margin-bottom: 6px"
-        align="baseline"
       >
         <a-form-item
           :name="['estimateNecessity', index, 'name']"
@@ -24,16 +23,22 @@
             placeholder="Income from (source)"
           />
         </a-form-item>
-        <a-form-item
-          :name="['estimateNecessity', index, 'amount']"
-          :rules="{
-            required: true,
-            message: 'Missing amount',
-          }"
-        >
-          <a-input v-model:value="item.amount" placeholder="Amount" style="text-align: right;" />
-        </a-form-item>
-        <MinusCircleOutlined @click="removeItem(item)" />
+        <a-space align="baseline">
+          <a-form-item
+            :name="['estimateNecessity', index, 'amount']"
+            :rules="{
+              required: true,
+              message: 'Missing amount',
+            }"
+          >
+            <a-input-number
+              v-model:value="item.amount"
+              placeholder="Amount"
+              style="text-align: right"
+            />
+          </a-form-item>
+          <MinusCircleOutlined @click="removeItem(item)" />
+        </a-space>
       </a-space>
       <a-form-item>
         <a-button type="dashed" block @click="addItem">
@@ -50,8 +55,16 @@
 <script lang="ts">
 import { reactive, ref, computed } from "vue";
 import type { FormInstance } from "ant-design-vue";
-import { Form, Space, FormItem, Input, Button } from "ant-design-vue";
+import {
+  Form,
+  Space,
+  FormItem,
+  Input,
+  InputNumber,
+  Button,
+} from "ant-design-vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
+import { setEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 
 interface EstimateNecessity {
   name: string;
@@ -65,6 +78,7 @@ export default {
     ASpace: Space,
     AFormItem: FormItem,
     AInput: Input,
+    AInputNumber: InputNumber,
     AButton: Button,
     MinusCircleOutlined,
     PlusOutlined,
@@ -77,6 +91,9 @@ export default {
   },
   setup(props) {
     const formRef = ref<FormInstance>();
+    const formId = computed(() => {
+      return props.data.id ?? null;
+    });
     const estimateNecessityStorageString = computed(() => {
       console.log("props.data", props.data);
       return props.data.details ?? [];
@@ -106,13 +123,17 @@ export default {
         id: Date.now(),
       });
     };
-    const onFinish = () => {
+    const onFinish = async () => {
       const stringifyEstimateNecessity = JSON.stringify(
         dynamicValidateForm.estimateNecessity,
       );
       window.localStorage.setItem(
         "estimateNecessity",
         stringifyEstimateNecessity,
+      );
+      await setEstimateNecessityExpenses(
+        formId.value,
+        dynamicValidateForm.estimateNecessity,
       );
     };
 

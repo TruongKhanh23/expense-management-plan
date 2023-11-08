@@ -29,7 +29,7 @@
         >
           <EstimateNecessityRow :name="subItem.name" :amount="subItem.amount" />
         </template>
-        <EstimateNecessityEdit v-else :data="item"/>
+        <EstimateNecessityEdit v-else :data="item" />
       </div>
     </template>
   </div>
@@ -38,7 +38,8 @@
 import { ref } from "vue";
 import EstimateNecessityRow from "../components/EstimateNecessityRow.vue";
 import { Switch } from "ant-design-vue";
-import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue"
+import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue";
+import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 
 export default {
   components: {
@@ -55,90 +56,12 @@ export default {
   setup() {
     const isEditable = ref(false);
     const dropDownOpen = ref([]);
-    const data = [
-      {
-        id: "necessity",
-        name: "Chi tiêu thiết yếu",
-        details: [
-          {
-            id: "eating",
-            name: "Ăn",
-            amount: 4000000,
-          },
-          {
-            id: "electric",
-            name: "Điện",
-            amount: 500000,
-          },
-          {
-            id: "water",
-            name: "Nước",
-            amount: 240000,
-          },
-          {
-            id: "services",
-            name: "Dịch vụ",
-            amount: 150000,
-          },
-          {
-            id: "rentHouse",
-            name: "Nhà",
-            amount: 7000000,
-          },
-          {
-            id: "petroleum",
-            name: "Xăng xe",
-            amount: 200000,
-          },
-          {
-            id: "bikeKeeping",
-            name: "Gửi xe",
-            amount: 200000,
-          },
-        ],
-      },
-      {
-        id: "necessityFund",
-        name: "Quỹ thiết yếu",
-        details: [
-          {
-            id: "shampoo",
-            name: "Ăn",
-            amount: 70002,
-          },
-          {
-            id: "electric",
-            name: "Sức khỏe da mặt",
-            amount: 821950,
-          },
-          {
-            id: "water",
-            name: "Răng miệng",
-            amount: 95000,
-          },
-          {
-            id: "services",
-            name: "Body",
-            amount: 184247,
-          },
-          {
-            id: "rentHouse",
-            name: "Đồ trong nhà",
-            amount: 288300,
-          },
-        ],
-      },
-      {
-        id: "healthFund",
-        name: "Quỹ khám bệnh",
-        value: 300000,
-      },
-      {
-        id: "waterLavieFund",
-        name: "Quỹ Lavie",
-        value: 222000,
-      },
-    ];
+    const data = ref([]);
+
+    (async () => {
+      data.value = await getEstimateNecessityExpenses();
+    })();
+
     function sumOfDetails(item) {
       if (Object.hasOwn(item, "details")) {
         return item.details.reduce((acc, item) => acc + item.amount, 0);
