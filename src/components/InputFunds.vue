@@ -17,10 +17,10 @@
         </a-form-item>
       </div>
       <div class="flex flex-col">
-        <div class="flex flex-col md:flex-row md:space-x-4 justify-between">
-          <div class="flex md:flex-col mb-2 h-fit">
+        <div class="flex flex-col md:flex-row md:space-x-1 justify-between">
+          <div class="flex md:flex-col mb-2 h-fit w-[15%]">
             <div class="md:w-full w-3/4 flex items-center">
-              <label for="Necessity">Chi tiêu thiết yếu</label>
+              <label class="line-clamp-1" for="Necessity">Chi tiêu thiết yếu</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -39,9 +39,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2">
+          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label for="input2">Tự do tài chính</label>
+              <label class="line-clamp-1" for="input2">Tự do tài chính</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -60,9 +60,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2">
+          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label for="input3">Phát triển bản thân</label>
+              <label class="line-clamp-1" for="input3">Phát triển bản thân</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -81,9 +81,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2">
+          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label for="input4">Hưởng thụ</label>
+              <label class="line-clamp-1" for="input4">Hưởng thụ</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -102,9 +102,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2">
+          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label for="input5">Cho đi</label>
+              <label class="line-clamp-1" for="input5">Cho đi</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -123,9 +123,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2">
+          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label for="input6">Tiết kiệm dài hạn</label>
+              <label class="line-clamp-1" for="input6">Tiết kiệm dài hạn</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
