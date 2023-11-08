@@ -35,7 +35,7 @@ export default {
     },
   },
   setup(props) {
-    const { isMobile, isTablet, isDesktop } = detectDevice();
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } = detectDevice();
 
     const sliderAttrs = computed(() => {
       if (isMobile) {
@@ -46,7 +46,7 @@ export default {
           pagination: false,
         };
       }
-      if (isTablet) {
+      if (isTabletVertical) {
         return {
           perPage: 4,
           arrows: false,
@@ -54,7 +54,7 @@ export default {
           pagination: false,
         };
       }
-      if (isDesktop) {
+      if (isTabletVertical || isDesktop) {
         return {
           perPage: 7,
           arrows: false,

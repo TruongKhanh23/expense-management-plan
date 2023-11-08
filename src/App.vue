@@ -7,7 +7,7 @@
     />
     <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
     <!-- Mobile View -->
-    <div class="md:hidden">
+    <div v-if="isMobile || isTabletVertical">
       <a-tabs centered>
         <a-tab-pane key="1" tab="Dự chi thiết yếu">
           <EstimateNecessity :necessityLimitation="necessityLimitation" />
@@ -31,7 +31,10 @@
     </div>
 
     <!-- Desktop View-->
-    <div class="flex flex-col md:flex-row hidden md:flex my-4">
+    <div
+      v-if="isDesktop || isTabletHorizontal"
+      class="flex flex-col md:flex-row my-4"
+    >
       <a-col :md="{ span: 6 }">
         <EstimateNecessity :necessityLimitation="necessityLimitation" />
       </a-col>
@@ -72,6 +75,8 @@ import {
   dataHandleIncome,
 } from "@/assets/data/sample";
 
+import detectDevice from "@/utils/device.util";
+
 export default {
   components: {
     ACol: Col,
@@ -86,7 +91,9 @@ export default {
   setup() {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
-    const totalIncome = ref(0)
+    const totalIncome = ref(0);
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
+      detectDevice();
 
     function handleUpdateTotalIncome(dataIncome: any) {
       totalIncome.value = calculateTotalIncome(dataIncome);
@@ -128,6 +135,10 @@ export default {
       handleUpdateIsFundsEditable,
       funds,
       isFundsEditable,
+      isMobile,
+      isTabletVertical,
+      isTabletHorizontal,
+      isDesktop,
     };
   },
 };
