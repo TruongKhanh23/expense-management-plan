@@ -6,7 +6,7 @@
           Tổng thu nhập: {{ new Intl.NumberFormat().format(totalIncome) }}
         </p>
         <div class="flex flex-row">
-          <p class="font-bold mr-2 hidden md:flex">Chế độ chỉnh sửa:</p>
+          <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
           <a-switch class="my-ant-switch" v-model:checked="isEditable" />
         </div>
       </div>
