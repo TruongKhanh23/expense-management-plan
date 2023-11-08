@@ -1,5 +1,5 @@
 <template>
-  <div class="m-4">
+  <div class="mt-7 ml-2">
     <a-form
       ref="formRef"
       name="dynamic_form_nest_item"
@@ -9,7 +9,7 @@
       <a-space
         v-for="(item, index) in dynamicValidateForm.estimateNecessity"
         :key="item.id"
-        style="display: flex; margin-bottom: 8px"
+        style="display: flex; margin-bottom: 6px"
         align="baseline"
       >
         <a-form-item
@@ -31,18 +31,18 @@
             message: 'Missing amount',
           }"
         >
-          <a-input v-model:value="item.amount" placeholder="Amount" />
+          <a-input v-model:value="item.amount" placeholder="Amount" style="text-align: right;" />
         </a-form-item>
         <MinusCircleOutlined @click="removeItem(item)" />
       </a-space>
       <a-form-item>
         <a-button type="dashed" block @click="addItem">
           <PlusOutlined />
-          Add item
+          Thêm dự chi
         </a-button>
       </a-form-item>
       <a-form-item>
-        <a-button type="default" html-type="submit">Submit</a-button>
+        <a-button type="default" html-type="submit">Cập nhật</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -51,6 +51,7 @@
 import { reactive, ref, computed } from "vue";
 import type { FormInstance } from "ant-design-vue";
 import { Form, Space, FormItem, Input, Button } from "ant-design-vue";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 
 interface EstimateNecessity {
   name: string;
@@ -65,6 +66,8 @@ export default {
     AFormItem: FormItem,
     AInput: Input,
     AButton: Button,
+    MinusCircleOutlined,
+    PlusOutlined,
   },
   props: {
     data: {
