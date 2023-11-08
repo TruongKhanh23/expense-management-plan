@@ -91,7 +91,7 @@ export async function setFunds(values) {
       await setDoc(
         doc(db, ...pathSegments, fund),
         {
-          percentage: values[fund],
+          percentage: parseFloat(values[fund]),
         },
         { merge: true },
       );
