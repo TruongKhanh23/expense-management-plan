@@ -69,11 +69,8 @@ import InputFunds from "./components/InputFunds.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
-import {
-  columnsIncome,
-  columnsHandleIncome,
-  dataHandleIncome,
-} from "@/assets/data/sample";
+import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 
 import detectDevice from "@/utils/device.util";
 
@@ -84,13 +81,14 @@ export default {
     ATabPane: TabPane,
     Funds,
     IncomeDebt,
-    HandleIncome,
     EstimateNecessity,
     InputFunds,
+    HandleIncome,
   },
   setup() {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
+    const dataHandleIncome: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -117,6 +115,7 @@ export default {
     (async () => {
       funds.value = await getFunds();
       dataIncome.value = await getIncomes();
+      dataHandleIncome.value = await getHandleIncomes();
     })();
 
     const isFundsEditable = ref(false);
