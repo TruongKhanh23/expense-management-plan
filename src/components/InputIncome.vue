@@ -10,7 +10,6 @@
       v-for="(user, index) in dynamicValidateForm.incomes"
       :key="user.id"
       style="display: flex; margin-bottom: 8px"
-      align="baseline"
     >
       <a-form-item
         :name="['incomes', index, 'source']"
@@ -24,16 +23,18 @@
           placeholder="Income from (source)"
         />
       </a-form-item>
-      <a-form-item
-        :name="['incomes', index, 'amount']"
-        :rules="{
-          required: true,
-          message: 'Missing amount',
-        }"
-      >
-        <a-input v-model:value="user.amount" placeholder="Amount" />
-      </a-form-item>
-      <MinusCircleOutlined @click="removeUser(user)" />
+      <a-space align="baseline">
+        <a-form-item
+          :name="['incomes', index, 'amount']"
+          :rules="{
+            required: true,
+            message: 'Missing amount',
+          }"
+        >
+          <a-input-number v-model:value="user.amount" placeholder="Amount" style="width: 100%" />
+        </a-form-item>
+        <MinusCircleOutlined @click="removeUser(user)" />
+      </a-space>
     </a-space>
     <a-form-item>
       <a-button type="dashed" block @click="addUser">
@@ -50,7 +51,15 @@
 import { reactive, ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import { Form, Space, FormItem, Input, Button } from "ant-design-vue";
+import {
+  Form,
+  Space,
+  FormItem,
+  Input,
+  Button,
+  InputNumber,
+} from "ant-design-vue";
+import { setIncomes } from "@/composables/incomes/index.js";
 
 interface Income {
   source: string;
@@ -64,6 +73,7 @@ export default {
     ASpace: Space,
     AFormItem: FormItem,
     AInput: Input,
+    AInputNumber: InputNumber,
     MinusCircleOutlined,
     PlusOutlined,
     AButton: Button,
@@ -78,7 +88,7 @@ export default {
   setup(props, { emit }) {
     const formRef = ref<FormInstance>();
     const incomesStorageString = computed(() => {
-      return props.incomes ?? []
+      return props.incomes ?? [];
     });
 
     const incomesStorage = computed(() => {
@@ -102,10 +112,11 @@ export default {
         id: Date.now(),
       });
     };
-    const onFinish = () => {
+    const onFinish = async () => {
       const stringifyIncomes = JSON.stringify(dynamicValidateForm.incomes);
-      window.localStorage.setItem("incomes", stringifyIncomes);
+      localStorage.setItem("incomes", stringifyIncomes);
       emit("action:updateDataIncome", dynamicValidateForm.incomes);
+      await setIncomes(dynamicValidateForm.incomes);
     };
 
     return { formRef, removeUser, dynamicValidateForm, addUser, onFinish };
