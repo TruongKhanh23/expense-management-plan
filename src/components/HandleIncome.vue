@@ -7,37 +7,47 @@
         <a-switch class="my-ant-switch" v-model:checked="isEditable" />
       </div>
     </div>
-    <template v-for="(typeData, index) in data">
-      <div class="my-4">
-        <div class="text-center font-bold mb-4">
-          Tổng:
-          {{ new Intl.NumberFormat().format(calculateTotal(typeData.items)) }}
+    <Slider
+      :list="data"
+      :attrs="{
+        perPage: 1,
+        arrows: false,
+        gap: 8,
+        pagination: false,
+      }"
+    >
+      <template #content="{ data, index }">
+        <div class="my-4">
+          <a-table
+            v-if="!isEditable"
+            :columns="columns"
+            :data-source="data.items"
+            :key="index"
+            @change="onChange"
+            :pagination="{ hideOnSinglePage: true }"
+          >
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.dataIndex === 'amount'">
+                <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
+              </template>
+              <template v-if="column.dataIndex === 'type'">
+                <div class="flex flex-col">
+                  <p class="text-center">{{ record.wallet }}</p>
+                  <a-tag :color="tagColor(record.type)" class="text-center">{{
+                    record.type
+                  }}</a-tag>
+                </div>
+              </template>
+            </template>
+          </a-table>
+          <div v-if="!isEditable" class="font-bold text-right my-4 pr-4">
+            Tổng:
+            {{ new Intl.NumberFormat().format(calculateTotal(data.items)) }}
+          </div>
+          <HandleIncomeEdit v-else :data="data.items" />
         </div>
-        <a-table
-          v-if="!isEditable"
-          :columns="columns"
-          :data-source="typeData.items"
-          :key="index"
-          @change="onChange"
-          :pagination="{ hideOnSinglePage: true }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'amount'">
-              <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
-            </template>
-            <template v-if="column.dataIndex === 'type'">
-              <div class="flex flex-col">
-                <p class="text-center">{{ record.wallet }}</p>
-                <a-tag :color="tagColor(record.type)" class="text-center">{{
-                  record.type
-                }}</a-tag>
-              </div>
-            </template>
-          </template>
-        </a-table>
-        <HandleIncomeEdit v-else :data="typeData.items" />
-      </div>
-    </template>
+      </template>
+    </Slider>
   </div>
 </template>
 <script lang="ts">
@@ -45,6 +55,7 @@ import { ref, computed } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
+import Slider from "@/components/reusable/Slider.vue";
 
 type HandleIncomeType = {
   id: string;
@@ -65,6 +76,7 @@ export default {
     ATable: Table,
     ASwitch: Switch,
     HandleIncomeEdit,
+    Slider,
   },
   props: {
     columnsHandleIncome: {
@@ -108,7 +120,6 @@ export default {
       for (const item of values) {
         total += item.amount;
       }
-      console.log("total", total);
 
       return total;
     }
