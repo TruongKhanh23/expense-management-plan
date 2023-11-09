@@ -8,29 +8,35 @@
       </div>
     </div>
     <template v-for="(typeData, index) in data">
-      <a-table
-        v-if="!isEditable"
-        :columns="columns"
-        :data-source="typeData.items"
-        :key="index"
-        @change="onChange"
-        :pagination="{ hideOnSinglePage: true }"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.dataIndex === 'amount'">
-            <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
+      <div class="my-4">
+        <div class="text-center font-bold mb-4">
+          Tổng:
+          {{ new Intl.NumberFormat().format(calculateTotal(typeData.items)) }}
+        </div>
+        <a-table
+          v-if="!isEditable"
+          :columns="columns"
+          :data-source="typeData.items"
+          :key="index"
+          @change="onChange"
+          :pagination="{ hideOnSinglePage: true }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'amount'">
+              <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
+            </template>
+            <template v-if="column.dataIndex === 'type'">
+              <div class="flex flex-col">
+                <p class="text-center">{{ record.wallet }}</p>
+                <a-tag :color="tagColor(record.type)" class="text-center">{{
+                  record.type
+                }}</a-tag>
+              </div>
+            </template>
           </template>
-          <template v-if="column.dataIndex === 'type'">
-            <div class="flex flex-col">
-              <p class="text-center">{{ record.wallet }}</p>
-              <a-tag :color="tagColor(record.type)" class="text-center">{{
-                record.type
-              }}</a-tag>
-            </div>
-          </template>
-        </template>
-      </a-table>
-      <HandleIncomeEdit v-else :data="typeData.items" />
+        </a-table>
+        <HandleIncomeEdit v-else :data="typeData.items" />
+      </div>
     </template>
   </div>
 </template>
@@ -96,7 +102,17 @@ export default {
     ) => {
       console.log("params", pagination, filters, sorter);
     };
-    return { tagColor, columns, data, onChange, isEditable };
+
+    function calculateTotal(values: any) {
+      let total = 0;
+      for (const item of values) {
+        total += item.amount;
+      }
+      console.log("total", total);
+
+      return total;
+    }
+    return { tagColor, columns, data, onChange, isEditable, calculateTotal };
   },
 };
 </script>

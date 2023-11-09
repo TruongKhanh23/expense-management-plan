@@ -31,9 +31,10 @@ export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
       { text: "longTermSaving", value: "longTermSaving" },
     ],
     onFilter: (value, record) => record.type.startsWith(value as string),
+    align: "center",
   },
   { title: "Quỹ", dataIndex: "fund" },
-  { title: "Số tiền", dataIndex: "amount" },
+  { title: "Số tiền", dataIndex: "amount", align: "right" },
 ];
 
 export const dataHandleIncome: TableDataType[] = [
