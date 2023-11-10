@@ -33,7 +33,7 @@ export async function getFunds() {
       },
     ]);
     onSnapshot(
-      query(collection(db, ...pathSegments), orderBy("percentage", "desc")),
+      query(collection(db, ...pathSegments), orderBy("order", "asc")),
       (snap) => {
         count.value++;
         if (count.value > 1) {

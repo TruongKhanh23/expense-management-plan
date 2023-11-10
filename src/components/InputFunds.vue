@@ -62,7 +62,7 @@
           </div>
           <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
             <div class="md:w-full w-3/4">
-              <label class="line-clamp-1" for="input3">Phát triển bản thân</label>
+              <label class="line-clamp-1" for="input3">Giáo dục đào tạo</label>
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item

@@ -20,31 +20,29 @@
             <a-switch class="my-ant-switch" v-model:checked="isEditable" />
           </div>
         </div>
-        <div class="my-4">
-          <a-table
-            v-if="!isEditable"
-            :columns="columns"
-            :data-source="data.items"
-            :key="index"
-            @change="onChange"
-            :pagination="{ hideOnSinglePage: true }"
-          >
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.dataIndex === 'amount'">
-                <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
-              </template>
-              <template v-if="column.dataIndex === 'type'">
-                <div class="flex flex-col">
-                  <p class="text-center">{{ record.wallet }}</p>
-                  <a-tag :color="tagColor(record.type)" class="text-center">{{
-                    record.type
-                  }}</a-tag>
-                </div>
-              </template>
+        <a-table
+          v-if="!isEditable"
+          :columns="columns"
+          :data-source="data.items"
+          :key="index"
+          @change="onChange"
+          :pagination="{ hideOnSinglePage: true }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'amount'">
+              <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
             </template>
-          </a-table>
-          <HandleIncomeEdit v-else :data="data.items" />
-        </div>
+            <template v-if="column.dataIndex === 'type'">
+              <div class="flex flex-col">
+                <p class="text-center">{{ record.wallet }}</p>
+                <a-tag :color="tagColor(record.type)" class="text-center">{{
+                  record.type
+                }}</a-tag>
+              </div>
+            </template>
+          </template>
+        </a-table>
+        <HandleIncomeEdit v-else :data="data.items" />
       </template>
     </Slider>
   </div>
