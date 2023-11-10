@@ -1,67 +1,29 @@
 <template>
-  <Slider
-    :list="funds"
-    :attrs="{
-      perPage: 7,
-      arrows: false,
-      gap: 0,
-      breakpoints: {
-        768: {
-          perPage: 1,
-          arrows: false,
-          start: 1,
-          pagination: false,
-        },
-      },
-    }"
-  >
-    <template #content="{ data }">
-      <div class="mx-2 text-center">
-        <div v-if="data.src" class="flex justify-center items-center">
-          <img :src="data.src" class="w-16 h-16 rounded-lg" />
-        </div>
-        <h3 class="font-bold my-2">{{ data.wallet }}</h3>
-        <div
-          class="font-bold h-12 flex justify-center items-center rounded-lg text-white mx-10 lg:mx-0"
-          :class="data.classColor"
-        >
-          {{ data.name }}
-        </div>
-        <!-- Thêm một phần tử flex-grow để căn chỉnh -->
-        <p v-if="data.percentage" class="my-2 font-bold">
-          {{ data.percentage }}%
-        </p>
-        <div class="flex-grow"></div>
-      </div>
-      <div class="text-center">
-        <p
-          v-if="data.percentage"
-          class="my-2 font-bold md:bg-[#ffdddd] leading-[2.5rem] left-0 w-full"
-        >
-          {{
-            new Intl.NumberFormat().format(
-              (totalIncome * data.percentage) / 100,
-            )
-          }}
-        </p>
-        <p
-          v-else
-          class="my-2 font-bold bg-[#ffdddd] rounded-l-full leading-[2.5rem] absolute bottom-0 left-0 w-full border-r-2 border-[#ffffff]"
-        >
-          Limitation
-        </p>
-      </div>
-    </template>
-  </Slider>
+  <div class="min-h-[240px]">
+    <Slider :list="funds" :attrs="sliderAttrs">
+      <template #content="{ data }">
+        <FundItem
+          @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')"
+          :data="data"
+          :totalIncome="totalIncome"
+        />
+      </template>
+    </Slider>
+  </div>
 </template>
 <script>
+import { computed } from "vue";
+import FundItem from "@/components/FundItem.vue";
 import Slider from "../components/reusable/Slider.vue";
+import detectDevice from "@/utils/device.util";
 import "@splidejs/vue-splide/css";
 
 export default {
   components: {
     Slider,
+    FundItem,
   },
+  emits: ["action:updateIsFundsEditable"],
   props: {
     funds: {
       type: Object,
@@ -71,6 +33,37 @@ export default {
       type: Number,
       require: true,
     },
+  },
+  setup(props) {
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } = detectDevice();
+
+    const sliderAttrs = computed(() => {
+      if (isMobile) {
+        return {
+          perPage: 1,
+          arrows: false,
+          gap: 8,
+          pagination: false,
+        };
+      }
+      if (isTabletVertical) {
+        return {
+          perPage: 4,
+          arrows: false,
+          gap: 0,
+          pagination: false,
+        };
+      }
+      if (isTabletVertical || isDesktop) {
+        return {
+          perPage: 7,
+          arrows: false,
+          gap: 0,
+        };
+      }
+    });
+
+    return { sliderAttrs };
   },
 };
 </script>

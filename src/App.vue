@@ -1,74 +1,61 @@
 <template>
-  <div class="container mx-auto mt-12">
-    <Funds :funds="funds" :totalIncome="totalIncome" />
-
+  <div class="xl:mx-[8rem] mx-4 my-12 min-h-[750px]">
+    <Funds
+      v-if="funds"
+      :funds="funds"
+      :totalIncome="totalIncome"
+      @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
+    />
+    <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
     <!-- Mobile View -->
-    <div class="md:hidden">
-      <a-tabs centered>
-        <a-tab-pane key="1" tab="Dự chi thiết yếu">
-          <EstimateNecessity :necessityLimitation="necessityLimitation" />
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="Thu nhập" force-render>
-          <IncomeDebt
-            class="md:border-l md:border-r px-4"
-            :columns="columnsIncome"
-            :data="dataIncome"
-            :totalIncome="totalIncome"
-          />
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="Xử lý thu nhập">
-          <HandleIncome
-            :columnsHandleIncome="columnsHandleIncome"
-            :dataHandleIncome="dataHandleIncome"
-          />
-        </a-tab-pane>
-      </a-tabs>
+    <div v-if="(isMobile || isTabletVertical) && dataIncome">
+      <MobileAppView
+        :necessityLimitation="necessityLimitation"
+        :columnsIncome="columnsIncome"
+        :dataIncome="dataIncome"
+        :totalIncome="totalIncome"
+        :columnsHandleIncome="columnsHandleIncome"
+        :dataHandleIncome="dataHandleIncome"
+        @action:updateDataTotalIncome="handleUpdateTotalIncome"
+      />
     </div>
 
     <!-- Desktop View-->
-    <div class="flex flex-col md:flex-row hidden md:flex">
-      <a-col :md="{ span: 6 }">
-        <EstimateNecessity :necessityLimitation="necessityLimitation" />
-      </a-col>
-
-      <a-col :md="{ span: 8 }">
-        <IncomeDebt
-          class="md:border-l md:border-r px-4"
-          :columns="columnsIncome"
-          :data="dataIncome"
-          :totalIncome="totalIncome"
-        />
-      </a-col>
-
-      <a-col :md="{ span: 10 }">
-        <HandleIncome
-          :columnsHandleIncome="columnsHandleIncome"
-          :dataHandleIncome="dataHandleIncome"
-        />
-      </a-col>
+    <div
+      v-if="(isDesktop || isTabletHorizontal) && dataIncome"
+      class="flex flex-col md:flex-row my-4"
+    >
+      <DesktopAppView
+        :necessityLimitation="necessityLimitation"
+        :columnsIncome="columnsIncome"
+        :dataIncome="dataIncome"
+        :totalIncome="totalIncome"
+        :columnsHandleIncome="columnsHandleIncome"
+        :dataHandleIncome="dataHandleIncome"
+        @action:updateDataTotalIncome="handleUpdateTotalIncome"
+      />
     </div>
   </div>
+  <Footer />
 </template>
 <script lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { Col, Tabs, TabPane } from "ant-design-vue";
 import Funds from "./components/Funds.vue";
 import IncomeDebt from "./components/IncomeDebt.vue";
 import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
-import {
-  columnsIncome,
-  dataIncome,
-  columnsHandleIncome,
-  dataHandleIncome,
-  funds,
-} from "@/assets/data/sample";
+import InputFunds from "./components/InputFunds.vue";
+import Footer from "@/components/Footer.vue";
+import DesktopAppView from "@/components/DesktopAppView.vue";
+import MobileAppView from "@/components/MobileAppView.vue";
+import { calculateTotalIncome } from "@/utils/number.util";
+import { getFunds } from "@/composables/funds/index.js";
+import { getIncomes } from "@/composables/incomes/index.js";
+import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 
-type DataIncomeType = {
-  key: string;
-  source: string;
-  amount: number;
-};
+import detectDevice from "@/utils/device.util";
 
 export default {
   components: {
@@ -77,43 +64,66 @@ export default {
     ATabPane: TabPane,
     Funds,
     IncomeDebt,
-    HandleIncome,
     EstimateNecessity,
+    InputFunds,
+    HandleIncome,
+    Footer,
+    DesktopAppView,
+    MobileAppView,
   },
   setup() {
-    const totalIncome = calculateTotalAmount(dataIncome);
+    const funds: any = ref([]);
+    const dataIncome: any = ref([]);
+    const dataHandleIncome: any = ref([]);
+    const totalIncome = ref(0);
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
+      detectDevice();
 
-    function calculateTotalAmount(data: DataIncomeType[]) {
-      let totalAmount = 0;
-
-      for (const element of data) {
-        totalAmount += element.amount;
-      }
-
-      return totalAmount;
+    function handleUpdateTotalIncome(dataIncome: any) {
+      totalIncome.value = calculateTotalIncome(dataIncome);
     }
 
-    // Calculate  Necessity Limitation
-    const necessityItem = funds.find((item) => item.id === "necessity") ?? {
-      percentage: 0,
-    };
-    const necessityLimitation = ref(0);
-    if (
-      typeof necessityItem.percentage === "number" &&
-      typeof totalIncome === "number"
-    ) {
-      necessityLimitation.value =
-        (necessityItem.percentage * totalIncome) / 100;
+    // Calculate Necessity Limitation
+    const necessityItem = computed(() => {
+      return (
+        funds.value.find((item: any) => item.id === "necessity") ?? {
+          percentage: 0,
+        }
+      );
+    });
+    const necessityLimitation = computed(() => {
+      return typeof necessityItem.value.percentage === "number" &&
+        typeof totalIncome.value === "number"
+        ? (necessityItem.value.percentage * totalIncome.value) / 100
+        : 0;
+    });
+
+    (async () => {
+      funds.value = await getFunds();
+      dataIncome.value = await getIncomes();
+      dataHandleIncome.value = await getHandleIncomes();
+    })();
+
+    const isFundsEditable = ref(false);
+    function handleUpdateIsFundsEditable() {
+      isFundsEditable.value = !isFundsEditable.value;
     }
 
     return {
       columnsIncome,
       dataIncome,
-      funds,
       totalIncome,
       columnsHandleIncome,
       dataHandleIncome,
       necessityLimitation,
+      handleUpdateTotalIncome,
+      handleUpdateIsFundsEditable,
+      funds,
+      isFundsEditable,
+      isMobile,
+      isTabletVertical,
+      isTabletHorizontal,
+      isDesktop,
     };
   },
 };

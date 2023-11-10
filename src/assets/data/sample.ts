@@ -1,7 +1,3 @@
-import momo from "@/assets/images/momo.svg";
-import vnpay from "@/assets/images/vnpay.png";
-import zalopay from "@/assets/images/zalopay.png";
-
 import { TableColumnType } from "ant-design-vue";
 
 type TableDataType = {
@@ -12,13 +8,6 @@ type TableDataType = {
   amount: number;
 };
 
-type DataIncomeType = {
-  key: string;
-  source: string;
-  amount: number;
-};
-
-
 export const columnsIncome = [
   {
     title: "Nguồn thu nhập",
@@ -26,13 +15,7 @@ export const columnsIncome = [
     key: "source",
     width: 200,
   },
-  { title: "Số tiền", dataIndex: "amount", key: "amount" },
-];
-
-export const dataIncome: DataIncomeType[] = [
-  { key: "1", source: "Lương", amount: 13500000 },
-  { key: "2", source: "Ba cho", amount: 2000000 },
-  { key: "3", source: "Mẹ cho", amount: 4500000 },
+  { title: "Số tiền", dataIndex: "amount", key: "amount", align: "right" },
 ];
 
 export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
@@ -48,9 +31,10 @@ export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
       { text: "longTermSaving", value: "longTermSaving" },
     ],
     onFilter: (value, record) => record.type.startsWith(value as string),
+    align: "center",
   },
   { title: "Quỹ", dataIndex: "fund" },
-  { title: "Số tiền", dataIndex: "amount" },
+  { title: "Số tiền", dataIndex: "amount", align: "right" },
 ];
 
 export const dataHandleIncome: TableDataType[] = [
@@ -186,64 +170,5 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Khám bệnh",
     type: "necessity",
     amount: 300000,
-  },
-];
-
-export const funds = [
-  {
-    id: "",
-    src: "",
-    percentage: "",
-    wallet: "",
-    name: "",
-    classColor: "",
-  },
-  {
-    id: "necessity",
-    src: momo,
-    percentage: 72.5,
-    wallet: "Túi thần tài",
-    name: "Nhu cầu thiết yếu",
-    classColor: "bg-[#ffabab]",
-  },
-  {
-    id: "freedom",
-    src: momo,
-    percentage: 3,
-    wallet: "Qũy nhóm",
-    name: "Tự do tài chính",
-    classColor: "bg-[#63b5ff]",
-  },
-  {
-    id: "education",
-    src: vnpay,
-    percentage: 3,
-    wallet: "Ví chính",
-    name: "Giáo dục đào tạo",
-    classColor: "bg-[#97a2ff]",
-  },
-  {
-    id: "relax",
-    src: momo,
-    percentage: 7.5,
-    wallet: "Ví chính",
-    name: "Hưởng thụ",
-    classColor: "bg-[#76de82]",
-  },
-  {
-    id: "giving",
-    src: zalopay,
-    percentage: 3,
-    wallet: "Ví chính",
-    name: "Cho đi",
-    classColor: "bg-[#c0c0c0]",
-  },
-  {
-    id: "longTermSaving",
-    src: zalopay,
-    percentage: 11,
-    wallet: "Tài khoản tích lũy",
-    name: "Tiết kiệm dài hạn",
-    classColor: "bg-[#f9a484]",
   },
 ];
