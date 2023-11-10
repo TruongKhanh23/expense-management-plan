@@ -1,12 +1,5 @@
 <template>
   <div class="md:px-4 my-4 md:my-0">
-    <div class="flex items-center justify-between">
-      <p class="my-2 font-bold">Danh sách xử lý thu nhập</p>
-      <div class="flex flex-row my-2">
-        <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
-        <a-switch class="my-ant-switch" v-model:checked="isEditable" />
-      </div>
-    </div>
     <Slider
       :list="data"
       :attrs="{
@@ -17,6 +10,16 @@
       }"
     >
       <template #content="{ data, index }">
+        <div class="flex items-center justify-between">
+          <p class="my-2 font-bold">
+            Tổng:
+            {{ new Intl.NumberFormat().format(calculateTotal(data.items)) }}
+          </p>
+          <div class="flex flex-row my-2">
+            <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
+            <a-switch class="my-ant-switch" v-model:checked="isEditable" />
+          </div>
+        </div>
         <div class="my-4">
           <a-table
             v-if="!isEditable"
@@ -40,10 +43,6 @@
               </template>
             </template>
           </a-table>
-          <div v-if="!isEditable" class="font-bold text-right my-4 pr-4">
-            Tổng:
-            {{ new Intl.NumberFormat().format(calculateTotal(data.items)) }}
-          </div>
           <HandleIncomeEdit v-else :data="data.items" />
         </div>
       </template>
