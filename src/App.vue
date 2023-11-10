@@ -1,16 +1,20 @@
 <template>
   <div class="xl:mx-[8rem] mx-4 my-12">
     <Funds
+      v-if="funds"
       :funds="funds"
       :totalIncome="totalIncome"
       @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
     />
     <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
     <!-- Mobile View -->
-    <div v-if="isMobile || isTabletVertical">
+    <div v-if="(isMobile || isTabletVertical) && dataIncome">
       <a-tabs centered>
         <a-tab-pane key="1" tab="Dự chi thiết yếu">
-          <EstimateNecessity :necessityLimitation="necessityLimitation" />
+          <EstimateNecessity
+            v-if="necessityLimitation"
+            :necessityLimitation="necessityLimitation"
+          />
         </a-tab-pane>
         <a-tab-pane key="2" tab="Thu nhập" force-render>
           <IncomeDebt
@@ -32,7 +36,7 @@
 
     <!-- Desktop View-->
     <div
-      v-if="isDesktop || isTabletHorizontal"
+      v-if="(isDesktop || isTabletHorizontal) && dataIncome"
       class="flex flex-col md:flex-row my-4"
     >
       <a-col :md="{ span: 6 }">
@@ -56,6 +60,7 @@
         />
       </a-col>
     </div>
+    <Footer />
   </div>
 </template>
 <script lang="ts">
@@ -66,6 +71,7 @@ import IncomeDebt from "./components/IncomeDebt.vue";
 import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
 import InputFunds from "./components/InputFunds.vue";
+import Footer from "@/components/Footer.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
@@ -84,6 +90,7 @@ export default {
     EstimateNecessity,
     InputFunds,
     HandleIncome,
+    Footer,
   },
   setup() {
     const funds: any = ref([]);
