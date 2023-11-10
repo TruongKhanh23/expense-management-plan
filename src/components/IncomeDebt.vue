@@ -10,7 +10,12 @@
           <a-switch class="my-ant-switch" v-model:checked="isEditable" />
         </div>
       </div>
-      <a-table v-if="!isEditable" :columns="columns" :data-source="dataIncome">
+      <a-table
+        v-if="!isEditable"
+        :columns="columns"
+        :data-source="dataIncome"
+        :pagination="{ hideOnSinglePage: true }"
+      >
         <template #bodyCell="{ column, text }">
           <template v-if="column.dataIndex === 'name'">
             <a>{{ text }}</a>
@@ -20,7 +25,8 @@
           </template>
         </template>
       </a-table>
-      <InputIncome v-else
+      <InputIncome
+        v-else
         @action:updateDataIncome="handleUpdateDataIncome"
         :incomes="dataIncome"
       />
