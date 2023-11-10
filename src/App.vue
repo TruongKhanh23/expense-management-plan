@@ -1,5 +1,5 @@
 <template>
-  <div class="xl:mx-[8rem] mx-4 my-12">
+  <div class="xl:mx-[8rem] mx-4 my-12 min-h-[750px]">
     <Funds
       v-if="funds"
       :funds="funds"
@@ -9,29 +9,15 @@
     <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
     <!-- Mobile View -->
     <div v-if="(isMobile || isTabletVertical) && dataIncome">
-      <a-tabs centered>
-        <a-tab-pane key="1" tab="Dự chi thiết yếu">
-          <EstimateNecessity
-            v-if="necessityLimitation"
-            :necessityLimitation="necessityLimitation"
-          />
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="Thu nhập" force-render>
-          <IncomeDebt
-            class="md:border-l md:border-r px-4"
-            :columns="columnsIncome"
-            :data="dataIncome"
-            :totalIncome="totalIncome"
-            @action:updateDataTotalIncome="handleUpdateTotalIncome"
-          />
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="Xử lý thu nhập">
-          <HandleIncome
-            :columnsHandleIncome="columnsHandleIncome"
-            :dataHandleIncome="dataHandleIncome"
-          />
-        </a-tab-pane>
-      </a-tabs>
+      <MobileAppView
+        :necessityLimitation="necessityLimitation"
+        :columnsIncome="columnsIncome"
+        :dataIncome="dataIncome"
+        :totalIncome="totalIncome"
+        :columnsHandleIncome="columnsHandleIncome"
+        :dataHandleIncome="dataHandleIncome"
+        @action:updateDataTotalIncome="handleUpdateTotalIncome"
+      />
     </div>
 
     <!-- Desktop View-->
@@ -39,29 +25,18 @@
       v-if="(isDesktop || isTabletHorizontal) && dataIncome"
       class="flex flex-col md:flex-row my-4"
     >
-      <a-col :md="{ span: 6 }">
-        <EstimateNecessity :necessityLimitation="necessityLimitation" />
-      </a-col>
-
-      <a-col :md="{ span: 8 }">
-        <IncomeDebt
-          class="md:border-l md:border-r px-4"
-          :columns="columnsIncome"
-          :data="dataIncome"
-          :totalIncome="totalIncome"
-          @action:updateDataTotalIncome="handleUpdateTotalIncome"
-        />
-      </a-col>
-
-      <a-col :md="{ span: 10 }">
-        <HandleIncome
-          :columnsHandleIncome="columnsHandleIncome"
-          :dataHandleIncome="dataHandleIncome"
-        />
-      </a-col>
+      <DesktopAppView
+        :necessityLimitation="necessityLimitation"
+        :columnsIncome="columnsIncome"
+        :dataIncome="dataIncome"
+        :totalIncome="totalIncome"
+        :columnsHandleIncome="columnsHandleIncome"
+        :dataHandleIncome="dataHandleIncome"
+        @action:updateDataTotalIncome="handleUpdateTotalIncome"
+      />
     </div>
-    <Footer />
   </div>
+  <Footer />
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
@@ -72,6 +47,8 @@ import HandleIncome from "./components/HandleIncome.vue";
 import EstimateNecessity from "./components/EstimateNecessity.vue";
 import InputFunds from "./components/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
+import DesktopAppView from "@/components/DesktopAppView.vue";
+import MobileAppView from "@/components/MobileAppView.vue";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
@@ -91,6 +68,8 @@ export default {
     InputFunds,
     HandleIncome,
     Footer,
+    DesktopAppView,
+    MobileAppView,
   },
   setup() {
     const funds: any = ref([]);

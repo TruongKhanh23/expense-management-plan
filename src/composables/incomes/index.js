@@ -21,7 +21,7 @@ export async function getIncomes() {
       (snap) => {
         count.value++;
         if (count.value > 1) {
-          funds.value = [];
+          incomes.value = [];
         }
         snap.forEach((doc) => {
 

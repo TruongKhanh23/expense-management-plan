@@ -1,5 +1,5 @@
 <template>
-  <div class="md:px-4 my-4 md:my-0">
+  <div class="md:px-4 mt-4 md:my-0">
     <Slider
       :list="data"
       :attrs="{
