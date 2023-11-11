@@ -17,6 +17,7 @@
         :totalIncome="totalIncome"
         :columnsHandleIncome="columnsHandleIncome"
         :dataHandleIncome="dataHandleIncome"
+        :isDark="isDarkProps"
         @action:updateDataTotalIncome="handleUpdateTotalIncome"
       />
     </div>
@@ -33,11 +34,20 @@
         :totalIncome="totalIncome"
         :columnsHandleIncome="columnsHandleIncome"
         :dataHandleIncome="dataHandleIncome"
+        :isDark="isDarkProps"
         @action:updateDataTotalIncome="handleUpdateTotalIncome"
       />
     </div>
   </div>
-  <Footer />
+  <div class="flex items-center justify-center my-12">
+    <button
+      class="px-4 py-2 text-white bg-green-500 dark:bg-purple-500 rounded"
+      @click="toggleDark()"
+    >
+      Toggle Dark Mode
+    </button>
+  </div>
+  <Footer class="mb-12" />
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
@@ -58,6 +68,7 @@ import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import detectDevice from "@/utils/device.util";
 import handlePopup from "@/composables/loadingModal/index.js";
+import { useDark, useToggle } from "@vueuse/core";
 
 export default {
   components: {
@@ -76,6 +87,19 @@ export default {
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
+    const isDark = useDark({
+      onChanged(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      },
+    });
+    const toggleDark = useToggle(isDark);
+    const isDarkProps = computed(() => {
+      return isDark;
+    });
 
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
@@ -130,7 +154,18 @@ export default {
       isTabletHorizontal,
       isDesktop,
       isOpenLoadingModal,
+      isDark,
+      toggleDark,
+      isDarkProps,
     };
   },
 };
 </script>
+<style>
+html.dark {
+  color-scheme: dark;
+}
+body {
+  @apply bg-slate-50 text-slate-800 dark:bg-[#181A1B] dark:text-[#DDDDDD];
+}
+</style>

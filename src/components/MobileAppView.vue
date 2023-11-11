@@ -1,5 +1,5 @@
 <template>
-  <a-tabs centered>
+  <a-tabs centered class="dark:text-[#ffffff]">
     <a-tab-pane key="1" tab="Dự chi thiết yếu">
       <EstimateNecessity :necessityLimitation="necessityLimitation" />
     </a-tab-pane>
@@ -9,11 +9,15 @@
         :columns="columnsIncome"
         :data="dataIncome"
         :totalIncome="totalIncome"
-        @action:updateDataTotalIncome="$emit('action:updateDataTotalIncome', $event)"
+        :isDark="isDark"
+        @action:updateDataTotalIncome="
+          $emit('action:updateDataTotalIncome', $event)
+        "
       />
     </a-tab-pane>
     <a-tab-pane key="3" tab="Xử lý thu nhập">
       <HandleIncome
+        :isDark="isDark"
         :columnsHandleIncome="columnsHandleIncome"
         :dataHandleIncome="dataHandleIncome"
       />
@@ -26,6 +30,7 @@ import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
+import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 
 type HandleIncomeType = {
   id: string;
@@ -47,6 +52,7 @@ export default {
     IncomeDebt,
     HandleIncome,
     EstimateNecessity,
+    ConfigProvider,
   },
   props: {
     necessityLimitation: {
@@ -72,6 +78,10 @@ export default {
     dataHandleIncome: {
       type: Array as () => HandleIncomeType[],
       default: () => [],
+    },
+    isDark: {
+      type: [Boolean, Object],
+      require: undefined,
     },
   },
   emits: ["action:updateDataTotalIncome"],

@@ -5,22 +5,25 @@
 
   <a-col :md="{ span: 8 }">
     <IncomeDebt
-      class="md:border-l md:border-r px-4"
       :columns="columnsIncome"
       :data="dataIncome"
       :totalIncome="totalIncome"
-      @action:updateDataTotalIncome="$emit('action:updateDataTotalIncome', $event)"
+      :isDark="isDark"
+      @action:updateDataTotalIncome="
+        $emit('action:updateDataTotalIncome', $event)
+      "
     />
   </a-col>
 
   <a-col :md="{ span: 10 }">
     <HandleIncome
+      :isDark="isDark"
       :columnsHandleIncome="columnsHandleIncome"
       :dataHandleIncome="dataHandleIncome"
     />
   </a-col>
 </template>
-<script lang=ts>
+<script lang="ts">
 import { Col } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -39,7 +42,6 @@ type HandleIncomeItem = {
   fund: string;
   amount: number;
 };
-
 
 export default {
   components: {
@@ -73,7 +75,11 @@ export default {
       type: Array as () => HandleIncomeType[],
       default: () => [],
     },
+    isDark: {
+      type: [Boolean, Object],
+      require: undefined,
+    },
   },
-  emits: ["action:updateDataTotalIncome"]
+  emits: ["action:updateDataTotalIncome"],
 };
 </script>
