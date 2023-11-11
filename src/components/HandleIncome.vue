@@ -1,5 +1,5 @@
 <template>
-  <div class="md:px-4 mt-4 md:my-0">
+  <div class="px-4">
     <Slider
       :list="data"
       :attrs="{
@@ -20,29 +20,31 @@
             <a-switch class="my-ant-switch" v-model:checked="isEditable" />
           </div>
         </div>
-        <a-table
-          v-if="!isEditable"
-          :columns="columns"
-          :data-source="data.items"
-          :key="index"
-          @change="onChange"
-          :pagination="{ hideOnSinglePage: true }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'amount'">
-              <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
+        <ConfigProvider :isDark="isDarkMode">
+          <a-table
+            v-if="!isEditable"
+            :columns="columns"
+            :data-source="data.items"
+            :key="index"
+            @change="onChange"
+            :pagination="{ hideOnSinglePage: true }"
+          >
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.dataIndex === 'amount'">
+                <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
+              </template>
+              <template v-if="column.dataIndex === 'type'">
+                <div class="flex flex-col">
+                  <p class="text-center">{{ record.wallet }}</p>
+                  <a-tag :color="tagColor(record.type)" class="text-center">{{
+                    record.type
+                  }}</a-tag>
+                </div>
+              </template>
             </template>
-            <template v-if="column.dataIndex === 'type'">
-              <div class="flex flex-col">
-                <p class="text-center">{{ record.wallet }}</p>
-                <a-tag :color="tagColor(record.type)" class="text-center">{{
-                  record.type
-                }}</a-tag>
-              </div>
-            </template>
-          </template>
-        </a-table>
-        <HandleIncomeEdit v-else :data="data.items" />
+          </a-table>
+          <HandleIncomeEdit v-else :data="data.items" />
+        </ConfigProvider>
       </template>
     </Slider>
   </div>
@@ -53,6 +55,7 @@ import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
+import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 
 type HandleIncomeType = {
   id: string;
@@ -74,6 +77,7 @@ export default {
     ASwitch: Switch,
     HandleIncomeEdit,
     Slider,
+    ConfigProvider,
   },
   props: {
     columnsHandleIncome: {
@@ -84,8 +88,13 @@ export default {
       type: Array as () => HandleIncomeType[],
       default: () => [],
     },
+    isDark: {
+      type: [Boolean, Object],
+      require: undefined,
+    },
   },
   setup(props) {
+    const isDarkMode = props.isDark;
     const isEditable = ref(false);
     const tagTypeColor: Record<string, string> = {
       necessity: "pink",
@@ -120,7 +129,15 @@ export default {
 
       return total;
     }
-    return { tagColor, columns, data, onChange, isEditable, calculateTotal };
+    return {
+      tagColor,
+      columns,
+      data,
+      onChange,
+      isEditable,
+      calculateTotal,
+      isDarkMode,
+    };
   },
 };
 </script>

@@ -6,7 +6,7 @@
     <h3 class="font-bold my-2">{{ data.wallet }}</h3>
     <div
       class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0"
-      :class="data.id && 'bg-[#E6F4FF]'"
+      :class="data.id && 'bg-[#E6F4FF] dark:bg-[#1D1D1D]'"
     >
       {{ data.name }}
     </div>
@@ -17,7 +17,7 @@
   <div class="text-center">
     <div
       v-if="data.percentage"
-      class="my-2 font-bold md:bg-[#FAFAFA] leading-[2.5rem] left-0 w-full"
+      class="my-2 font-bold md:bg-[#FAFAFA] md:dark:bg-[#1D1D1D] leading-[2.5rem] left-0 w-full"
     >
       {{
         new Intl.NumberFormat().format((totalIncome * data.percentage) / 100)
@@ -26,13 +26,15 @@
     <div v-else class="absolute bottom-0 left-0 w-full">
       <div class="md:hidden">
         <div class="flex justify-center items-center">
-          <p class="w-16 h-16 rounded-lg border-2 border-[#000000] flex justify-center items-center">
+          <p
+            class="w-16 h-16 rounded-lg border-2 border-[#000000] flex justify-center items-center"
+          >
             Logo
           </p>
         </div>
         <h3 class="font-bold my-2">Tên ví</h3>
         <div
-          class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0 bg-[#E6F4FF] my-2"
+          class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0 bg-[#E6F4FF] dark:bg-[#1D1D1D] my-2"
         >
           Tên quỹ
         </div>
@@ -45,7 +47,7 @@
         />
       </div>
       <p
-        class="my-2 font-bold bg-[#FAFAFA] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff] mx-4 md:mx-0"
+        class="my-2 font-bold bg-[#FAFAFA] dark:bg-[#1D1D1D] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff] dark:border-[#303030] mx-4 md:mx-0"
       >
         Limitation
       </p>
