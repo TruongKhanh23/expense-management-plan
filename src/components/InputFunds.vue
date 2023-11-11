@@ -18,7 +18,7 @@
       </div>
       <div class="flex flex-col">
         <div class="flex flex-col md:flex-row md:space-x-1 justify-between">
-          <div class="flex flex-row md:flex-col mb-2 h-fit md:w-[15%]">
+          <div class="flex md:flex-col mb-2 h-fit md:w-[15%]">
             <div class="md:w-full w-3/4 flex items-center">
               <label class="line-clamp-1" for="Necessity"
                 >Chi tiêu thiết yếu</label
