@@ -1,4 +1,5 @@
 <template>
+  <LoadingModal :isOpen="isOpenLoadingModal" />
   <div class="xl:mx-[8rem] mx-4 my-12 min-h-[750px]">
     <Funds
       v-if="funds"
@@ -54,8 +55,9 @@ import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
-
+import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import detectDevice from "@/utils/device.util";
+import handlePopup from "@/composables/loadingModal/index.js";
 
 export default {
   components: {
@@ -70,8 +72,11 @@ export default {
     Footer,
     DesktopAppView,
     MobileAppView,
+    LoadingModal,
   },
   setup() {
+    const { isOpenLoadingModal } = handlePopup();
+
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
@@ -124,6 +129,7 @@ export default {
       isTabletVertical,
       isTabletHorizontal,
       isDesktop,
+      isOpenLoadingModal,
     };
   },
 };
