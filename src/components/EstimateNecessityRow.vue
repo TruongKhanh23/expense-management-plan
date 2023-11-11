@@ -1,6 +1,6 @@
 <template>
   <a-row
-    class="border-b-[1px] border-[white] dark:border-[#303030] dark:bg-[#181A1B] dark:text-[#DDDDDD] leading-[3.5rem] flex justify-center items-center"
+    class="border-b-[1px] border-[#e5e7eb] dark:border-[#303030] dark:bg-[#181A1B] dark:text-[#DDDDDD] leading-[3.5rem] flex justify-center items-center"
     :class="rowClass"
   >
     <a-col flex="4" class="text-left pl-4" :class="nameColClass">{{
