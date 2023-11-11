@@ -13,6 +13,7 @@
     "@splidejs/vue-splide": "^0.6.12",
     "@vueuse/core": "^10.6.0",
     "ant-design-vue": "^4.0.3",
+    "feather-icons": "^4.29.1",
     "firebase": "^10.5.0",
     "tailwind-merge": "^1.14.0",
     "vue": "^3.3.4"
@@ -22,6 +23,7 @@
     "@tailwindcss/forms": "^0.5.6",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/feather-icons": "^4.29.4",
     "@types/node": "^20.8.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.16",

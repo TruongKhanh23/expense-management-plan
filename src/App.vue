@@ -39,15 +39,14 @@
       />
     </div>
   </div>
-  <div class="flex items-center justify-center my-12">
-    <button
-      class="px-4 py-2 text-white bg-green-500 dark:bg-purple-500 rounded"
-      @click="toggleDark()"
-    >
-      Toggle Dark Mode
-    </button>
+  <div
+    class="flex flex-col md:flex-row mb-12 gap-4 items-center justify-center"
+  >
+    <div class="flex items-center justify-center">
+      <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />
+    </div>
+    <Footer />
   </div>
-  <Footer class="mb-12" />
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
@@ -69,6 +68,7 @@ import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import detectDevice from "@/utils/device.util";
 import handlePopup from "@/composables/loadingModal/index.js";
 import { useDark, useToggle } from "@vueuse/core";
+import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 
 export default {
   components: {
@@ -84,6 +84,7 @@ export default {
     DesktopAppView,
     MobileAppView,
     LoadingModal,
+    ThemeSwitcher,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
