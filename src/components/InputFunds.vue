@@ -18,9 +18,11 @@
       </div>
       <div class="flex flex-col">
         <div class="flex flex-col md:flex-row md:space-x-1 justify-between">
-          <div class="flex md:flex-col mb-2 h-fit w-[15%]">
+          <div class="flex md:flex-col mb-2 h-fit md:w-[15%]">
             <div class="md:w-full w-3/4 flex items-center">
-              <label class="line-clamp-1" for="Necessity">Chi tiêu thiết yếu</label>
+              <label class="line-clamp-1" for="Necessity"
+                >Chi tiêu thiết yếu</label
+              >
             </div>
             <div class="md:w-full w-1/4">
               <a-form-item
@@ -39,7 +41,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
+          <div
+            class="flex md:flex-col items-center justify-center mb-2 md:w-[15%]"
+          >
             <div class="md:w-full w-3/4">
               <label class="line-clamp-1" for="input2">Tự do tài chính</label>
             </div>
@@ -60,7 +64,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
+          <div
+            class="flex md:flex-col items-center justify-center mb-2 md:w-[15%]"
+          >
             <div class="md:w-full w-3/4">
               <label class="line-clamp-1" for="input3">Giáo dục đào tạo</label>
             </div>
@@ -81,7 +87,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
+          <div
+            class="flex md:flex-col items-center justify-center mb-2 md:w-[15%]"
+          >
             <div class="md:w-full w-3/4">
               <label class="line-clamp-1" for="input4">Hưởng thụ</label>
             </div>
@@ -102,7 +110,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
+          <div
+            class="flex md:flex-col items-center justify-center mb-2 md:w-[15%]"
+          >
             <div class="md:w-full w-3/4">
               <label class="line-clamp-1" for="input5">Cho đi</label>
             </div>
@@ -123,7 +133,9 @@
               </a-form-item>
             </div>
           </div>
-          <div class="flex md:flex-col items-center justify-center mb-2 w-[15%]">
+          <div
+            class="flex md:flex-col items-center justify-center mb-2 md:w-[15%]"
+          >
             <div class="md:w-full w-3/4">
               <label class="line-clamp-1" for="input6">Tiết kiệm dài hạn</label>
             </div>
