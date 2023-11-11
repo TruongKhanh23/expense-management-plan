@@ -14,7 +14,7 @@
       <EstimateNecessityRow
         :name="item.name"
         :amount="sumOfDetails(item)"
-        :rowClass="'font-semibold bg-[#fafafa] dark:bg-[#141414] cursor-pointer'"
+        :rowClass="'font-semibold bg-[#fafafa] dark:bg-[#141414] dark:hover:bg-[#1B1B1B] cursor-pointer'"
         @click="toggleDropDown(item.id)"
       />
       <div v-if="isDropDownOpen(item.id)">
