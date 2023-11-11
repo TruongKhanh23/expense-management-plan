@@ -167,6 +167,6 @@ html.dark {
   color-scheme: dark;
 }
 body {
-  @apply bg-slate-50 text-slate-800 dark:bg-[#181A1B] dark:text-[#DDDDDD];
+  @apply bg-[white] text-slate-800 dark:bg-[#181A1B] dark:text-[#DDDDDD];
 }
 </style>

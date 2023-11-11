@@ -47,7 +47,7 @@
         />
       </div>
       <p
-        class="my-2 font-bold bg-[#FAFAFA] dark:bg-[#1D1D1D] rounded-l-full leading-[2.5rem] border-r-2 border-[#ffffff] dark:border-[#303030] mx-4 md:mx-0"
+        class="my-2 font-bold bg-[#FAFAFA] dark:bg-[#1D1D1D] rounded-l-full leading-[2.5rem] dark:border-[#303030] mx-4 md:mx-0"
       >
         Limitation
       </p>
