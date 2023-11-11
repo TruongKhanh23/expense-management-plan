@@ -27,7 +27,11 @@
           v-for="subItem in item.details"
           :key="subItem"
         >
-          <EstimateNecessityRow :name="subItem.name" :amount="subItem.amount" />
+          <EstimateNecessityRow
+            :rowClass="'dark:bg-[#141414]'"
+            :name="subItem.name"
+            :amount="subItem.amount"
+          />
         </template>
         <EstimateNecessityEdit v-else :data="item" />
       </div>
