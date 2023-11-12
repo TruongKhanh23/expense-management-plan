@@ -26,7 +26,10 @@
             :columns="columns"
             :data-source="data.items"
             :key="index"
-            :row-selection="rowSelection"
+            :row-selection="{
+              selectedRowKeys: state.selectedRowKeys,
+              onChange: onSelectChange,
+            }"
             @change="onChange"
             :pagination="{ hideOnSinglePage: true }"
           >
@@ -51,12 +54,14 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+
+type Key = string | number;
 
 type HandleIncomeType = {
   id: string;
@@ -131,33 +136,19 @@ export default {
       return total;
     }
 
-    const rowSelection = ref({
-      checkStrictly: false,
-      onChange: (
-        selectedRowKeys: (string | number)[],
-        selectedRows: HandleIncomeItem[],
-      ) => {
-        console.log(
-          `selectedRowKeys: ${selectedRowKeys}`,
-          "selectedRows: ",
-          selectedRows,
-        );
-      },
-      onSelect: (
-        record: HandleIncomeItem,
-        selected: boolean,
-        selectedRows: HandleIncomeItem[],
-      ) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (
-        selected: boolean,
-        selectedRows: HandleIncomeItem[],
-        changeRows: HandleIncomeItem[],
-      ) => {
-        console.log(selected, selectedRows, changeRows);
-      },
+    // Handle row selection
+    const state = reactive<{
+      selectedRowKeys: Key[];
+      loading: boolean;
+    }>({
+      selectedRowKeys: [], // Check here to configure the default column
+      loading: false,
     });
+
+    const onSelectChange = (selectedRowKeys: Key[]) => {
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
+      state.selectedRowKeys = selectedRowKeys;
+    };
 
     return {
       tagColor,
@@ -167,7 +158,8 @@ export default {
       isEditable,
       calculateTotal,
       isDarkMode,
-      rowSelection,
+      onSelectChange,
+      state,
     };
   },
 };
