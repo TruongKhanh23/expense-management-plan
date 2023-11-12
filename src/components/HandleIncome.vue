@@ -26,6 +26,7 @@
             :columns="columns"
             :data-source="data.items"
             :key="index"
+            :row-selection="rowSelection"
             @change="onChange"
             :pagination="{ hideOnSinglePage: true }"
           >
@@ -129,6 +130,35 @@ export default {
 
       return total;
     }
+
+    const rowSelection = ref({
+      checkStrictly: false,
+      onChange: (
+        selectedRowKeys: (string | number)[],
+        selectedRows: HandleIncomeItem[],
+      ) => {
+        console.log(
+          `selectedRowKeys: ${selectedRowKeys}`,
+          "selectedRows: ",
+          selectedRows,
+        );
+      },
+      onSelect: (
+        record: HandleIncomeItem,
+        selected: boolean,
+        selectedRows: HandleIncomeItem[],
+      ) => {
+        console.log(record, selected, selectedRows);
+      },
+      onSelectAll: (
+        selected: boolean,
+        selectedRows: HandleIncomeItem[],
+        changeRows: HandleIncomeItem[],
+      ) => {
+        console.log(selected, selectedRows, changeRows);
+      },
+    });
+
     return {
       tagColor,
       columns,
@@ -137,6 +167,7 @@ export default {
       isEditable,
       calculateTotal,
       isDarkMode,
+      rowSelection,
     };
   },
 };
