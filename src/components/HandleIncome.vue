@@ -52,14 +52,18 @@
       </template>
     </Slider>
   </div>
+  <p>{{ selectedRows }}</p>
 </template>
 <script lang="ts">
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, watch } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
+
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+
+import { setSolvedHandleIncomes } from "@/composables/handleIncomes/index.js";
 
 type Key = string | number;
 
@@ -74,6 +78,7 @@ type HandleIncomeItem = {
   type: string;
   fund: string;
   amount: number;
+  isSolved: boolean;
 };
 
 export default {
@@ -137,16 +142,37 @@ export default {
     }
 
     // Handle row selection
+    const selectedRows = ref<string[]>([]);
+    watch(
+      () => props.dataHandleIncome,
+      (newData) => {
+        selectedRows.value = calculateSelectedRows(newData);
+      },
+    );
+    const calculateSelectedRows = (data: any[]) => {
+      const result: string[] = [];
+      for (const type of data) {
+        for (const item of type.items) {
+          if (item.isSolved) {
+            result.push(item.key);
+          }
+        }
+      }
+      return result;
+    };
     const state = reactive<{
       selectedRowKeys: Key[];
       loading: boolean;
     }>({
-      selectedRowKeys: [], // Check here to configure the default column
+      selectedRowKeys: selectedRows.value ? [...selectedRows.value] : [], // Check here to configure the default column
       loading: false,
     });
 
-    const onSelectChange = (selectedRowKeys: Key[]) => {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
+    const onSelectChange = async (
+      selectedRowKeys: Key[],
+      selectedRows: HandleIncomeItem[],
+    ) => {
+      await setSolvedHandleIncomes(selectedRows, selectedRowKeys);
       state.selectedRowKeys = selectedRowKeys;
     };
 
@@ -160,6 +186,7 @@ export default {
       isDarkMode,
       onSelectChange,
       state,
+      selectedRows,
     };
   },
 };
