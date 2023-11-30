@@ -12,7 +12,7 @@
       "key": "amount"
     }
   ],
-  "dataIncome": [
+  "incomes": [
     {
       "key": "1",
       "source": "Lương",
@@ -69,139 +69,181 @@
       "dataIndex": "amount"
     }
   ],
-  "dataHandleIncome": [
+  "handleIncomes": [
     {
-      "key": "1",
-      "wallet": "Momo",
-      "fund": "Q. CT thiết yếu",
-      "type": "necessity",
-      "amount": 1259499
+      "id": "necessity",
+      "item": [
+        {
+          "key": "1",
+          "wallet": "Momo",
+          "fund": "Q. CT thiết yếu",
+          "type": "necessity",
+          "amount": 1259499
+        },
+        {
+          "key": "2",
+          "wallet": "Momo",
+          "fund": "Q. Nội thất",
+          "type": "necessity",
+          "amount": 200000
+        },
+        {
+          "key": "3",
+          "wallet": "VinID",
+          "fund": "Q. Lavie",
+          "type": "necessity",
+          "amount": 222000
+        },
+        {
+          "key": "4",
+          "wallet": "Shopee",
+          "fund": "Q. Khám bệnh",
+          "type": "necessity",
+          "amount": 300000
+        }
+      ],
+      "order": 0,
+      "type": "Thiết yếu"
     },
     {
-      "key": "2",
-      "wallet": "Momo",
-      "fund": "Q. Nội thất",
-      "type": "necessity",
-      "amount": 200000
+      "id": "freedom",
+      "item": [
+        {
+          "key": "5",
+          "wallet": "VinID",
+          "fund": "Q. Du lịch",
+          "type": "freedom",
+          "amount": 600000
+        }
+      ],
+      "order": 1,
+      "type": "Tự do tài chính"
     },
     {
-      "key": "3",
-      "wallet": "VinID",
-      "fund": "Q. Du lịch",
-      "type": "freedom",
-      "amount": 600000
+      "id": "education",
+      "item": [
+        {
+          "key": "6",
+          "wallet": "VNPay",
+          "fund": "Q. Học tập",
+          "type": "education",
+          "amount": 265000
+        },
+        {
+          "key": "7",
+          "wallet": "VinID",
+          "fund": "Qũy Goalify",
+          "type": "education",
+          "amount": 35000
+        },
+        {
+          "key": "8",
+          "wallet": "VinID",
+          "fund": "Trả mua ghế công thái",
+          "type": "education",
+          "amount": 100000
+        },
+        {
+          "key": "9",
+          "wallet": "ZaloPay",
+          "fund": "Trả tiền lễ tốt nghiệp",
+          "type": "education",
+          "amount": 200000
+        }
+      ],
+      "order": 2,
+      "type": "Phát triển bản thân"
     },
     {
-      "key": "4",
-      "wallet": "Momo",
-      "fund": "Ví chính H.Thụ",
-      "type": "enjoy",
-      "amount": 670000
+      "id": "enjoy",
+      "item": [
+        {
+          "key": "10",
+          "wallet": "Tiền mặt",
+          "fund": "Hưởng thụ",
+          "type": "enjoy",
+          "amount": 400000
+        },
+        {
+          "key": "11",
+          "wallet": "Momo",
+          "fund": "Chuyển tiền ăn vặt vợ",
+          "type": "enjoy",
+          "amount": 300000
+        },
+        {
+          "key": "12",
+          "wallet": "VinID",
+          "fund": "Q. Gia hạn sim",
+          "type": "enjoy",
+          "amount": 100000
+        },
+        {
+          "key": "13",
+          "wallet": "VinID",
+          "fund": "Qũy Vieon",
+          "type": "enjoy",
+          "amount": 30000
+        },
+        {
+          "key": "14",
+          "wallet": "Momo",
+          "fund": "Ví chính H.Thụ",
+          "type": "enjoy",
+          "amount": 670000
+        }
+      ],
+      "order": 3,
+      "type": "Hưởng thụ"
     },
     {
-      "key": "5",
-      "wallet": "Tiền mặt",
-      "fund": "Hưởng thụ",
-      "type": "enjoy",
-      "amount": 400000
+      "id": "giving",
+      "item": [
+        {
+          "key": "15",
+          "wallet": "ZaloPay",
+          "fund": "Q. Cho đi",
+          "type": "giving",
+          "amount": null
+        },
+        {
+          "key": "16",
+          "wallet": "VinID",
+          "fund": "Qũy birthday mẹ Sang",
+          "type": "giving",
+          "amount": 100000
+        },
+        {
+          "key": "17",
+          "wallet": "VinID",
+          "fund": "Qũy birthday mẹ Linh",
+          "type": "giving",
+          "amount": 100000
+        },
+        {
+          "key": "18",
+          "wallet": "ZaloPay",
+          "fund": "Trả tiền cưới Thương Q",
+          "type": "giving",
+          "amount": 400000
+        }
+      ],
+      "order": 4,
+      "type": "Cho đi"
     },
     {
-      "key": "6",
-      "wallet": "Momo",
-      "fund": "Chuyển tiền ăn vặt vợ",
-      "type": "enjoy",
-      "amount": 300000
-    },
-    {
-      "key": "7",
-      "wallet": "VinID",
-      "fund": "Q. Gia hạn sim",
-      "type": "enjoy",
-      "amount": 100000
-    },
-    {
-      "key": "8",
-      "wallet": "VinID",
-      "fund": "Qũy Vieon",
-      "type": "enjoy",
-      "amount": 30000
-    },
-    {
-      "key": "9",
-      "wallet": "VNPay",
-      "fund": "Q. Học tập",
-      "type": "education",
-      "amount": 265000
-    },
-    {
-      "key": "10",
-      "wallet": "VinID",
-      "fund": "Qũy Goalify",
-      "type": "education",
-      "amount": 35000
-    },
-    {
-      "key": "11",
-      "wallet": "VinID",
-      "fund": "Trả mua ghế công thái",
-      "type": "education",
-      "amount": 100000
-    },
-    {
-      "key": "12",
-      "wallet": "ZaloPay",
-      "fund": "Trả tiền lễ tốt nghiệp",
-      "type": "education",
-      "amount": 200000
-    },
-    {
-      "key": "13",
-      "wallet": "ZaloPay",
-      "fund": "Q. Cho đi",
-      "type": "giving",
-      "amount": null
-    },
-    {
-      "key": "14",
-      "wallet": "VinID",
-      "fund": "Qũy birthday mẹ Sang",
-      "type": "giving",
-      "amount": 100000
-    },
-    {
-      "key": "15",
-      "wallet": "VinID",
-      "fund": "Qũy birthday mẹ Linh",
-      "type": "giving",
-      "amount": 100000
-    },
-    {
-      "key": "16",
-      "wallet": "ZaloPay",
-      "fund": "Trả tiền cưới Thương Q",
-      "type": "giving",
-      "amount": 400000
-    },
-    {
-      "key": "17",
-      "wallet": "ZaloPay",
-      "fund": "TK tích lũy",
-      "type": "longTermSaving",
-      "amount": 2200000
-    },
-    {
-      "key": "18",
-      "wallet": "VinID",
-      "fund": "Q. Lavie",
-      "type": "necessity",
-      "amount": 222000
-    },
-    {
-      "key": "19",
-      "wallet": "Shopee",
-      "fund": "Q. Khám bệnh",
-      "type": "necessity",
-      "amount": 300000
+      "id": "longTermSaving",
+      "item": [
+        {
+          "key": "19",
+          "wallet": "ZaloPay",
+          "fund": "TK tích lũy",
+          "type": "longTermSaving",
+          "amount": 2200000
+        }
+      ],
+      "order": 5,
+      "type": "Tiết kiệm dài hạn"
     }
   ],
   "funds": [
@@ -260,6 +302,106 @@
       "wallet": "Tài khoản tích lũy",
       "name": "Tiết kiệm dài hạn",
       "classColor": "bg-[#f9a484]"
+    }
+  ],
+  "estimateNecessityExpenses": [
+    {
+      "id": "necessity",
+      "details": [
+        {
+          "amount": 4000000,
+          "id": "eating",
+          "name": "Ăn"
+        },
+        {
+          "amount": 524400,
+          "id": "electric",
+          "name": "Điện"
+        },
+        {
+          "amount": 200000,
+          "id": "water",
+          "name": "Nước"
+        },
+        {
+          "amount": 100000,
+          "id": "services",
+          "name": "Dịch vụ"
+        },
+        {
+          "amount": 6500000,
+          "id": "rentHouse",
+          "name": "Nhà"
+        },
+        {
+          "amount": 200000,
+          "id": "petroleum",
+          "name": "Xăng xe"
+        },
+        {
+          "amount": 200000,
+          "id": "bikeKeeping",
+          "name": "Gửi xe"
+        }
+      ],
+      "name": "Chi tiêu thiết yếu",
+      "order": 1
+    },
+    {
+      "id": "necessityFund",
+      "details": [
+        {
+          "amount": 70000,
+          "id": "shampoo",
+          "name": "Dầu gội, sửa tắm"
+        },
+        {
+          "amount": 821950,
+          "id": "skinCare",
+          "name": "Sức khỏe da mặt"
+        },
+        {
+          "amount": 95000,
+          "id": "teeth",
+          "name": "Răng miệng"
+        },
+        {
+          "amount": 184247,
+          "id": "body",
+          "name": "Body"
+        },
+        {
+          "amount": 288300,
+          "id": "rentHouse",
+          "name": "Đồ trong nhà"
+        }
+      ],
+      "name": "Quỹ thiết yếu",
+      "order": 2
+    },
+    {
+      "id": "healthFund",
+      "details": [
+        {
+          "amount": 300000,
+          "id": "healthFund",
+          "name": "Qũy sức khỏe"
+        }
+      ],
+      "name": "Quỹ khám bệnh",
+      "order": 3
+    },
+    {
+      "id": "waterLavieFund",
+      "details": [
+        {
+          "amount": 222000,
+          "id": "waterLavieFund",
+          "name": "Qũy Lavie"
+        }
+      ],
+      "name": "Quỹ Lavie",
+      "order": 4
     }
   ]
 }
