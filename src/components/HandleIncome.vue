@@ -25,6 +25,10 @@
             v-if="!isEditable"
             :columns="columns"
             :data-source="data.items"
+            :row-selection="{
+              selectedRowKeys: state.selectedRowKeys,
+              onChange: onSelectChange,
+            }"
             :key="index"
             @change="onChange"
             :pagination="{ hideOnSinglePage: true }"
@@ -50,15 +54,17 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, computed } from "vue";
-import { Table, Tag, Switch } from "ant-design-vue";
+import { ref, computed, reactive, watch } from "vue";
+import { Button, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 
+type Key = string;
+
 type HandleIncomeType = {
-  id: string;
+  key: string;
   type: string;
   items: HandleIncomeItem[];
 };
@@ -72,8 +78,9 @@ type HandleIncomeItem = {
 
 export default {
   components: {
-    ATag: Tag,
+    AButton: Button,
     ATable: Table,
+    ATag: Tag,
     ASwitch: Switch,
     HandleIncomeEdit,
     Slider,
@@ -109,18 +116,55 @@ export default {
         return tagTypeColor[type];
       }
     }
+
     const columns: TableColumnType<HandleIncomeItem>[] =
       props.columnsHandleIncome as TableColumnType<HandleIncomeItem>[];
 
     const data: any = computed(() => props.dataHandleIncome);
-    const onChange: TableProps<HandleIncomeItem>["onChange"] = (
-      pagination,
-      filters,
-      sorter,
-    ) => {
-      console.log("params", pagination, filters, sorter);
-    };
 
+    const itemsCheck = computed(() => {
+      const result = [];
+      console.log("data.value", data.value);
+      
+      for (const funds of data.value) {
+        console.log("funds", funds.items);
+
+        for (const item of funds.items) {
+          if (item.isSolved) {
+            result.push(item.key);
+          }
+        }
+      }
+      console.log("result", result);
+
+      return result;
+    });
+
+    watch(itemsCheck, async () => {
+      // Khi props.dataHandleIncome thay đổi, cập nhật giá trị mới cho selectedRowKeys
+      state.selectedRowKeys = itemsCheck.value;
+    });
+
+    const state = reactive<{
+      selectedRowKeys: Key[];
+      loading: boolean;
+    }>({
+      selectedRowKeys: itemsCheck.value, // Check here to configure the default column
+      loading: false,
+    });
+    const hasSelected = computed(() => state.selectedRowKeys.length > 0);
+
+    const start = () => {
+      state.loading = true;
+      // ajax request after empty completing
+      setTimeout(() => {
+        state.loading = false;
+        state.selectedRowKeys = [];
+      }, 1000);
+    };
+    const onSelectChange = async (selectedRowKeys: Key[]) => {
+      state.selectedRowKeys = selectedRowKeys;
+    };
     function calculateTotal(values: any) {
       let total = 0;
       for (const item of values) {
@@ -129,16 +173,28 @@ export default {
 
       return total;
     }
+
+    const onChange: TableProps<HandleIncomeItem>["onChange"] = (
+      pagination,
+      filters,
+      sorter,
+    ) => {
+      console.log("params", pagination, filters, sorter);
+    };
+
     return {
-      tagColor,
       columns,
       data,
-      onChange,
-      isEditable,
+      state,
+      hasSelected,
+      start,
+      onSelectChange,
       calculateTotal,
+      tagColor,
       isDarkMode,
+      isEditable,
+      onChange,
     };
   },
 };
 </script>
-<style scoped></style>
