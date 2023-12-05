@@ -1,43 +1,51 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <div class="xl:mx-[8rem] mx-4 my-12 min-h-[750px]">
-    <Funds
-      v-if="funds"
-      :funds="funds"
-      :totalIncome="totalIncome"
-      @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
-    />
-    <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
-    <!-- Mobile View -->
-    <div v-if="(isMobile || isTabletVertical) && dataIncome">
-      <MobileAppView
-        :necessityLimitation="necessityLimitation"
-        :columnsIncome="columnsIncome"
-        :dataIncome="dataIncome"
-        :totalIncome="totalIncome"
-        :columnsHandleIncome="columnsHandleIncome"
-        :dataHandleIncome="dataHandleIncome"
-        :isDark="isDarkProps"
-        @action:updateDataTotalIncome="handleUpdateTotalIncome"
-      />
-    </div>
+  <div class="xl:mx-[8rem] mx-4 my-8 min-h-[750px]">
+    <a-tabs centered class="dark:text-[#ffffff]">
+      <a-tab-pane key="1" tab="Quản lý chi tiêu">
+        <Funds
+          v-if="funds"
+          class="mt-4"
+          :funds="funds"
+          :totalIncome="totalIncome"
+          @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
+        />
+        <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
+        <!-- Mobile View -->
+        <div v-if="(isMobile || isTabletVertical) && dataIncome">
+          <MobileAppView
+            :necessityLimitation="necessityLimitation"
+            :columnsIncome="columnsIncome"
+            :dataIncome="dataIncome"
+            :totalIncome="totalIncome"
+            :columnsHandleIncome="columnsHandleIncome"
+            :dataHandleIncome="dataHandleIncome"
+            :isDark="isDarkProps"
+            @action:updateDataTotalIncome="handleUpdateTotalIncome"
+          />
+        </div>
 
-    <!-- Desktop View-->
-    <div
-      v-if="(isDesktop || isTabletHorizontal) && dataIncome"
-      class="flex flex-col md:flex-row my-4"
-    >
-      <DesktopAppView
-        :necessityLimitation="necessityLimitation"
-        :columnsIncome="columnsIncome"
-        :dataIncome="dataIncome"
-        :totalIncome="totalIncome"
-        :columnsHandleIncome="columnsHandleIncome"
-        :dataHandleIncome="dataHandleIncome"
-        :isDark="isDarkProps"
-        @action:updateDataTotalIncome="handleUpdateTotalIncome"
-      />
-    </div>
+        <!-- Desktop View-->
+        <div
+          v-if="(isDesktop || isTabletHorizontal) && dataIncome"
+          class="flex flex-col md:flex-row my-4"
+        >
+          <DesktopAppView
+            :necessityLimitation="necessityLimitation"
+            :columnsIncome="columnsIncome"
+            :dataIncome="dataIncome"
+            :totalIncome="totalIncome"
+            :columnsHandleIncome="columnsHandleIncome"
+            :dataHandleIncome="dataHandleIncome"
+            :isDark="isDarkProps"
+            @action:updateDataTotalIncome="handleUpdateTotalIncome"
+          />
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
+        <NecessaryThings :isDark="isDarkProps" />
+      </a-tab-pane>
+    </a-tabs>
   </div>
   <div
     class="flex flex-col md:flex-row mb-12 gap-4 items-center justify-center"
@@ -69,6 +77,7 @@ import detectDevice from "@/utils/device.util";
 import handlePopup from "@/composables/loadingModal/index.js";
 import { useDark, useToggle } from "@vueuse/core";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import NecessaryThings from "./components/NecessaryThings.vue";
 
 export default {
   components: {
@@ -85,6 +94,7 @@ export default {
     MobileAppView,
     LoadingModal,
     ThemeSwitcher,
+    NecessaryThings,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
