@@ -52,6 +52,7 @@ type NecessaryThingsItem = {
   timespan: number;
   savePerMonth: number;
   limitation: number;
+  type:string;
 };
 
 export default {
