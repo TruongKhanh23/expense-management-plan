@@ -26,6 +26,10 @@
             :columns="columns"
             :data-source="data.items"
             :key="index"
+            :row-selection="{
+              selectedRowKeys: state.selectedRowKeys,
+              onChange: onSelectChange,
+            }"
             @change="onChange"
             :pagination="{ hideOnSinglePage: true }"
           >
@@ -48,14 +52,20 @@
       </template>
     </Slider>
   </div>
+  <p>{{ selectedRows }}</p>
 </template>
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, reactive, watch } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
+
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+
+import { setSolvedHandleIncomes } from "@/composables/handleIncomes/index.js";
+
+type Key = string | number;
 
 type HandleIncomeType = {
   id: string;
@@ -68,6 +78,7 @@ type HandleIncomeItem = {
   type: string;
   fund: string;
   amount: number;
+  isSolved: boolean;
 };
 
 export default {
@@ -129,6 +140,42 @@ export default {
 
       return total;
     }
+
+    // Handle row selection
+    const selectedRows = ref<string[]>([]);
+    watch(
+      () => props.dataHandleIncome,
+      (newData) => {
+        selectedRows.value = calculateSelectedRows(newData);
+      },
+    );
+    const calculateSelectedRows = (data: any[]) => {
+      const result: string[] = [];
+      for (const type of data) {
+        for (const item of type.items) {
+          if (item.isSolved) {
+            result.push(item.key);
+          }
+        }
+      }
+      return result;
+    };
+    const state = reactive<{
+      selectedRowKeys: Key[];
+      loading: boolean;
+    }>({
+      selectedRowKeys: selectedRows.value ? [...selectedRows.value] : [], // Check here to configure the default column
+      loading: false,
+    });
+
+    const onSelectChange = async (
+      selectedRowKeys: Key[],
+      selectedRows: HandleIncomeItem[],
+    ) => {
+      await setSolvedHandleIncomes(selectedRows, selectedRowKeys);
+      state.selectedRowKeys = selectedRowKeys;
+    };
+
     return {
       tagColor,
       columns,
@@ -137,6 +184,9 @@ export default {
       isEditable,
       calculateTotal,
       isDarkMode,
+      onSelectChange,
+      state,
+      selectedRows,
     };
   },
 };

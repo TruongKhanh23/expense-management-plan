@@ -6,6 +6,7 @@ import {
   query,
   setDoc,
   doc,
+  orderBy,
 } from "firebase/firestore";
 
 const pathSegments = [
@@ -22,21 +23,24 @@ export async function getHandleIncomes() {
   try {
     const count = ref(0);
     const list = ref([]);
-    onSnapshot(query(collection(db, ...pathSegments)), (snap) => {
-      count.value++;
-      if (count.value > 1) {
-        list.value = [];
-      }
-      snap.forEach((doc) => {
-        const data = doc.data();
-        const item = {
-          key: doc.id,
-          ...data,
-        };
-        list.value.push(item);
-      });
-      localStorage.setItem("handleIncomes", JSON.stringify(list.value));
-    });
+    onSnapshot(
+      query(collection(db, ...pathSegments), orderBy("order", "asc")),
+      (snap) => {
+        count.value++;
+        if (count.value > 1) {
+          list.value = [];
+        }
+        snap.forEach((doc) => {
+          const data = doc.data();
+          const item = {
+            key: doc.id,
+            ...data,
+          };
+          list.value.push(item);
+        });
+        localStorage.setItem("handleIncomes", JSON.stringify(list.value));
+      },
+    );
     return list.value;
   } catch (error) {
     alert("Get handleIncomes failed");
@@ -57,4 +61,12 @@ export async function setHandleIncomes(values) {
   } catch (error) {
     alert(`Set HandleIncomes failed: ${error}`);
   }
+}
+
+export async function setSolvedHandleIncomes(selectedRows, selectedRowKeys) {
+  console.log("selectedRows", selectedRows);
+  for (const row of selectedRows) {
+    row.isSolved = !row.isSolved ?? true;
+  }
+  await setHandleIncomes(selectedRows);
 }
