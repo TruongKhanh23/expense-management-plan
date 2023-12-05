@@ -29,12 +29,8 @@ import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
+import { HandleIncomeType } from "@/composables/type/index.ts";
 
-type HandleIncomeType = {
-  id: string;
-  type: string;
-  items: HandleIncomeItem[];
-};
 type HandleIncomeItem = {
   key: string;
   wallet: string;
@@ -42,6 +38,7 @@ type HandleIncomeItem = {
   fund: string;
   amount: number;
 };
+
 
 export default {
   components: {

@@ -60,14 +60,9 @@ import type { TableColumnType, TableProps } from "ant-design-vue";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+import { Key } from "ant-design-vue/es/table/interface";
+import { HandleIncomeType } from "@/composables/type/index.ts";
 
-type Key = string;
-
-type HandleIncomeType = {
-  key: string;
-  type: string;
-  items: HandleIncomeItem[];
-};
 type HandleIncomeItem = {
   key: string;
   wallet: string;
@@ -162,7 +157,8 @@ export default {
         state.selectedRowKeys = [];
       }, 1000);
     };
-    const onSelectChange = async (selectedRowKeys: Key[]) => {
+    const onSelectChange = (selectedRowKeys: Key[], selectedRows: any[]) => {
+      console.log("selectedRows", selectedRows);
       state.selectedRowKeys = selectedRowKeys;
     };
     function calculateTotal(values: any) {
