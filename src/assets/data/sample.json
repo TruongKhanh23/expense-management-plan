@@ -72,7 +72,7 @@
   "handleIncomes": [
     {
       "id": "necessity",
-      "item": [
+      "items": [
         {
           "key": "1",
           "wallet": "Momo",
@@ -107,7 +107,7 @@
     },
     {
       "id": "freedom",
-      "item": [
+      "items": [
         {
           "key": "5",
           "wallet": "VinID",
@@ -121,7 +121,7 @@
     },
     {
       "id": "education",
-      "item": [
+      "items": [
         {
           "key": "6",
           "wallet": "VNPay",
@@ -155,8 +155,8 @@
       "type": "Phát triển bản thân"
     },
     {
-      "id": "enjoy",
-      "item": [
+      "id": "relax",
+      "items": [
         {
           "key": "10",
           "wallet": "Tiền mặt",
@@ -198,7 +198,7 @@
     },
     {
       "id": "giving",
-      "item": [
+      "items": [
         {
           "key": "15",
           "wallet": "ZaloPay",
@@ -233,7 +233,7 @@
     },
     {
       "id": "longTermSaving",
-      "item": [
+      "items": [
         {
           "key": "19",
           "wallet": "ZaloPay",
@@ -248,60 +248,58 @@
   ],
   "funds": [
     {
-      "id": "",
-      "src": "",
-      "percentage": "",
-      "wallet": "",
-      "name": "",
-      "classColor": ""
-    },
-    {
       "id": "necessity",
-      "src": "momo",
+      "src": "/momo.svg",
       "percentage": 72.5,
       "wallet": "Túi thần tài",
       "name": "Nhu cầu thiết yếu",
-      "classColor": "bg-[#ffabab]"
+      "classColor": "bg-[#ffabab]",
+      "order": 1
     },
     {
       "id": "freedom",
-      "src": "momo",
+      "src": "/momo.svg",
       "percentage": 3,
       "wallet": "Qũy nhóm",
       "name": "Tự do tài chính",
-      "classColor": "bg-[#63b5ff]"
+      "classColor": "bg-[#63b5ff]",
+      "order": 2
     },
     {
       "id": "education",
-      "src": "vnpay",
+      "src": "/vnpay.png",
       "percentage": 3,
       "wallet": "Ví chính",
       "name": "Giáo dục đào tạo",
-      "classColor": "bg-[#97a2ff]"
+      "classColor": "bg-[#97a2ff]",
+      "order": 3
     },
     {
       "id": "relax",
-      "src": "momo",
+      "src": "/momo.svg",
       "percentage": 7.5,
       "wallet": "Ví chính",
       "name": "Hưởng thụ",
-      "classColor": "bg-[#76de82]"
+      "classColor": "bg-[#76de82]",
+      "order": 4
     },
     {
       "id": "giving",
-      "src": "zalopay",
+      "src": "/zalopay.png",
       "percentage": 3,
       "wallet": "Ví chính",
       "name": "Cho đi",
-      "classColor": "bg-[#c0c0c0]"
+      "classColor": "bg-[#c0c0c0]",
+      "order": 5
     },
     {
       "id": "longTermSaving",
-      "src": "zalopay",
+      "src": "/zalopay.png",
       "percentage": 11,
       "wallet": "Tài khoản tích lũy",
       "name": "Tiết kiệm dài hạn",
-      "classColor": "bg-[#f9a484]"
+      "classColor": "bg-[#f9a484]",
+      "order": 6
     }
   ],
   "estimateNecessityExpenses": [
