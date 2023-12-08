@@ -1,21 +1,13 @@
 import { ref } from "vue";
 import { db } from "@/main";
+import { buildPathSegments } from "@/composables/segment/index.js"
 import { collection, onSnapshot, orderBy, query, setDoc, doc } from "firebase/firestore";
 
-const pathSegments = [
-  "users",
-  "admin",
-  "years",
-  "2023",
-  "months",
-  "01-2023",
-  "incomes",
-];
-
-export async function getIncomes() {
+export async function getIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
     const incomes = ref([]);
+    const pathSegments = buildPathSegments("incomes", year, monthYear, user)
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("amount", "desc")),
       (snap) => {
@@ -42,6 +34,7 @@ export async function getIncomes() {
 }
 export async function setIncomes(values) {
   try {
+    const pathSegments = buildPathSegments("incomes")
     for (const id of Object.keys(values)){
       await setDoc(
         doc(db, ...pathSegments, id),

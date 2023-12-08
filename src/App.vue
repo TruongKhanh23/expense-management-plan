@@ -54,6 +54,7 @@
       <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />
     </div>
     <Footer />
+    <button @click="handleCreateNewMonth">Create new month</button>
   </div>
 </template>
 <script lang="ts">
@@ -78,6 +79,7 @@ import handlePopup from "@/composables/loadingModal/index.js";
 import { useDark, useToggle } from "@vueuse/core";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "./components/NecessaryThings.vue";
+import { createNewMonth } from "@/composables/collection/index.js"
 
 export default {
   components: {
@@ -139,14 +141,23 @@ export default {
     });
 
     (async () => {
-      funds.value = await getFunds();
-      dataIncome.value = await getIncomes();
-      dataHandleIncome.value = await getHandleIncomes();
+      const currentDate = new Date()
+      const currentMonth = (currentDate.getMonth() + 1).toString()
+      const currentYear = currentDate.getFullYear().toString()
+      const currentMonthYear = `${currentMonth}-${currentYear}`
+
+      funds.value = await getFunds(currentYear, currentMonthYear);
+      dataIncome.value = await getIncomes(currentYear, currentMonthYear);
+      dataHandleIncome.value = await getHandleIncomes(currentYear, currentMonthYear);
     })();
 
     const isFundsEditable = ref(false);
     function handleUpdateIsFundsEditable() {
       isFundsEditable.value = !isFundsEditable.value;
+    }
+
+    async function handleCreateNewMonth() {
+      await createNewMonth()
     }
 
     return {
@@ -168,6 +179,7 @@ export default {
       isDark,
       toggleDark,
       isDarkProps,
+      handleCreateNewMonth,
     };
   },
 };
