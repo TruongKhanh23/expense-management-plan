@@ -3,6 +3,8 @@
   <div class="xl:mx-[8rem] mx-4 my-8 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
+        <ChooseMonth class="mt-4 mb-8" :isDark="isDarkProps" />
+
         <Funds
           v-if="funds"
           class="mt-4"
@@ -79,7 +81,8 @@ import handlePopup from "@/composables/loadingModal/index.js";
 import { useDark, useToggle } from "@vueuse/core";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "./components/NecessaryThings.vue";
-import { createNewMonth } from "@/composables/collection/index.js"
+import { createNewMonth } from "@/composables/collection/index.js";
+import ChooseMonth from "@/components/ChooseMonth.vue";
 
 export default {
   components: {
@@ -97,6 +100,7 @@ export default {
     LoadingModal,
     ThemeSwitcher,
     NecessaryThings,
+    ChooseMonth,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
@@ -141,14 +145,17 @@ export default {
     });
 
     (async () => {
-      const currentDate = new Date()
-      const currentMonth = (currentDate.getMonth() + 1).toString()
-      const currentYear = currentDate.getFullYear().toString()
-      const currentMonthYear = `${currentMonth}-${currentYear}`
+      const currentDate = new Date();
+      const currentMonth = (currentDate.getMonth() + 1).toString();
+      const currentYear = currentDate.getFullYear().toString();
+      const currentMonthYear = `${currentMonth}-${currentYear}`;
 
       funds.value = await getFunds(currentYear, currentMonthYear);
       dataIncome.value = await getIncomes(currentYear, currentMonthYear);
-      dataHandleIncome.value = await getHandleIncomes(currentYear, currentMonthYear);
+      dataHandleIncome.value = await getHandleIncomes(
+        currentYear,
+        currentMonthYear,
+      );
     })();
 
     const isFundsEditable = ref(false);
@@ -157,7 +164,7 @@ export default {
     }
 
     async function handleCreateNewMonth() {
-      await createNewMonth()
+      await createNewMonth();
     }
 
     return {
