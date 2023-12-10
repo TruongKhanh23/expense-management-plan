@@ -3,7 +3,11 @@
   <div class="xl:mx-[8rem] mx-4 my-8 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
-        <ChooseMonth class="mt-4 mb-8" :isDark="isDarkProps" />
+        <ChooseMonth
+          class="mt-4 mb-8"
+          :isDark="isDarkProps"
+          @action:updateMonth="handleUpdateMonth"
+        />
 
         <Funds
           v-if="funds"
@@ -77,12 +81,13 @@ import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import detectDevice from "@/utils/device.util";
-import handlePopup from "@/composables/loadingModal/index.js";
+import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import { useDark, useToggle } from "@vueuse/core";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "./components/NecessaryThings.vue";
 import { createNewMonth } from "@/composables/collection/index.js";
 import ChooseMonth from "@/components/ChooseMonth.vue";
+import { getCurrentTime } from "@/utils/time.util";
 
 export default {
   components: {
@@ -145,17 +150,11 @@ export default {
     });
 
     (async () => {
-      const currentDate = new Date();
-      const currentMonth = (currentDate.getMonth() + 1).toString();
-      const currentYear = currentDate.getFullYear().toString();
-      const currentMonthYear = `${currentMonth}-${currentYear}`;
+      const { year, monthYear } = getCurrentTime();
 
-      funds.value = await getFunds(currentYear, currentMonthYear);
-      dataIncome.value = await getIncomes(currentYear, currentMonthYear);
-      dataHandleIncome.value = await getHandleIncomes(
-        currentYear,
-        currentMonthYear,
-      );
+      funds.value = await getFunds(year, monthYear);
+      dataIncome.value = await getIncomes(year, monthYear);
+      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
     })();
 
     const isFundsEditable = ref(false);
@@ -165,6 +164,22 @@ export default {
 
     async function handleCreateNewMonth() {
       await createNewMonth();
+    }
+
+    async function handleUpdateMonth(year: any, monthYear: any) {
+      isOpenLoadingModal.value = open();
+
+      await getMasterData(year, monthYear);
+
+      setTimeout(() => {
+        isOpenLoadingModal.value = close();
+      }, 500);
+    }
+
+    async function getMasterData(year: any, monthYear: any) {
+      funds.value = await getFunds(year, monthYear);
+      dataIncome.value = await getIncomes(year, monthYear);
+      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
     }
 
     return {
@@ -187,6 +202,7 @@ export default {
       toggleDark,
       isDarkProps,
       handleCreateNewMonth,
+      handleUpdateMonth,
     };
   },
 };

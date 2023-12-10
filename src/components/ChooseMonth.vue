@@ -13,29 +13,36 @@
 <script lang="ts">
 import { DatePicker } from "ant-design-vue";
 import { ref } from "vue";
+
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+
+import { getCurrentTime } from "@/utils/time.util";
 
 export default {
   components: {
     ADatePicker: DatePicker,
     ConfigProvider,
   },
+  emits: ["action:updateMonth"],
   props: {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const isDarkMode = props.isDark;
     const monthFormat = "MM-YYYY";
-    const value3 = ref<string | Dayjs>(dayjs("01-2023", monthFormat));
+    const { monthYear } = getCurrentTime();
+    const value3 = ref<string | Dayjs>(dayjs(monthYear, monthFormat));
     const handleChange = (value: string | Dayjs, dateString: string) => {
       value3.value = value;
-      console.log("value3.value", value3.value);
-      console.log("dateString", dayjs(dateString).format("MM-YYYY"));
+      const monthYear = dateString;
+      const year = dateString.substring(dateString.length - 4);
+      emit("action:updateMonth", year, monthYear);
     };
     return { value3, handleChange, monthFormat, isDarkMode };
   },
