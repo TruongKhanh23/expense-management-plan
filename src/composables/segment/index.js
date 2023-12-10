@@ -24,6 +24,5 @@ export function buildPathSegments(
     }
   });
   commonPathSegments.push(object);
-  console.log("commonPathSegments", ...commonPathSegments);
   return commonPathSegments;
 }
