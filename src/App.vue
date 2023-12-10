@@ -65,7 +65,9 @@
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
+import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane } from "ant-design-vue";
+
 import Funds from "./components/Funds.vue";
 import IncomeDebt from "./components/IncomeDebt.vue";
 import HandleIncome from "./components/HandleIncome.vue";
@@ -74,19 +76,20 @@ import InputFunds from "./components/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
 import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
-import { calculateTotalIncome } from "@/utils/number.util";
+import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import NecessaryThings from "@/components/NecessaryThings.vue";
+import ChooseMonth from "@/components/ChooseMonth.vue";
+import LoadingModal from "@/components/reusable/LoadingModal.vue";
+
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
-import LoadingModal from "@/components/reusable/LoadingModal.vue";
-import detectDevice from "@/utils/device.util";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
-import { useDark, useToggle } from "@vueuse/core";
-import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
-import NecessaryThings from "./components/NecessaryThings.vue";
 import { createNewMonth } from "@/composables/collection/index.js";
-import ChooseMonth from "@/components/ChooseMonth.vue";
+
+import detectDevice from "@/utils/device.util";
+import { calculateTotalIncome } from "@/utils/number.util";
 import { getCurrentTime } from "@/utils/time.util";
 
 export default {
