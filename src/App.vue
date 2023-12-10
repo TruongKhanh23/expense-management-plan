@@ -1,5 +1,11 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
+  <CreateNewMonthModal
+    :isOpen="isOpenCreateNewMonthModal"
+    @action:updateIsOpenCreateNewMonthModal="
+      handleUpdateIsOpenCreateNewMonthModal
+    "
+  />
   <div class="xl:mx-[8rem] mx-4 my-8 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
@@ -80,6 +86,7 @@ import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "@/components/NecessaryThings.vue";
 import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
+import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
 
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
@@ -109,9 +116,11 @@ export default {
     ThemeSwitcher,
     NecessaryThings,
     ChooseMonth,
+    CreateNewMonthModal,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
+    const isOpenCreateNewMonthModal = ref(false);
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
@@ -169,7 +178,8 @@ export default {
     }
 
     async function handleCreateNewMonth() {
-      await createNewMonth();
+      isOpenCreateNewMonthModal.value = open();
+      // await createNewMonth();
     }
 
     async function handleUpdateMonth(year: any, monthYear: any) {
@@ -186,6 +196,10 @@ export default {
       funds.value = await getFunds(year, monthYear);
       dataIncome.value = await getIncomes(year, monthYear);
       dataHandleIncome.value = await getHandleIncomes(year, monthYear);
+    }
+
+    function handleUpdateIsOpenCreateNewMonthModal() {
+      isOpenCreateNewMonthModal.value = close();
     }
 
     return {
@@ -209,6 +223,8 @@ export default {
       isDarkProps,
       handleCreateNewMonth,
       handleUpdateMonth,
+      isOpenCreateNewMonthModal,
+      handleUpdateIsOpenCreateNewMonthModal,
     };
   },
 };
