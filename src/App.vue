@@ -150,11 +150,14 @@ export default {
     });
 
     (async () => {
-      const { year, monthYear } = getCurrentTime();
+      const { currentYear, currentMonthYear } = getCurrentTime();
 
-      funds.value = await getFunds(year, monthYear);
-      dataIncome.value = await getIncomes(year, monthYear);
-      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
+      funds.value = await getFunds(currentYear, currentMonthYear);
+      dataIncome.value = await getIncomes(currentYear, currentMonthYear);
+      dataHandleIncome.value = await getHandleIncomes(
+        currentYear,
+        currentMonthYear,
+      );
     })();
 
     const isFundsEditable = ref(false);

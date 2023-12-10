@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { db } from "@/main";
 import dayjs from "dayjs";
 import sampleJson from "@/assets/data/sample.json";
+import { getCurrentTime } from "@/utils/time.util";
 import {
   collection,
   onSnapshot,
@@ -24,18 +25,9 @@ const pathSegments = [
 
 const countries = ref([]);
 export async function createNewMonth() {
-  let currentDate = new Date();
-  let currentYear = currentDate.getFullYear().toString();
-  let currentMonth = (currentDate.getMonth() + 1).toString();
-  let lastMonth = (currentMonth - 1).toString();
+  const { currentMonth, currentYear, currentMonthYear } = getCurrentTime();
 
-  console.log("lastMonth", lastMonth);
-
-  let currentMonthYear = `${currentMonth}-${currentYear}`;
-
-  console.log("currentMonth", currentMonth);
-
-  const pathSegments = ["users", "admin", "years", "2023", "months"];
+  const pathSegments = ["users", "admin", "years", currentYear, "months"];
 
   // Create document month-year (Ex: 02-2023)
   let dataObject = { name: `Tháng ${currentMonth}, năm ${currentYear}` };
@@ -44,7 +36,9 @@ export async function createNewMonth() {
   try {
     await setDoc(doc(db, ...pathSegments, currentMonthYear), dataObject);
     console.log(`Set month ${dataObject.name} successfully`);
-    console.log("--------------------------------------------------------------------------------------");
+    console.log(
+      "--------------------------------------------------------------------------------------",
+    );
   } catch (error) {
     console.log("Failed to set month");
   }
@@ -78,7 +72,9 @@ export async function createNewMonth() {
           }
         });
         console.log("Set estimateNecessityExpenses successfully");
-        console.log("--------------------------------------------------------------------------------------");
+        console.log(
+          "--------------------------------------------------------------------------------------",
+        );
 
         break;
       }
@@ -104,7 +100,9 @@ export async function createNewMonth() {
           }
         });
         console.log("Set funds successfully");
-        console.log("--------------------------------------------------------------------------------------");
+        console.log(
+          "--------------------------------------------------------------------------------------",
+        );
         break;
       }
       case "handleIncomes": {
@@ -129,7 +127,9 @@ export async function createNewMonth() {
           }
         });
         console.log("Set handleIncomes successfully");
-        console.log("--------------------------------------------------------------------------------------");
+        console.log(
+          "--------------------------------------------------------------------------------------",
+        );
         break;
       }
       case "incomes": {
@@ -147,7 +147,9 @@ export async function createNewMonth() {
           }
         });
         console.log("Set incomes successfully");
-        console.log("--------------------------------------------------------------------------------------");
+        console.log(
+          "--------------------------------------------------------------------------------------",
+        );
         break;
       }
       default:

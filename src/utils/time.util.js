@@ -4,9 +4,5 @@ export function getCurrentTime() {
   const currentYear = currentDate.getFullYear().toString();
   const currentMonthYear = `${currentMonth}-${currentYear}`;
 
-  return {
-    year: currentYear,
-    month: currentMonth,
-    monthYear: currentMonthYear,
-  };
+  return { currentYear, currentMonth, currentMonthYear };
 }

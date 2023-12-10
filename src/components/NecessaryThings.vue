@@ -89,7 +89,7 @@ export default {
     const data: any = dataNecessaryThings;
 
     function roundDecimals(value: number, decimals: number): number {
-      if (isNaN(value)) return 0;
+      if (isNaN(value)) return 0; 
       return parseFloat(value.toFixed(decimals));
     }
 

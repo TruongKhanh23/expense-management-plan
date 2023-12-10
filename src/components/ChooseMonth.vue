@@ -36,8 +36,8 @@ export default {
   setup(props, { emit }) {
     const isDarkMode = props.isDark;
     const monthFormat = "MM-YYYY";
-    const { monthYear } = getCurrentTime();
-    const value3 = ref<string | Dayjs>(dayjs(monthYear, monthFormat));
+    const { currentMonthYear } = getCurrentTime();
+    const value3 = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
     const handleChange = (value: string | Dayjs, dateString: string) => {
       value3.value = value;
       const monthYear = dateString;
