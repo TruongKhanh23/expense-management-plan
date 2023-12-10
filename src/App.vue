@@ -68,11 +68,11 @@ import { ref, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane } from "ant-design-vue";
 
-import Funds from "./components/Funds.vue";
-import IncomeDebt from "./components/IncomeDebt.vue";
-import HandleIncome from "./components/HandleIncome.vue";
-import EstimateNecessity from "./components/EstimateNecessity.vue";
-import InputFunds from "./components/InputFunds.vue";
+import Funds from "@/components/Funds.vue";
+import IncomeDebt from "@/components/IncomeDebt.vue";
+import HandleIncome from "@/components/HandleIncome.vue";
+import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import InputFunds from "@/components/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
 import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
