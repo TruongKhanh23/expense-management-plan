@@ -24,17 +24,16 @@ const pathSegments = [
 ];
 
 const countries = ref([]);
-export async function createNewMonth() {
-  const { currentMonth, currentYear, currentMonthYear } = getCurrentTime();
+export async function createNewMonth(month, year, monthYear) {
 
-  const pathSegments = ["users", "admin", "years", currentYear, "months"];
+  const pathSegments = ["users", "admin", "years", year, "months"];
 
   // Create document month-year (Ex: 02-2023)
-  let dataObject = { name: `Tháng ${currentMonth}, năm ${currentYear}` };
+  let dataObject = { name: `Tháng ${month}, năm ${year}` };
   // doc(firestoreInstance, "collectionName", "documentId")
   // setDoc(collectionReference, dataObject)
   try {
-    await setDoc(doc(db, ...pathSegments, currentMonthYear), dataObject);
+    await setDoc(doc(db, ...pathSegments, monthYear), dataObject);
     console.log(`Set month ${dataObject.name} successfully`);
     console.log(
       "--------------------------------------------------------------------------------------",
@@ -61,7 +60,7 @@ export async function createNewMonth() {
           "waterLavieFund",
         ];
 
-        const newPathSegments = [...pathSegments, currentMonthYear, object];
+        const newPathSegments = [...pathSegments, monthYear, object];
         estimateNecessityExpenses.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -89,7 +88,7 @@ export async function createNewMonth() {
           "relax",
         ];
 
-        const newPathSegments = [...pathSegments, currentMonthYear, object];
+        const newPathSegments = [...pathSegments, monthYear, object];
         funds.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -116,7 +115,7 @@ export async function createNewMonth() {
           "relax",
         ];
 
-        const newPathSegments = [...pathSegments, currentMonthYear, object];
+        const newPathSegments = [...pathSegments, monthYear, object];
         handleIncomes.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -136,7 +135,7 @@ export async function createNewMonth() {
         const data = sampleJson.incomes;
         const handleIncomes = ["1", "2", "3"];
 
-        const newPathSegments = [...pathSegments, currentMonthYear, object];
+        const newPathSegments = [...pathSegments, monthYear, object];
         handleIncomes.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.key === documentId);
           try {

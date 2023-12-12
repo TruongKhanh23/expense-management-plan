@@ -2,6 +2,8 @@
   <LoadingModal :isOpen="isOpenLoadingModal" />
   <CreateNewMonthModal
     :isOpen="isOpenCreateNewMonthModal"
+    @action:updateNewMonthCreated="handleUpdateNewMonthCreated"
+    @action:updateMonth="handleUpdateMonth"
     @action:updateIsOpenCreateNewMonthModal="
       handleUpdateIsOpenCreateNewMonthModal
     "
@@ -12,6 +14,7 @@
         <ChooseMonth
           class="mt-4 mb-8"
           :isDark="isDarkProps"
+          :newMonthCreated="newMonthCreated"
           @action:updateMonth="handleUpdateMonth"
         />
 
@@ -93,11 +96,12 @@ import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
-import { createNewMonth } from "@/composables/collection/index.js";
 
 import detectDevice from "@/utils/device.util";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getCurrentTime } from "@/utils/time.util";
+
+import { Dayjs } from "dayjs";
 
 export default {
   components: {
@@ -121,6 +125,7 @@ export default {
   setup() {
     const { isOpenLoadingModal } = handlePopup();
     const isOpenCreateNewMonthModal = ref(false);
+    const newMonthCreated = ref<string | Dayjs>();
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
@@ -179,26 +184,30 @@ export default {
 
     async function handleCreateNewMonth() {
       isOpenCreateNewMonthModal.value = open();
-      // await createNewMonth();
     }
 
     async function handleUpdateMonth(year: any, monthYear: any) {
+      await getMasterData(year, monthYear);
+    }
+
+    async function handleUpdateNewMonthCreated(value: any) {
+      newMonthCreated.value = value;
+      console.log("handleUpdateNewMonthCreated", newMonthCreated.value);
+    }
+
+    async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
 
-      await getMasterData(year, monthYear);
+      funds.value = await getFunds(year, monthYear);
+      dataIncome.value = await getIncomes(year, monthYear);
+      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
 
       setTimeout(() => {
         isOpenLoadingModal.value = close();
       }, 500);
     }
 
-    async function getMasterData(year: any, monthYear: any) {
-      funds.value = await getFunds(year, monthYear);
-      dataIncome.value = await getIncomes(year, monthYear);
-      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
-    }
-
-    function handleUpdateIsOpenCreateNewMonthModal() {
+    async function handleUpdateIsOpenCreateNewMonthModal() {
       isOpenCreateNewMonthModal.value = close();
     }
 
@@ -225,6 +234,8 @@ export default {
       handleUpdateMonth,
       isOpenCreateNewMonthModal,
       handleUpdateIsOpenCreateNewMonthModal,
+      handleUpdateNewMonthCreated,
+      newMonthCreated,
     };
   },
 };

@@ -3,7 +3,7 @@
     <ConfigProvider :isDark="isDarkMode">
       <a-date-picker
         :format="monthFormat"
-        v-model:value="value3"
+        v-model:value="month"
         picker="month"
         @change="handleChange"
       />
@@ -12,9 +12,9 @@
 </template>
 <script lang="ts">
 import { DatePicker } from "ant-design-vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-import type { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
@@ -32,19 +32,30 @@ export default {
       type: [Boolean, Object],
       require: undefined,
     },
+    newMonthCreated: {
+      type: String,
+      default: ""
+    },
   },
   setup(props, { emit }) {
     const isDarkMode = props.isDark;
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
-    const value3 = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
+    const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
+
+    watch(props, async () => {
+      console.log("props.newMonthCreated", props.newMonthCreated);
+      // const newMonth = ref<string | Dayjs>(dayjs(props.newMonthCreated, monthFormat))
+      // month.value = newMonth.value
+    })
+
     const handleChange = (value: string | Dayjs, dateString: string) => {
-      value3.value = value;
+      month.value = value;
       const monthYear = dateString;
       const year = dateString.substring(dateString.length - 4);
       emit("action:updateMonth", year, monthYear);
     };
-    return { value3, handleChange, monthFormat, isDarkMode };
+    return { month, handleChange, monthFormat, isDarkMode };
   },
 };
 </script>
