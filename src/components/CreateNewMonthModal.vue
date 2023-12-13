@@ -103,7 +103,7 @@ export default {
       await createNewMonth(month, year, monthYear);
 
       emit("action:updateMonth");
-      emit("action:updateNewMonthCreated", formState)
+      emit("action:updateNewMonthCreated", monthYear)
 
       isOpenLoadingModal.value = close()
     };

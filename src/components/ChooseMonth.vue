@@ -44,9 +44,8 @@ export default {
     const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
 
     watch(props, async () => {
-      console.log("props.newMonthCreated", props.newMonthCreated);
-      // const newMonth = ref<string | Dayjs>(dayjs(props.newMonthCreated, monthFormat))
-      // month.value = newMonth.value
+      const newMonth = ref<string | Dayjs>(dayjs(props.newMonthCreated, monthFormat))
+      month.value = newMonth.value
     })
 
     const handleChange = (value: string | Dayjs, dateString: string) => {
