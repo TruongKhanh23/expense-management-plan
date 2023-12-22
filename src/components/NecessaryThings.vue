@@ -52,7 +52,7 @@ type NecessaryThingsItem = {
   timespan: number;
   savePerMonth: number;
   limitation: number;
-  type:string;
+  type: string;
 };
 
 export default {
@@ -87,10 +87,9 @@ export default {
       columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
 
     const data: any = dataNecessaryThings;
-    console.log("data", data);
 
     function roundDecimals(value: number, decimals: number): number {
-      if (isNaN(value)) return 0;
+      if (isNaN(value)) return 0; 
       return parseFloat(value.toFixed(decimals));
     }
 

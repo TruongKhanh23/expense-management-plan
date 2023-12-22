@@ -1,8 +1,23 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
+  <CreateNewMonthModal
+    :isOpen="isOpenCreateNewMonthModal"
+    @action:updateNewMonthCreated="handleUpdateNewMonthCreated"
+    @action:updateMonth="handleUpdateMonth"
+    @action:updateIsOpenCreateNewMonthModal="
+      handleUpdateIsOpenCreateNewMonthModal
+    "
+  />
   <div class="xl:mx-[8rem] mx-4 my-8 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
+        <ChooseMonth
+          class="mt-4 mb-8"
+          :isDark="isDarkProps"
+          :newMonthCreated="newMonthCreated"
+          @action:updateMonth="handleUpdateMonth"
+        />
+
         <Funds
           v-if="funds"
           class="mt-4"
@@ -54,30 +69,39 @@
       <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />
     </div>
     <Footer />
+    <button @click="handleCreateNewMonth">Create new month</button>
   </div>
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
+import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane } from "ant-design-vue";
-import Funds from "./components/Funds.vue";
-import IncomeDebt from "./components/IncomeDebt.vue";
-import HandleIncome from "./components/HandleIncome.vue";
-import EstimateNecessity from "./components/EstimateNecessity.vue";
-import InputFunds from "./components/InputFunds.vue";
+
+import Funds from "@/components/Funds.vue";
+import IncomeDebt from "@/components/IncomeDebt.vue";
+import HandleIncome from "@/components/HandleIncome.vue";
+import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import InputFunds from "@/components/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
 import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
-import { calculateTotalIncome } from "@/utils/number.util";
+import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import NecessaryThings from "@/components/NecessaryThings.vue";
+import ChooseMonth from "@/components/ChooseMonth.vue";
+import LoadingModal from "@/components/reusable/LoadingModal.vue";
+import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
+
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
-import LoadingModal from "@/components/reusable/LoadingModal.vue";
+import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
+
 import detectDevice from "@/utils/device.util";
-import handlePopup from "@/composables/loadingModal/index.js";
-import { useDark, useToggle } from "@vueuse/core";
-import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
-import NecessaryThings from "./components/NecessaryThings.vue";
+import { calculateTotalIncome } from "@/utils/number.util";
+import { getCurrentTime } from "@/utils/time.util";
+
+import { Dayjs } from "dayjs";
 
 export default {
   components: {
@@ -95,9 +119,13 @@ export default {
     LoadingModal,
     ThemeSwitcher,
     NecessaryThings,
+    ChooseMonth,
+    CreateNewMonthModal,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
+    const isOpenCreateNewMonthModal = ref(false);
+    const newMonthCreated = ref<string | Dayjs>();
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
@@ -139,14 +167,48 @@ export default {
     });
 
     (async () => {
-      funds.value = await getFunds();
-      dataIncome.value = await getIncomes();
-      dataHandleIncome.value = await getHandleIncomes();
+      const { currentYear, currentMonthYear } = getCurrentTime();
+
+      funds.value = await getFunds(currentYear, currentMonthYear);
+      dataIncome.value = await getIncomes(currentYear, currentMonthYear);
+      dataHandleIncome.value = await getHandleIncomes(
+        currentYear,
+        currentMonthYear,
+      );
     })();
 
     const isFundsEditable = ref(false);
     function handleUpdateIsFundsEditable() {
       isFundsEditable.value = !isFundsEditable.value;
+    }
+
+    async function handleCreateNewMonth() {
+      isOpenCreateNewMonthModal.value = open();
+    }
+
+    async function handleUpdateMonth(year: any, monthYear: any) {
+      await getMasterData(year, monthYear);
+    }
+
+    async function handleUpdateNewMonthCreated(value: any) {
+      newMonthCreated.value = value;
+      console.log("handleUpdateNewMonthCreated", newMonthCreated.value);
+    }
+
+    async function getMasterData(year: any, monthYear: any) {
+      isOpenLoadingModal.value = open();
+
+      funds.value = await getFunds(year, monthYear);
+      dataIncome.value = await getIncomes(year, monthYear);
+      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
+
+      setTimeout(() => {
+        isOpenLoadingModal.value = close();
+      }, 500);
+    }
+
+    async function handleUpdateIsOpenCreateNewMonthModal() {
+      isOpenCreateNewMonthModal.value = close();
     }
 
     return {
@@ -168,6 +230,12 @@ export default {
       isDark,
       toggleDark,
       isDarkProps,
+      handleCreateNewMonth,
+      handleUpdateMonth,
+      isOpenCreateNewMonthModal,
+      handleUpdateIsOpenCreateNewMonthModal,
+      handleUpdateNewMonthCreated,
+      newMonthCreated,
     };
   },
 };
