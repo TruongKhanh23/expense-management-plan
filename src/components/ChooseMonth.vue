@@ -33,8 +33,8 @@ export default {
       require: undefined,
     },
     newMonthCreated: {
-      type: String,
-      default: ""
+      type: [String, Dayjs],
+      require: undefined,
     },
   },
   setup(props, { emit }) {
