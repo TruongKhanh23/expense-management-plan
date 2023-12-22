@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import { buildPathSegments } from "@/composables/segment/index.js"
+import { buildPathSegments } from "@/composables/segment/index.js";
 import {
   collection,
   onSnapshot,
@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
+import staticData from "@/assets/data/sample.json";
 
 const pathSegments = [
   "users",
@@ -33,7 +34,7 @@ export async function getFunds(year, monthYear, user = "admin") {
         classColor: "",
       },
     ]);
-    const pathSegments = buildPathSegments("funds", year, monthYear, user)
+    const pathSegments = buildPathSegments("funds", year, monthYear, user);
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("order", "asc")),
       (snap) => {
@@ -64,7 +65,20 @@ export async function getFunds(year, monthYear, user = "admin") {
     );
     return funds.value;
   } catch (error) {
-    alert("Get funds failed");
+    console.log("error", error);
+    const staticFunds = [
+      {
+        id: "",
+        src: "",
+        percentage: "",
+        wallet: "",
+        name: "",
+        classColor: "",
+      },
+      ...staticData.funds,
+    ]
+    localStorage.setItem("funds", JSON.stringify(staticFunds))
+    return staticFunds;
   }
 }
 
@@ -89,7 +103,7 @@ export function getFundsPercentage(funds) {
 
 export async function setFunds(values) {
   try {
-    const pathSegments = buildPathSegments("funds")
+    const pathSegments = buildPathSegments("funds");
     for (const fund of Object.keys(values)) {
       await setDoc(
         doc(db, ...pathSegments, fund),

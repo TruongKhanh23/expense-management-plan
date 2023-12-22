@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js"
 import { collection, onSnapshot, query, setDoc, doc } from "firebase/firestore";
+import sampleJson from "@/assets/data/sample.json";
 
 export async function getHandleIncomes(year, monthYear, user = "admin") {
   try {
@@ -28,7 +29,9 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
     );
     return list.value;
   } catch (error) {
-    alert("Get handleIncomes failed");
+    console.log("error", error);
+    localStorage.setItem("handleIncomes", JSON.stringify(sampleJson.handleIncomes));
+    return sampleJson.handleIncomes
   }
 }
 
