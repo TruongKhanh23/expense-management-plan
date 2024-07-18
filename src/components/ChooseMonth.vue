@@ -12,7 +12,7 @@
 </template>
 <script lang="ts">
 import { DatePicker } from "ant-design-vue";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
 import type { Dayjs } from 'dayjs';
 import dayjs from "dayjs";
@@ -39,12 +39,14 @@ export default {
   },
   setup(props, { emit }) {
     const isDarkMode = props.isDark;
+    const newMonthProps = computed(() => props.newMonthCreated);
+    
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
     
     const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
 
-    watch(props, async () => {
+    watch(newMonthProps, async () => {
       const newMonth = ref<string | Dayjs>(dayjs(props.newMonthCreated, monthFormat))
       month.value = newMonth.value
     })
