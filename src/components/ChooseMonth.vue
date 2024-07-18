@@ -14,7 +14,7 @@
 import { DatePicker } from "ant-design-vue";
 import { ref, watch } from "vue";
 
-import { Dayjs } from "dayjs";
+import type { Dayjs } from 'dayjs';
 import dayjs from "dayjs";
 
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
@@ -33,7 +33,7 @@ export default {
       require: undefined,
     },
     newMonthCreated: {
-      type: [String, Dayjs],
+      type: [String],
       require: undefined,
     },
   },
@@ -41,6 +41,7 @@ export default {
     const isDarkMode = props.isDark;
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
+    
     const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
 
     watch(props, async () => {
