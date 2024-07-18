@@ -17,6 +17,14 @@ type NecessaryThingsItem = {
   type:string;
 };
 
+type DebtItem = {
+  id: string;
+  name: string;
+  amount: number;
+  isFinished: boolean;
+};
+
+
 export const columnsIncome = [
   {
     title: "Nguồn thu nhập",
@@ -370,3 +378,21 @@ export const dataNecessaryThings: NecessaryThingsItem[] = [
     type: "furniture",
   },
 ];
+
+export const columnsDebt: TableColumnType<DebtItem>[] = [
+  {
+    title: "Tên nợ",
+    dataIndex: "name",
+  },
+  { title: "Số tiền", dataIndex: "amount", align: "right" },
+  { title: "Trạng thái", dataIndex: "isFinished", align: "right" },
+];
+
+export const debts: DebtItem[] = [
+  {
+    id: "snjks78669sjnj",
+    name: "Iphone14",
+    amount: 13500000,
+    isFinished: false
+  }
+]

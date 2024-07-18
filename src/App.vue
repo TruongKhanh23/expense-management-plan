@@ -58,7 +58,18 @@
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
-        <NecessaryThings :isDark="isDarkProps" />
+        <div class="flex justify-center items-center">
+          <a-col :md="{ span: 12 }">
+            <NecessaryThings :isDark="isDarkProps" />
+          </a-col>
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="3" tab="Nợ" force-render>
+        <div class="flex justify-center items-center">
+          <a-col :md="{ span: 12 }">
+            <Debt :isDark="isDarkProps" />
+          </a-col>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -75,7 +86,7 @@
 <script lang="ts">
 import { ref, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
-import { Col, Tabs, TabPane } from "ant-design-vue";
+import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
@@ -87,6 +98,7 @@ import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "@/components/NecessaryThings.vue";
+import Debt from "@/components/Debt.vue";
 import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
@@ -106,6 +118,7 @@ export default {
     ACol: Col,
     ATabs: Tabs,
     ATabPane: TabPane,
+    ATable: Table,
     Funds,
     IncomeDebt,
     EstimateNecessity,
@@ -119,6 +132,7 @@ export default {
     NecessaryThings,
     ChooseMonth,
     CreateNewMonthModal,
+    Debt,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
