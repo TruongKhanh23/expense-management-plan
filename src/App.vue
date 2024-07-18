@@ -101,8 +101,6 @@ import detectDevice from "@/utils/device.util";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getCurrentTime } from "@/utils/time.util";
 
-import { Dayjs } from "dayjs";
-
 export default {
   components: {
     ACol: Col,
@@ -125,7 +123,7 @@ export default {
   setup() {
     const { isOpenLoadingModal } = handlePopup();
     const isOpenCreateNewMonthModal = ref(false);
-    const newMonthCreated = ref<string | Dayjs>();
+    const newMonthCreated = ref<string>();
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
