@@ -21,11 +21,11 @@
           <p>{{ record.name }}</p>
         </template>
         <template v-if="column.dataIndex === 'amount'">
-          <p>{{ record.amount }}</p>
+          <p>{{ new Intl.NumberFormat().format(record.amount) }}</p>
         </template>
         <template v-if="column.dataIndex === 'isFinished'">
           <p>
-            {{ record.isFinished }}
+            {{ record.isFinished === "false" ? "Chưa trả hết" : "Đã trả xong" }}
           </p>
         </template>
       </template>
@@ -37,9 +37,11 @@
 import { ref, computed } from "vue";
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
-import { debts, columnsDebt } from "@/assets/data/sample";
+import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
+
+import { roundDecimals } from "@/utils/number.util";
 
 type DebtItem = {
   id: string;
@@ -87,7 +89,14 @@ export default {
       return total;
     }
 
-    return { isDarkMode, data, columns, isEditable, calculateTotal };
+    return {
+      isDarkMode,
+      data,
+      columns,
+      isEditable,
+      calculateTotal,
+      roundDecimals,
+    };
   },
 };
 </script>

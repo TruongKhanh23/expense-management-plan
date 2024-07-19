@@ -130,6 +130,10 @@ export default {
     const onFinish = async () => {
       const stringifyDebts = JSON.stringify(dynamicValidateForm.debt);
       localStorage.setItem("debt", stringifyDebts);
+      console.log("stringifyDebts", stringifyDebts);
+
+      console.log("dynamicValidateForm.debt", dynamicValidateForm.debt);
+
       await setDebt(dynamicValidateForm.debt);
     };
     return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };

@@ -17,3 +17,8 @@ export function calculateTotalIncome(data: DataIncomeType[]) {
 
   return totalAmount;
 }
+
+export function roundDecimals(value: number, decimals: number): number {
+  if (isNaN(value)) return 0;
+  return parseFloat(value.toFixed(decimals));
+}

@@ -31,17 +31,20 @@ export async function getDebt() {
 
 export async function setDebt(values) {
   try {
-    const id = values[0].type;
     const pathSegments = ["users", "admin", "debt"];
-    await setDoc(
-      doc(db, ...pathSegments, id),
-      {
-        items: values,
-      },
-      { merge: true },
-    );
-    alert("Set Debt successfully");
+    for (const id of Object.keys(values)) {
+      await setDoc(
+        doc(db, ...pathSegments, id),
+        {
+          name: values[id].name,
+          amount: values[id].amount,
+          isFinished: values[id].isFinished,
+        },
+        { merge: true },
+      );
+    }
+    alert("Set debts successfully");
   } catch (error) {
-    alert(`Set Debt failed: ${error}`);
+    alert(`Set debts failed: ${error}`);
   }
 }
