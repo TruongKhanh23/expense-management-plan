@@ -58,7 +58,18 @@
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
-        <NecessaryThings :isDark="isDarkProps" />
+        <div class="flex justify-center items-center">
+          <a-col :md="{ span: 12 }">
+            <NecessaryThings :isDark="isDarkProps" />
+          </a-col>
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="3" tab="Nợ" force-render>
+        <div class="flex justify-center items-center">
+          <a-col :md="{ span: 12 }">
+            <Debt :isDark="isDarkProps" :debt="debt" />
+          </a-col>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -75,7 +86,7 @@
 <script lang="ts">
 import { ref, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
-import { Col, Tabs, TabPane } from "ant-design-vue";
+import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
@@ -87,6 +98,7 @@ import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "@/components/NecessaryThings.vue";
+import Debt from "@/components/Debt.vue";
 import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
@@ -94,6 +106,7 @@ import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { getDebt } from "@/composables/debt/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 
@@ -106,6 +119,7 @@ export default {
     ACol: Col,
     ATabs: Tabs,
     ATabPane: TabPane,
+    ATable: Table,
     Funds,
     IncomeDebt,
     EstimateNecessity,
@@ -119,6 +133,7 @@ export default {
     NecessaryThings,
     ChooseMonth,
     CreateNewMonthModal,
+    Debt,
   },
   setup() {
     const { isOpenLoadingModal } = handlePopup();
@@ -141,6 +156,7 @@ export default {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
+    const debt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -173,6 +189,7 @@ export default {
         currentYear,
         currentMonthYear,
       );
+      debt.value = await getDebt();
     })();
 
     const isFundsEditable = ref(false);
@@ -215,6 +232,7 @@ export default {
       totalIncome,
       columnsHandleIncome,
       dataHandleIncome,
+      debt,
       necessityLimitation,
       handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,

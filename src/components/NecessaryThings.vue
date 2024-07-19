@@ -1,41 +1,37 @@
 <template>
-  <a-col :md="{ span: 6 }">
-    <ConfigProvider :isDark="isDarkMode">
-      <a-table
-        :columns="columns"
-        :data-source="data"
-        :pagination="{ hideOnSinglePage: true }"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.dataIndex === 'name'">
-            <p>{{ record.name }}</p>
-            <a-tag :color="tagColor(record.type)" class="text-center">{{
-              record.type
-            }}</a-tag>
-          </template>
-          <template v-if="column.dataIndex === 'timespan'">
-            <p>{{ roundDecimals(record.timespan, 2) }}</p>
-          </template>
-          <template v-if="column.dataIndex === 'savePerMonth'">
-            <p>
-              {{
-                new Intl.NumberFormat().format(
-                  roundDecimals(record.savePerMonth, 0),
-                )
-              }}
-            </p>
-          </template>
-          <template v-if="column.dataIndex === 'limitation'">
-            <p>
-              {{ new Intl.NumberFormat().format(record.limitation) }}
-            </p>
-          </template>
+  <ConfigProvider :isDark="isDarkMode">
+    <a-table
+      :columns="columns"
+      :data-source="data"
+      :pagination="{ hideOnSinglePage: true }"
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'name'">
+          <p>{{ record.name }}</p>
+          <a-tag :color="tagColor(record.type)" class="text-center">{{
+            record.type
+          }}</a-tag>
         </template>
-      </a-table>
-    </ConfigProvider>
-  </a-col>
-  <a-col :md="{ span: 8 }"></a-col>
-  <a-col :md="{ span: 10 }"></a-col>
+        <template v-if="column.dataIndex === 'timespan'">
+          <p>{{ roundDecimals(record.timespan, 2) }}</p>
+        </template>
+        <template v-if="column.dataIndex === 'savePerMonth'">
+          <p>
+            {{
+              new Intl.NumberFormat().format(
+                roundDecimals(record.savePerMonth, 0),
+              )
+            }}
+          </p>
+        </template>
+        <template v-if="column.dataIndex === 'limitation'">
+          <p>
+            {{ new Intl.NumberFormat().format(record.limitation) }}
+          </p>
+        </template>
+      </template>
+    </a-table>
+  </ConfigProvider>
 </template>
 <script lang="ts">
 import { Col, Table, Tag } from "ant-design-vue";
@@ -89,7 +85,7 @@ export default {
     const data: any = dataNecessaryThings;
 
     function roundDecimals(value: number, decimals: number): number {
-      if (isNaN(value)) return 0; 
+      if (isNaN(value)) return 0;
       return parseFloat(value.toFixed(decimals));
     }
 
