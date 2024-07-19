@@ -67,7 +67,7 @@
       <a-tab-pane key="3" tab="Nợ" force-render>
         <div class="flex justify-center items-center">
           <a-col :md="{ span: 12 }">
-            <Debt :isDark="isDarkProps" />
+            <Debt :isDark="isDarkProps" :debt="debt" />
           </a-col>
         </div>
       </a-tab-pane>
@@ -106,6 +106,7 @@ import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { getDebt } from "@/composables/debt/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 
@@ -155,6 +156,7 @@ export default {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
+    const debt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -187,6 +189,7 @@ export default {
         currentYear,
         currentMonthYear,
       );
+      debt.value = await getDebt();
     })();
 
     const isFundsEditable = ref(false);
@@ -229,6 +232,7 @@ export default {
       totalIncome,
       columnsHandleIncome,
       dataHandleIncome,
+      debt,
       necessityLimitation,
       handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,

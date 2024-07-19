@@ -7,7 +7,7 @@
   >
     <a-space
       v-for="(item, index) in dynamicValidateForm.debt"
-      :key="item.name"
+      :key="index"
       style="display: flex; margin-bottom: 8px"
     >
       <a-form-item
@@ -40,7 +40,10 @@
             message: 'Missing isFinished',
           }"
         >
-          <a-input v-model:value="item.isFinished" placeholder="Debt isFinished" />
+          <a-input
+            v-model:value="item.isFinished"
+            placeholder="Debt isFinished"
+          />
         </a-form-item>
         <MinusCircleOutlined @click="removeItem(item)" />
       </a-space>
@@ -94,14 +97,14 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => {},
+      default: () => ({ debt: [] }),
     },
   },
   setup(props) {
     const formRef = ref<FormInstance>();
 
-    const debtStorageString = computed(() => {
-      return props.data ?? [];
+    const debtStorageString = computed((debt: Debt[]) => {
+      return props.data ?? debt;
     });
 
     const debtStorage = computed(() => {

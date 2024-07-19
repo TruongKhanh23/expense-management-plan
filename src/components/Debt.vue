@@ -34,7 +34,7 @@
   </ConfigProvider>
 </template>
 <script lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import { debts, columnsDebt } from "@/assets/data/sample";
@@ -45,7 +45,7 @@ type DebtItem = {
   id: string;
   name: string;
   amount: number;
-  isFinished: boolean;
+  isFinished: string;
 };
 
 export default {
@@ -58,6 +58,10 @@ export default {
     ASwitch: Switch,
   },
   props: {
+    debt: {
+      type: Array as () => DebtItem[],
+      default: () => [],
+    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
@@ -70,8 +74,9 @@ export default {
     const columns: TableColumnType<DebtItem>[] =
       columnsDebt as TableColumnType<DebtItem>[];
 
-    const data: any = debts;
-    console.log("data", data);
+    const data: any = computed(() => {
+      return props.debt;
+    });
 
     function calculateTotal(values: any) {
       let total = 0;

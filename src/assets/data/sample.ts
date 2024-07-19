@@ -14,16 +14,15 @@ type NecessaryThingsItem = {
   timespan: number;
   savePerMonth: number;
   limitation: number;
-  type:string;
+  type: string;
 };
 
 type DebtItem = {
   id: string;
   name: string;
   amount: number;
-  isFinished: boolean;
+  isFinished: string;
 };
-
 
 export const columnsIncome = [
   {
@@ -393,6 +392,6 @@ export const debts: DebtItem[] = [
     id: "snjks78669sjnj",
     name: "Iphone14",
     amount: 13500000,
-    isFinished: false
-  }
-]
+    isFinished: "false",
+  },
+];
