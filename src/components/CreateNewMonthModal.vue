@@ -68,7 +68,11 @@ export default {
     AButton: Button,
     LoadingModal,
   },
-  emits: ["action:updateIsOpenCreateNewMonthModal", "action:updateMonth", "action:updateNewMonthCreated"],
+  emits: [
+    "action:updateIsOpenCreateNewMonthModal",
+    "action:updateMonth",
+    "action:updateNewMonthCreated",
+  ],
   props: {
     isOpen: {
       type: Boolean,
@@ -99,13 +103,13 @@ export default {
       const month = monthYear.slice(0, 2);
       emit("action:updateIsOpenCreateNewMonthModal");
 
-      isOpenLoadingModal.value = open()
+      isOpenLoadingModal.value = open();
       await createNewMonth(month, year, monthYear);
 
-      emit("action:updateMonth");
-      emit("action:updateNewMonthCreated", monthYear)
+      emit("action:updateMonth", year, monthYear);
+      emit("action:updateNewMonthCreated", monthYear);
 
-      isOpenLoadingModal.value = close()
+      isOpenLoadingModal.value = close();
     };
 
     const onFinishFailed = (errorInfo: any) => {

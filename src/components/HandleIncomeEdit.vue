@@ -6,26 +6,31 @@
     :model="dynamicValidateForm"
     @finish="onFinish"
   >
+    <!-- Form Fields -->
     <a-space
       v-for="(item, index) in dynamicValidateForm.handleIncomes"
-      :key="item.type"
+      :key="index"
       style="display: flex; margin-bottom: 8px"
     >
       <a-form-item
+        :name="['handleIncomes', index, 'isDebt']"
+        :rules="{ required: true, message: 'Missing isDebt' }"
+      >
+        <a-select
+          v-model:value="item.isDebt"
+          placeholder="isDebt?"
+          :options="isDebtOptions"
+        />
+      </a-form-item>
+      <a-form-item
         :name="['handleIncomes', index, 'type']"
-        :rules="{
-          required: true,
-          message: 'Missing type',
-        }"
+        :rules="{ required: true, message: 'Missing type' }"
       >
         <a-input v-model:value="item.type" placeholder="Income from (type)" />
       </a-form-item>
       <a-form-item
         :name="['handleIncomes', index, 'wallet']"
-        :rules="{
-          required: true,
-          message: 'Missing wallet',
-        }"
+        :rules="{ required: true, message: 'Missing wallet' }"
       >
         <a-input
           v-model:value="item.wallet"
@@ -34,20 +39,14 @@
       </a-form-item>
       <a-form-item
         :name="['handleIncomes', index, 'fund']"
-        :rules="{
-          required: true,
-          message: 'Missing fund',
-        }"
+        :rules="{ required: true, message: 'Missing fund' }"
       >
         <a-input v-model:value="item.fund" placeholder="Income from (fund)" />
       </a-form-item>
       <a-space align="baseline">
         <a-form-item
           :name="['handleIncomes', index, 'amount']"
-          :rules="{
-            required: true,
-            message: 'Missing amount',
-          }"
+          :rules="{ required: true, message: 'Missing amount' }"
         >
           <a-input-number
             v-model:value="item.amount"
@@ -58,6 +57,7 @@
         <MinusCircleOutlined @click="removeItem(item)" />
       </a-space>
     </a-space>
+    <!-- Button Add Item & Button Submit-->
     <a-form-item>
       <a-button type="dashed" block @click="addItem">
         <PlusOutlined />
@@ -69,11 +69,12 @@
     </a-form-item>
   </a-form>
 </template>
+
 <script lang="ts">
 import { reactive, ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import { setHandleIncomes } from "@/composables/handleIncomes/index.js"
+import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
 import {
   Form,
   Space,
@@ -81,13 +82,17 @@ import {
   Input,
   Button,
   InputNumber,
+  Select,
 } from "ant-design-vue";
 
 interface HandleIncome {
+  key: string;
   type: string;
   wallet: string;
   fund: string;
   amount: number;
+  isDebt: string;
+  debtId: number | null;
 }
 
 export default {
@@ -98,52 +103,76 @@ export default {
     AInput: Input,
     AInputNumber: InputNumber,
     AButton: Button,
+    ASelect: Select,
     MinusCircleOutlined,
     PlusOutlined,
   },
   props: {
     data: {
       type: Object,
-      default: () => {},
+      default: () => ({ handleIncomes: [] }),
     },
   },
   setup(props) {
     const formRef = ref<FormInstance>();
-    const handleIncomesStorageString = computed(() => {
-      return props.data ?? [];
-    });
+    const isDebtOptions = [
+      { label: "Tích lũy", value: "false" },
+      { label: "Trả nợ", value: "true" },
+    ];
+
+    const handleIncomesStorageString = computed(
+      (handleIncomes: HandleIncome[]) => {
+        return props.data ?? handleIncomes;
+      },
+    );
 
     const handleIncomesStorage = computed(() => {
       return handleIncomesStorageString.value;
     });
 
     const dynamicValidateForm = reactive<{ handleIncomes: HandleIncome[] }>({
-      handleIncomes: handleIncomesStorageString.value
-        ? handleIncomesStorage
+      handleIncomes: handleIncomesStorage.value.length
+        ? handleIncomesStorage.value
         : ([] as any),
     });
+
     const removeItem = (item: HandleIncome) => {
       const index = dynamicValidateForm.handleIncomes.indexOf(item);
       if (index !== -1) {
         dynamicValidateForm.handleIncomes.splice(index, 1);
       }
     };
+
     const addItem = () => {
       dynamicValidateForm.handleIncomes.push({
+        key: "",
         fund: "",
         amount: 0,
         wallet: "",
         type: "",
+        isDebt: "false",
+        debtId: null,
       });
     };
+
     const onFinish = async () => {
       const stringifyIncomes = JSON.stringify(
         dynamicValidateForm.handleIncomes,
       );
       localStorage.setItem("handleIncomes", stringifyIncomes);
-      await setHandleIncomes(dynamicValidateForm.handleIncomes)
+      await setHandleIncomes(dynamicValidateForm.handleIncomes);
     };
-    return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };
+
+    return {
+      formRef,
+      isDebtOptions,
+      removeItem,
+      dynamicValidateForm,
+      addItem,
+      onFinish,
+    };
   },
 };
 </script>
+
+<style scoped></style>

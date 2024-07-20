@@ -7,8 +7,8 @@
     @finish="onFinish"
   >
     <a-space
-      v-for="(user, index) in dynamicValidateForm.incomes"
-      :key="user.id"
+      v-for="(item, index) in dynamicValidateForm.incomes"
+      :key="item.id"
       style="display: flex; margin-bottom: 8px"
     >
       <a-form-item
@@ -19,7 +19,7 @@
         }"
       >
         <a-input
-          v-model:value="user.source"
+          v-model:value="item.source"
           placeholder="Income from (source)"
         />
       </a-form-item>
@@ -31,15 +31,19 @@
             message: 'Missing amount',
           }"
         >
-          <a-input-number v-model:value="user.amount" placeholder="Amount" style="width: 100%" />
+          <a-input-number
+            v-model:value="item.amount"
+            placeholder="Amount"
+            style="width: 100%"
+          />
         </a-form-item>
-        <MinusCircleOutlined @click="removeUser(user)" />
+        <MinusCircleOutlined @click="removeItem(item)" />
       </a-space>
     </a-space>
     <a-form-item>
-      <a-button type="dashed" block @click="addUser">
+      <a-button type="dashed" block @click="addItem">
         <PlusOutlined />
-        Add income
+        Add item
       </a-button>
     </a-form-item>
     <a-form-item>
@@ -59,7 +63,7 @@ import {
   Button,
   InputNumber,
 } from "ant-design-vue";
-import { setIncomes } from "@/composables/incomes/index.js";
+import { setIncomes, deleteIncome } from "@/composables/incomes/index.js";
 
 interface Income {
   source: string;
@@ -99,13 +103,14 @@ export default {
     const dynamicValidateForm = reactive<{ incomes: Income[] }>({
       incomes: incomesStorageString.value ? incomesStorage : ([] as any),
     });
-    const removeUser = (item: Income) => {
+    const removeItem = (item: Income) => {
       const index = dynamicValidateForm.incomes.indexOf(item);
+      deleteIncome(index);
       if (index !== -1) {
         dynamicValidateForm.incomes.splice(index, 1);
       }
     };
-    const addUser = () => {
+    const addItem = () => {
       dynamicValidateForm.incomes.push({
         source: "",
         amount: 0,
@@ -119,7 +124,7 @@ export default {
       await setIncomes(dynamicValidateForm.incomes);
     };
 
-    return { formRef, removeUser, dynamicValidateForm, addUser, onFinish };
+    return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };
   },
 };
 </script>

@@ -99,15 +99,15 @@
               <div class="md:w-full w-1/4">
                 <a-form-item
                   class="custom-ant-form-item"
-                  name="relax"
+                  name="enjoy"
                   :rules="[
                     {
                       required: false,
-                      message: 'Please input relax percentage!',
+                      message: 'Please input enjoy percentage!',
                     },
                   ]"
                 >
-                  <a-input v-model:value="funds.relax">
+                  <a-input v-model:value="funds.enjoy">
                     <template #suffix> % </template>
                   </a-input>
                 </a-form-item>
@@ -204,7 +204,7 @@ export default {
           necessity: 0,
           freedom: 0,
           education: 0,
-          relax: 0,
+          enjoy: 0,
           giving: 0,
           longTermSaving: 0,
         },

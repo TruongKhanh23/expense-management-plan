@@ -112,7 +112,7 @@ import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 
 import detectDevice from "@/utils/device.util";
 import { calculateTotalIncome } from "@/utils/number.util";
-import { getCurrentTime } from "@/utils/time.util";
+import { getCurrentTime, setCurrentChooseMonth } from "@/utils/time.util";
 
 export default {
   components: {
@@ -182,6 +182,7 @@ export default {
 
     (async () => {
       const { currentYear, currentMonthYear } = getCurrentTime();
+      setCurrentChooseMonth(currentYear, currentMonthYear);
 
       funds.value = await getFunds(currentYear, currentMonthYear);
       dataIncome.value = await getIncomes(currentYear, currentMonthYear);

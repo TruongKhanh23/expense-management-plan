@@ -1,13 +1,26 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import { buildPathSegments } from "@/composables/segment/index.js"
-import { collection, onSnapshot, orderBy, query, setDoc, doc } from "firebase/firestore";
+import { buildPathSegments } from "@/composables/segment/index.js";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  doc,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
+import { getCurrentChooseMonth } from "@/utils/time.util";
+
+const year = getCurrentChooseMonth().year;
+const monthYear = getCurrentChooseMonth().monthYear;
 
 export async function getIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
     const incomes = ref([]);
-    const pathSegments = buildPathSegments("incomes", year, monthYear, user)
+    const pathSegments = buildPathSegments("incomes", year, monthYear, user);
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("amount", "desc")),
       (snap) => {
@@ -16,7 +29,6 @@ export async function getIncomes(year, monthYear, user = "admin") {
           incomes.value = [];
         }
         snap.forEach((doc) => {
-
           const data = doc.data();
           const income = {
             key: doc.id,
@@ -34,19 +46,37 @@ export async function getIncomes(year, monthYear, user = "admin") {
 }
 export async function setIncomes(values) {
   try {
-    const pathSegments = buildPathSegments("incomes")
-    for (const id of Object.keys(values)){
-      await setDoc(
-        doc(db, ...pathSegments, id),
-        {
-          source: values[id].source,
-          amount: values[id].amount,
-        },
-        { merge: true },
-      );
+    const pathSegments = buildPathSegments(
+      "incomes",
+      getCurrentChooseMonth().year,
+      getCurrentChooseMonth().monthYear,
+    );
+    console.log("values", values);
+    for (const id of Object.keys(values)) {
+      await setDoc(doc(db, ...pathSegments, id), {
+        source: values[id].source,
+        amount: values[id].amount,
+      });
     }
     alert("Set incomes successfully");
   } catch (error) {
-    alert(`Set funds failed: ${error}`);
+    alert(`Set incomes failed: ${error}`);
   }
 }
+
+export const deleteIncome = async (id, user = "admin") => {
+  const pathSegments = buildPathSegments("incomes", year, monthYear, user);
+
+  try {
+    // Tạo tham chiếu đến document cần xóa
+    const docRef = doc(db, ...pathSegments, id.toString());
+
+    // Xóa document
+    await deleteDoc(docRef);
+    console.log(`Income with ID ${id} has been deleted`);
+    alert(`Income ${id} was deleted`);
+  } catch (error) {
+    console.error(`Delete income failed: ${error.message}`);
+    alert(`Delete income failed\n${error.message}`);
+  }
+};
