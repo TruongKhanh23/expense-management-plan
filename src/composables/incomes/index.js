@@ -66,41 +66,17 @@ export async function setIncomes(values) {
 
 export const deleteIncome = async (id, user = "admin") => {
   const pathSegments = buildPathSegments("incomes", year, monthYear, user);
-  console.log("pathSegments", ...pathSegments);
-  console.log("id", id);
-  try {
-    const subCollectionRef = collection(
-      db,
-      "users",
-      "admin",
-      "years",
-      "2024",
-      "months",
-      "07-2024",
-      "incomes",
-    );
-    const querySnapshot = await getDocs(subCollectionRef);
 
-    // Lặp qua các document và xóa document với ID cụ thể
-    querySnapshot.forEach(async (subDoc) => {
-      if (subDoc.id === id.toString()) {
-        const docRef = doc(
-          db,
-          "users",
-          "admin",
-          "years",
-          "2024",
-          "months",
-          "07-2024",
-          "incomes",
-          subDoc.id,
-        );
-        await deleteDoc(docRef);
-        console.log(`Income with ID ${subDoc.id} has been deleted`);
-      }
-    });
+  try {
+    // Tạo tham chiếu đến document cần xóa
+    const docRef = doc(db, ...pathSegments, id.toString());
+
+    // Xóa document
+    await deleteDoc(docRef);
+    console.log(`Income with ID ${id} has been deleted`);
     alert(`Income ${id} was deleted`);
   } catch (error) {
-    alert(`Delete country failed\n` + error);
+    console.error(`Delete income failed: ${error.message}`);
+    alert(`Delete income failed\n${error.message}`);
   }
 };
