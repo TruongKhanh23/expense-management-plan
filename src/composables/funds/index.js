@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
+import { getCurrentChooseMonth } from "@/utils/time.util";
 
 const pathSegments = [
   "users",
@@ -89,7 +90,9 @@ export function getFundsPercentage(funds) {
 
 export async function setFunds(values) {
   try {
-    const pathSegments = buildPathSegments("funds");
+    const year = getCurrentChooseMonth().year;
+    const monthYear = getCurrentChooseMonth().monthYear;
+    const pathSegments = buildPathSegments("funds", year, monthYear);
     for (const fund of Object.keys(values)) {
       await setDoc(
         doc(db, ...pathSegments, fund),

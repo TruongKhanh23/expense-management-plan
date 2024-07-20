@@ -8,6 +8,8 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
+import { buildPathSegments } from "@/composables/segment/index.js";
+import { getCurrentChooseMonth } from "@/utils/time.util";
 
 const pathSegments = [
   "users",
@@ -53,6 +55,13 @@ export async function getEstimateNecessityExpenses() {
 
 export async function setEstimateNecessityExpenses(id, values) {
   try {
+    const year = getCurrentChooseMonth().year;
+    const monthYear = getCurrentChooseMonth().monthYear;
+    const pathSegments = buildPathSegments(
+      "estimateNecessityExpenses",
+      year,
+      monthYear,
+    );
     await setDoc(
       doc(db, ...pathSegments, id),
       {
