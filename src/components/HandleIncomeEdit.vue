@@ -161,7 +161,7 @@ export default {
         wallet: "",
         type: "",
         isDebt: "false",
-        debtId: null,
+        debtId: 0,
       });
     };
 

@@ -61,9 +61,10 @@
 </template>
 <script lang="ts">
 import { reactive, ref, computed } from "vue";
+import { uuid } from "vue-uuid";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import { setDebt } from "@/composables/debt/index.js";
+import { setDebt, deleteDebt } from "@/composables/debt/index.js";
 import {
   Form,
   Space,
@@ -76,6 +77,7 @@ import {
 } from "ant-design-vue";
 
 interface Debt {
+  key: string;
   name: string;
   amount: number;
   isFinished: string;
@@ -116,12 +118,14 @@ export default {
     });
     const removeItem = (item: Debt) => {
       const index = dynamicValidateForm.debt.indexOf(item);
+      deleteDebt(item.key);
       if (index !== -1) {
         dynamicValidateForm.debt.splice(index, 1);
       }
     };
     const addItem = () => {
       dynamicValidateForm.debt.push({
+        key: uuid.v1(),
         name: "",
         amount: 0,
         isFinished: "",
