@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import { buildPathSegments } from "@/composables/segment/index.js"
+import { buildPathSegments } from "@/composables/segment/index.js";
 import {
   collection,
   onSnapshot,
@@ -33,7 +33,7 @@ export async function getFunds(year, monthYear, user = "admin") {
         classColor: "",
       },
     ]);
-    const pathSegments = buildPathSegments("funds", year, monthYear, user)
+    const pathSegments = buildPathSegments("funds", year, monthYear, user);
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("order", "asc")),
       (snap) => {
@@ -73,7 +73,7 @@ export function getFundsPercentage(funds) {
     necessity: 0,
     freedom: 0,
     education: 0,
-    relax: 0,
+    enjoy: 0,
     giving: 0,
     longTermSaving: 0,
   };
@@ -89,7 +89,7 @@ export function getFundsPercentage(funds) {
 
 export async function setFunds(values) {
   try {
-    const pathSegments = buildPathSegments("funds")
+    const pathSegments = buildPathSegments("funds");
     for (const fund of Object.keys(values)) {
       await setDoc(
         doc(db, ...pathSegments, fund),
