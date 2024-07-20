@@ -16,7 +16,7 @@ const firebaseConfig = {
   projectId: "kdotkhanh-expemaplan",
   storageBucket: "kdotkhanh-expemaplan.appspot.com",
   messagingSenderId: "726093436025",
-  appId: "1:726093436025:web:e3bdda44d79014e517f0a8"
+  appId: "1:726093436025:web:e3bdda44d79014e517f0a8",
 };
 
 // Initialize Firebase

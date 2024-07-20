@@ -9,6 +9,7 @@
       <a-switch class="my-ant-switch" v-model:checked="isEditable" />
     </div>
   </div>
+  <p>{{ totalAmountByDebtId }}</p>
   <ConfigProvider :isDark="isDarkMode">
     <a-table
       v-if="!isEditable"
@@ -28,6 +29,19 @@
             {{ record.isFinished === "false" ? "Chưa trả hết" : "Đã trả xong" }}
           </p>
         </template>
+        <template v-if="column.dataIndex === 'remaining'">
+          <p>
+            {{
+              new Intl.NumberFormat().format(
+                getRemainingDebtByDebtId(
+                  totalAmountByDebtId,
+                  record.key,
+                  record.amount,
+                ),
+              )
+            }}
+          </p>
+        </template>
       </template>
     </a-table>
     <DebtEdit v-else :data="data" />
@@ -41,10 +55,12 @@ import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
 
+import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
+
 import { roundDecimals } from "@/utils/number.util";
 
 type DebtItem = {
-  id: string;
+  key: string;
   name: string;
   amount: number;
   isFinished: string;
@@ -73,6 +89,10 @@ export default {
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
 
+    const totalAmountByDebtId = calculateTotalAmountByDebtId(
+      localStorage.getItem("handleIncomes"),
+    );
+
     const columns: TableColumnType<DebtItem>[] =
       columnsDebt as TableColumnType<DebtItem>[];
 
@@ -89,6 +109,25 @@ export default {
       return total;
     }
 
+    function getRemainingDebtByDebtId(
+      totalAmountByDebtId: any,
+      key: any,
+      amount: any,
+    ) {
+      console.log("key", key);
+      console.log("totalAmountByDebtId", totalAmountByDebtId);
+      const item =
+        totalAmountByDebtId.find(
+          (item: { debtId: any }) => item.debtId === key,
+        ) ?? {};
+      console.log("item", item);
+
+      const totalAmount = item.totalAmount ?? 0;
+      const remaining = amount - totalAmount;
+
+      return remaining;
+    }
+
     return {
       isDarkMode,
       data,
@@ -96,6 +135,8 @@ export default {
       isEditable,
       calculateTotal,
       roundDecimals,
+      totalAmountByDebtId,
+      getRemainingDebtByDebtId,
     };
   },
 };

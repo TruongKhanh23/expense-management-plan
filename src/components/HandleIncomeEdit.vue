@@ -103,7 +103,7 @@ interface HandleIncome {
   fund: string;
   amount: number;
   isDebt: string;
-  debtId: number | undefined;
+  debtId: string;
 }
 
 type DebtItem = {
@@ -186,7 +186,7 @@ export default {
         wallet: "",
         type: "",
         isDebt: "false",
-        debtId: 0,
+        debtId: "Please choose a debt",
       });
     };
 

@@ -20,7 +20,7 @@ type NecessaryThingsItem = {
 };
 
 type DebtItem = {
-  id: string;
+  key: string;
   name: string;
   amount: number;
   isFinished: string;
@@ -425,11 +425,12 @@ export const columnsDebt: TableColumnType<DebtItem>[] = [
   },
   { title: "Số tiền", dataIndex: "amount", align: "right" },
   { title: "Trạng thái", dataIndex: "isFinished", align: "right" },
+  { title: "Còn lại", dataIndex: "remaining", align: "right" },
 ];
 
 export const debts: DebtItem[] = [
   {
-    id: "snjks78669sjnj",
+    key: "snjks78669sjnj",
     name: "Iphone14",
     amount: 13500000,
     isFinished: "false",
