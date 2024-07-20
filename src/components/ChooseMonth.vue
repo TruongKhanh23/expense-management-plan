@@ -14,12 +14,12 @@
 import { DatePicker } from "ant-design-vue";
 import { ref, watch, computed } from "vue";
 
-import type { Dayjs } from 'dayjs';
+import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 
-import { getCurrentTime } from "@/utils/time.util";
+import { getCurrentTime, setCurrentChooseMonth } from "@/utils/time.util";
 
 export default {
   components: {
@@ -40,21 +40,24 @@ export default {
   setup(props, { emit }) {
     const isDarkMode = props.isDark;
     const newMonthProps = computed(() => props.newMonthCreated);
-    
+
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
-    
+
     const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
 
     watch(newMonthProps, async () => {
-      const newMonth = ref<string | Dayjs>(dayjs(props.newMonthCreated, monthFormat))
-      month.value = newMonth.value
-    })
+      const newMonth = ref<string | Dayjs>(
+        dayjs(props.newMonthCreated, monthFormat),
+      );
+      month.value = newMonth.value;
+    });
 
     const handleChange = (value: string | Dayjs, dateString: string) => {
       month.value = value;
       const monthYear = dateString;
       const year = dateString.substring(dateString.length - 4);
+      setCurrentChooseMonth(year, monthYear);
       emit("action:updateMonth", year, monthYear);
     };
     return { month, handleChange, monthFormat, isDarkMode };
