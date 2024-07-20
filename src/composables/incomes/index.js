@@ -1,13 +1,21 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import { buildPathSegments } from "@/composables/segment/index.js"
-import { collection, onSnapshot, orderBy, query, setDoc, doc } from "firebase/firestore";
+import { buildPathSegments } from "@/composables/segment/index.js";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+import { getCurrentChooseMonth } from "@/utils/time.util";
 
 export async function getIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
     const incomes = ref([]);
-    const pathSegments = buildPathSegments("incomes", year, monthYear, user)
+    const pathSegments = buildPathSegments("incomes", year, monthYear, user);
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("amount", "desc")),
       (snap) => {
@@ -16,7 +24,6 @@ export async function getIncomes(year, monthYear, user = "admin") {
           incomes.value = [];
         }
         snap.forEach((doc) => {
-
           const data = doc.data();
           const income = {
             key: doc.id,
@@ -34,8 +41,12 @@ export async function getIncomes(year, monthYear, user = "admin") {
 }
 export async function setIncomes(values) {
   try {
-    const pathSegments = buildPathSegments("incomes")
-    for (const id of Object.keys(values)){
+    const pathSegments = buildPathSegments(
+      "incomes",
+      getCurrentChooseMonth().year,
+      getCurrentChooseMonth().monthYear,
+    );
+    for (const id of Object.keys(values)) {
       await setDoc(
         doc(db, ...pathSegments, id),
         {
