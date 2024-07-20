@@ -73,7 +73,6 @@ import {
   Button,
   InputNumber,
   Select,
-  SelectOption,
 } from "ant-design-vue";
 
 interface Debt {
@@ -94,7 +93,6 @@ export default {
     MinusCircleOutlined,
     PlusOutlined,
     ASelect: Select,
-    ASelectOption: SelectOption,
   },
   props: {
     data: {

@@ -23,12 +23,14 @@
         />
       </a-form-item>
       <a-form-item
+        v-if="item.isDebt === 'true'"
         :name="['handleIncomes', index, 'debtId']"
         :rules="{ required: true, message: 'Missing debtId' }"
       >
-        <a-input-number
+        <a-select
           v-model:value="item.debtId"
           placeholder="Income from (debtId)"
+          :options="debtOptions"
         />
       </a-form-item>
       <a-form-item
@@ -104,6 +106,13 @@ interface HandleIncome {
   debtId: number | undefined;
 }
 
+type DebtItem = {
+  key: string;
+  name: string;
+  amount: number;
+  isFinished: string;
+};
+
 export default {
   components: {
     AForm: Form,
@@ -125,6 +134,22 @@ export default {
   },
   setup(props) {
     const formRef = ref<FormInstance>();
+
+    const debtsString = localStorage.getItem("debt");
+    const debts: DebtItem[] = debtsString ? JSON.parse(debtsString) : [];
+
+    const debtOptions = debts.map((item) => ({
+      label: item.name,
+      value: item.key,
+    }));
+
+    const options = [{ label: "", value: "" }];
+    if (debts.length > 0) {
+      for (const item of debts) {
+        options.push({ label: item.name, value: item.key });
+      }
+    }
+
     const isDebtOptions = [
       { label: "Tích lũy", value: "false" },
       { label: "Trả nợ", value: "true" },
@@ -176,6 +201,7 @@ export default {
     return {
       formRef,
       isDebtOptions,
+      debtOptions,
       removeItem,
       dynamicValidateForm,
       addItem,
