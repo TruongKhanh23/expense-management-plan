@@ -21,7 +21,7 @@ export async function getDebt() {
         };
         list.value.push(item);
       });
-      localStorage.setItem("Debt", JSON.stringify(list.value));
+      localStorage.setItem("debt", JSON.stringify(list.value));
     });
     return list.value;
   } catch (error) {
