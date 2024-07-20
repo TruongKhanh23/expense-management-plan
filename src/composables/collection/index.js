@@ -25,7 +25,6 @@ const pathSegments = [
 
 const countries = ref([]);
 export async function createNewMonth(month, year, monthYear) {
-
   const pathSegments = ["users", "admin", "years", year, "months"];
 
   // Create document month-year (Ex: 02-2023)
@@ -85,7 +84,7 @@ export async function createNewMonth(month, year, monthYear) {
           "giving",
           "longTermSaving",
           "necessity",
-          "relax",
+          "enjoy",
         ];
 
         const newPathSegments = [...pathSegments, monthYear, object];
@@ -112,7 +111,7 @@ export async function createNewMonth(month, year, monthYear) {
           "giving",
           "longTermSaving",
           "necessity",
-          "relax",
+          "enjoy",
         ];
 
         const newPathSegments = [...pathSegments, monthYear, object];

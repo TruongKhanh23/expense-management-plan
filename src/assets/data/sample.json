@@ -173,7 +173,7 @@
       "type": "Phát triển bản thân"
     },
     {
-      "id": "relax",
+      "id": "enjoy",
       "items": [
         {
           "key": "10",
@@ -313,7 +313,7 @@
       "order": 3
     },
     {
-      "id": "relax",
+      "id": "enjoy",
       "src": "/momo.svg",
       "percentage": 7.5,
       "wallet": "Ví chính",
