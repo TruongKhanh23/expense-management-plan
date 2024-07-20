@@ -9,7 +9,6 @@
       <a-switch class="my-ant-switch" v-model:checked="isEditable" />
     </div>
   </div>
-  <p>{{ totalAmountByDebtId }}</p>
   <ConfigProvider :isDark="isDarkMode">
     <a-table
       v-if="!isEditable"
