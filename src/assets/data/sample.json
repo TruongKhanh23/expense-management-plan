@@ -78,28 +78,36 @@
           "wallet": "Momo",
           "fund": "Q. CT thiết yếu",
           "type": "necessity",
-          "amount": 1259499
+          "amount": 1259499,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "2",
           "wallet": "Momo",
           "fund": "Q. Nội thất",
           "type": "necessity",
-          "amount": 200000
+          "amount": 200000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "3",
           "wallet": "VinID",
           "fund": "Q. Lavie",
           "type": "necessity",
-          "amount": 222000
+          "amount": 222000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "4",
           "wallet": "Shopee",
           "fund": "Q. Khám bệnh",
           "type": "necessity",
-          "amount": 300000
+          "amount": 300000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 0,
@@ -113,7 +121,9 @@
           "wallet": "VinID",
           "fund": "Q. Du lịch",
           "type": "freedom",
-          "amount": 600000
+          "amount": 600000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 1,
@@ -127,28 +137,36 @@
           "wallet": "VNPay",
           "fund": "Q. Học tập",
           "type": "education",
-          "amount": 265000
+          "amount": 265000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "7",
           "wallet": "VinID",
           "fund": "Qũy Goalify",
           "type": "education",
-          "amount": 35000
+          "amount": 35000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "8",
           "wallet": "VinID",
           "fund": "Trả mua ghế công thái",
           "type": "education",
-          "amount": 100000
+          "amount": 100000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "9",
           "wallet": "ZaloPay",
           "fund": "Trả tiền lễ tốt nghiệp",
           "type": "education",
-          "amount": 200000
+          "amount": 200000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 2,
@@ -162,35 +180,45 @@
           "wallet": "Tiền mặt",
           "fund": "Hưởng thụ",
           "type": "enjoy",
-          "amount": 400000
+          "amount": 400000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "11",
           "wallet": "Momo",
           "fund": "Chuyển tiền ăn vặt vợ",
           "type": "enjoy",
-          "amount": 300000
+          "amount": 300000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "12",
           "wallet": "VinID",
           "fund": "Q. Gia hạn sim",
           "type": "enjoy",
-          "amount": 100000
+          "amount": 100000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "13",
           "wallet": "VinID",
           "fund": "Qũy Vieon",
           "type": "enjoy",
-          "amount": 30000
+          "amount": 30000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "14",
           "wallet": "Momo",
           "fund": "Ví chính H.Thụ",
           "type": "enjoy",
-          "amount": 670000
+          "amount": 670000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 3,
@@ -204,28 +232,36 @@
           "wallet": "ZaloPay",
           "fund": "Q. Cho đi",
           "type": "giving",
-          "amount": null
+          "amount": null,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "16",
           "wallet": "VinID",
           "fund": "Qũy birthday mẹ Sang",
           "type": "giving",
-          "amount": 100000
+          "amount": 100000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "17",
           "wallet": "VinID",
           "fund": "Qũy birthday mẹ Linh",
           "type": "giving",
-          "amount": 100000
+          "amount": 100000,
+          "isDebt": "false",
+          "debtId": null
         },
         {
           "key": "18",
           "wallet": "ZaloPay",
           "fund": "Trả tiền cưới Thương Q",
           "type": "giving",
-          "amount": 400000
+          "amount": 400000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 4,
@@ -239,7 +275,9 @@
           "wallet": "ZaloPay",
           "fund": "TK tích lũy",
           "type": "longTermSaving",
-          "amount": 2200000
+          "amount": 2200000,
+          "isDebt": "false",
+          "debtId": null
         }
       ],
       "order": 5,
