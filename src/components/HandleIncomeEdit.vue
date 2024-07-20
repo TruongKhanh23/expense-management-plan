@@ -1,5 +1,4 @@
 <template>
-  <div>Handle Income Edit View</div>
   <a-form
     ref="formRef"
     name="dynamic_form_nest_item"
@@ -7,6 +6,7 @@
     @finish="onFinish"
   >
     <!-- Form Fields -->
+
     <a-space
       v-for="(item, index) in dynamicValidateForm.handleIncomes"
       :key="index"
@@ -23,10 +23,13 @@
         />
       </a-form-item>
       <a-form-item
-        :name="['handleIncomes', index, 'type']"
-        :rules="{ required: true, message: 'Missing type' }"
+        :name="['handleIncomes', index, 'debtId']"
+        :rules="{ required: true, message: 'Missing debtId' }"
       >
-        <a-input v-model:value="item.type" placeholder="Income from (type)" />
+        <a-input-number
+          v-model:value="item.debtId"
+          placeholder="Income from (debtId)"
+        />
       </a-form-item>
       <a-form-item
         :name="['handleIncomes', index, 'wallet']"
@@ -65,7 +68,12 @@
       </a-button>
     </a-form-item>
     <a-form-item>
-      <a-button type="default" html-type="submit">Submit</a-button>
+      <div class="flex justify-between">
+        <a-button type="default" html-type="submit">Submit</a-button>
+        <a-tag color="green" class="flex justify-center items-center">
+          {{ dynamicValidateForm.handleIncomes[0].type.toUpperCase() }}
+        </a-tag>
+      </div>
     </a-form-item>
   </a-form>
 </template>
@@ -83,6 +91,7 @@ import {
   Button,
   InputNumber,
   Select,
+  Tag,
 } from "ant-design-vue";
 
 interface HandleIncome {
@@ -92,7 +101,7 @@ interface HandleIncome {
   fund: string;
   amount: number;
   isDebt: string;
-  debtId: number | null;
+  debtId: number | undefined;
 }
 
 export default {
@@ -104,6 +113,7 @@ export default {
     AInputNumber: InputNumber,
     AButton: Button,
     ASelect: Select,
+    ATag: Tag,
     MinusCircleOutlined,
     PlusOutlined,
   },

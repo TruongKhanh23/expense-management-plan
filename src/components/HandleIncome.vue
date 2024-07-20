@@ -69,7 +69,7 @@ type HandleIncomeItem = {
   fund: string;
   amount: number;
   isRepay: string;
-  debtId: number | null;
+  debtId: number;
 };
 
 export default {
