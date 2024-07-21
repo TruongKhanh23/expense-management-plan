@@ -154,3 +154,20 @@ export async function createNewMonth(month, year, monthYear) {
     }
   });
 }
+
+export async function getListYears() {
+  const pathSegments = ["users", "admin", "years"];
+  const colRef = collection(db, ...pathSegments);
+
+  try {
+    const querySnapshot = await getDocs(colRef);
+    const documents = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return documents.map((item) => item.id);
+  } catch (error) {
+    console.error("Error getting documents: ", error);
+    return [];
+  }
+}
