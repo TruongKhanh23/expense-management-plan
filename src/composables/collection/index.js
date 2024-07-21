@@ -12,8 +12,9 @@ import {
   doc,
   getDocs,
 } from "firebase/firestore";
+import { checkDocumentExists } from "@/utils/document.util";
 
-const pathSegments = [
+const pathSegmentsCreateMonth = [
   "users",
   "admin",
   "years",
@@ -25,14 +26,23 @@ const pathSegments = [
 
 const countries = ref([]);
 export async function createNewMonth(month, year, monthYear) {
-  const pathSegments = ["users", "admin", "years", year, "months"];
+  const isYearExist = await checkDocumentExists(
+    ["users", "admin", "years"],
+    year,
+  );
+  const pathSegmentsCreateYear = ["users", "admin", "years"];
+  const pathSegmentsCreateMonth = ["users", "admin", "years", year, "months"];
 
-  // Create document month-year (Ex: 02-2023)
-  let dataObject = { name: `Tháng ${month}, năm ${year}` };
-  // doc(firestoreInstance, "collectionName", "documentId")
-  // setDoc(collectionReference, dataObject)
   try {
-    await setDoc(doc(db, ...pathSegments, monthYear), dataObject);
+    if (!isYearExist) {
+      //Create document year
+      await setDoc(doc(db, ...pathSegmentsCreateYear, year), {
+        name: "Năm " + year,
+      });
+    }
+    // Create document month-year (Ex: 02-2023)
+    let dataObject = { name: `Tháng ${month}, năm ${year}` };
+    await setDoc(doc(db, ...pathSegmentsCreateMonth, monthYear), dataObject);
     console.log(`Set month ${dataObject.name} successfully`);
     console.log(
       "--------------------------------------------------------------------------------------",
@@ -59,7 +69,7 @@ export async function createNewMonth(month, year, monthYear) {
           "waterLavieFund",
         ];
 
-        const newPathSegments = [...pathSegments, monthYear, object];
+        const newPathSegments = [...pathSegmentsCreateMonth, monthYear, object];
         estimateNecessityExpenses.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -87,7 +97,7 @@ export async function createNewMonth(month, year, monthYear) {
           "enjoy",
         ];
 
-        const newPathSegments = [...pathSegments, monthYear, object];
+        const newPathSegments = [...pathSegmentsCreateMonth, monthYear, object];
         funds.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -114,7 +124,7 @@ export async function createNewMonth(month, year, monthYear) {
           "enjoy",
         ];
 
-        const newPathSegments = [...pathSegments, monthYear, object];
+        const newPathSegments = [...pathSegmentsCreateMonth, monthYear, object];
         handleIncomes.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.id === documentId);
           try {
@@ -134,7 +144,7 @@ export async function createNewMonth(month, year, monthYear) {
         const data = sampleJson.incomes;
         const handleIncomes = ["1", "2", "3"];
 
-        const newPathSegments = [...pathSegments, monthYear, object];
+        const newPathSegments = [...pathSegmentsCreateMonth, monthYear, object];
         handleIncomes.forEach(async (documentId) => {
           const dataObject = data.find((item) => item.key === documentId);
           try {
