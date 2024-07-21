@@ -80,7 +80,7 @@
           "type": "necessity",
           "amount": 1259499,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "2",
@@ -89,7 +89,7 @@
           "type": "necessity",
           "amount": 200000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "3",
@@ -98,7 +98,7 @@
           "type": "necessity",
           "amount": 222000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "4",
@@ -107,7 +107,7 @@
           "type": "necessity",
           "amount": 300000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 0,
@@ -123,7 +123,7 @@
           "type": "freedom",
           "amount": 600000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 1,
@@ -139,7 +139,7 @@
           "type": "education",
           "amount": 265000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "7",
@@ -148,7 +148,7 @@
           "type": "education",
           "amount": 35000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "8",
@@ -157,7 +157,7 @@
           "type": "education",
           "amount": 100000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "9",
@@ -166,7 +166,7 @@
           "type": "education",
           "amount": 200000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 2,
@@ -182,7 +182,7 @@
           "type": "enjoy",
           "amount": 400000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "11",
@@ -191,7 +191,7 @@
           "type": "enjoy",
           "amount": 300000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "12",
@@ -200,7 +200,7 @@
           "type": "enjoy",
           "amount": 100000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "13",
@@ -209,7 +209,7 @@
           "type": "enjoy",
           "amount": 30000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "14",
@@ -218,7 +218,7 @@
           "type": "enjoy",
           "amount": 670000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 3,
@@ -234,7 +234,7 @@
           "type": "giving",
           "amount": null,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "16",
@@ -243,7 +243,7 @@
           "type": "giving",
           "amount": 100000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "17",
@@ -252,7 +252,7 @@
           "type": "giving",
           "amount": 100000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         },
         {
           "key": "18",
@@ -261,7 +261,7 @@
           "type": "giving",
           "amount": 400000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 4,
@@ -277,7 +277,7 @@
           "type": "longTermSaving",
           "amount": 2200000,
           "isDebt": "false",
-          "debtId": null
+          "debtId": "current-is-no-debt"
         }
       ],
       "order": 5,

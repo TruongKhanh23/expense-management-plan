@@ -1,4 +1,5 @@
 import { TableColumnType } from "ant-design-vue";
+import type { Dayjs } from "dayjs";
 
 type TableDataType = {
   key: string;
@@ -7,7 +8,7 @@ type TableDataType = {
   fund: string;
   amount: number;
   isRepay: string;
-  debtId: number | null;
+  debtId: number;
 };
 
 type NecessaryThingsItem = {
@@ -20,9 +21,10 @@ type NecessaryThingsItem = {
 };
 
 type DebtItem = {
-  id: string;
+  key: string;
   name: string;
   amount: number;
+  startDate: string | Dayjs;
   isFinished: string;
 };
 
@@ -63,7 +65,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "necessity",
     amount: 1259499,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "2",
@@ -72,7 +74,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "necessity",
     amount: 200000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "3",
@@ -81,7 +83,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "freedom",
     amount: 600000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "4",
@@ -90,7 +92,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "enjoy",
     amount: 670000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "5",
@@ -99,7 +101,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "enjoy",
     amount: 400000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "6",
@@ -108,7 +110,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "enjoy",
     amount: 300000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "7",
@@ -117,7 +119,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "enjoy",
     amount: 100000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "8",
@@ -126,7 +128,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "enjoy",
     amount: 30000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "9",
@@ -135,7 +137,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "education",
     amount: 265000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "10",
@@ -144,7 +146,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "education",
     amount: 35000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "11",
@@ -153,7 +155,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "education",
     amount: 100000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "12",
@@ -162,7 +164,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "education",
     amount: 200000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "13",
@@ -171,7 +173,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "giving",
     amount: 0,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "14",
@@ -180,7 +182,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "giving",
     amount: 100000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "15",
@@ -189,7 +191,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "giving",
     amount: 100000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "16",
@@ -198,7 +200,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "giving",
     amount: 400000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "17",
@@ -207,7 +209,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "longTermSaving",
     amount: 2200000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "18",
@@ -216,7 +218,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "necessity",
     amount: 222000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
   {
     key: "19",
@@ -225,7 +227,7 @@ export const dataHandleIncome: TableDataType[] = [
     type: "necessity",
     amount: 300000,
     isRepay: "false",
-    debtId: null,
+    debtId: 0,
   },
 ];
 
@@ -424,14 +426,7 @@ export const columnsDebt: TableColumnType<DebtItem>[] = [
     dataIndex: "name",
   },
   { title: "Số tiền", dataIndex: "amount", align: "right" },
+  { title: "Ngày bắt đầu", dataIndex: "startDate", align: "right" },
   { title: "Trạng thái", dataIndex: "isFinished", align: "right" },
-];
-
-export const debts: DebtItem[] = [
-  {
-    id: "snjks78669sjnj",
-    name: "Iphone14",
-    amount: 13500000,
-    isFinished: "false",
-  },
+  { title: "Còn lại", dataIndex: "remaining", align: "right" },
 ];

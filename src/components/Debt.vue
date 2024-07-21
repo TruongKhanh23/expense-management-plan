@@ -23,9 +23,27 @@
         <template v-if="column.dataIndex === 'amount'">
           <p>{{ new Intl.NumberFormat().format(record.amount) }}</p>
         </template>
+        <template v-if="column.dataIndex === 'startDate'">
+          <p>
+            {{ dayjs(record.startDate, "YYYY-MM-DD").format("DD-MM-YYYY") }}
+          </p>
+        </template>
         <template v-if="column.dataIndex === 'isFinished'">
           <p>
             {{ record.isFinished === "false" ? "Chưa trả hết" : "Đã trả xong" }}
+          </p>
+        </template>
+        <template v-if="column.dataIndex === 'remaining'">
+          <p>
+            {{
+              new Intl.NumberFormat().format(
+                getRemainingDebtByDebtId(
+                  totalAmountByDebtId,
+                  record.key,
+                  record.amount,
+                ),
+              )
+            }}
           </p>
         </template>
       </template>
@@ -40,13 +58,17 @@ import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
+import dayjs from "dayjs";
+import type { Dayjs } from "dayjs";
+import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
 
 import { roundDecimals } from "@/utils/number.util";
 
 type DebtItem = {
-  id: string;
+  key: string;
   name: string;
   amount: number;
+  startDate: string | Dayjs;
   isFinished: string;
 };
 
@@ -73,6 +95,10 @@ export default {
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
 
+    const totalAmountByDebtId = calculateTotalAmountByDebtId(
+      localStorage.getItem("handleIncomes"),
+    );
+
     const columns: TableColumnType<DebtItem>[] =
       columnsDebt as TableColumnType<DebtItem>[];
 
@@ -89,6 +115,25 @@ export default {
       return total;
     }
 
+    function getRemainingDebtByDebtId(
+      totalAmountByDebtId: any,
+      key: any,
+      amount: any,
+    ) {
+      console.log("key", key);
+      console.log("totalAmountByDebtId", totalAmountByDebtId);
+      const item =
+        totalAmountByDebtId.find(
+          (item: { debtId: any }) => item.debtId === key,
+        ) ?? {};
+      console.log("item", item);
+
+      const totalAmount = item.totalAmount ?? 0;
+      const remaining = amount - totalAmount;
+
+      return remaining;
+    }
+
     return {
       isDarkMode,
       data,
@@ -96,6 +141,9 @@ export default {
       isEditable,
       calculateTotal,
       roundDecimals,
+      totalAmountByDebtId,
+      getRemainingDebtByDebtId,
+      dayjs,
     };
   },
 };

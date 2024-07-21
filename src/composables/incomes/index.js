@@ -13,13 +13,13 @@ import {
 } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
-const year = getCurrentChooseMonth().year;
-const monthYear = getCurrentChooseMonth().monthYear;
-
 export async function getIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
     const incomes = ref([]);
+    const year = getCurrentChooseMonth().year;
+    const monthYear = getCurrentChooseMonth().monthYear;
+
     const pathSegments = buildPathSegments("incomes", year, monthYear, user);
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("amount", "desc")),
@@ -41,7 +41,7 @@ export async function getIncomes(year, monthYear, user = "admin") {
     );
     return incomes.value;
   } catch (error) {
-    alert("Get incomes failed");
+    alert("Get incomes failed\n" + error);
   }
 }
 export async function setIncomes(values) {
@@ -65,6 +65,8 @@ export async function setIncomes(values) {
 }
 
 export const deleteIncome = async (id, user = "admin") => {
+  const year = getCurrentChooseMonth().year;
+  const monthYear = getCurrentChooseMonth().monthYear;
   const pathSegments = buildPathSegments("incomes", year, monthYear, user);
 
   try {

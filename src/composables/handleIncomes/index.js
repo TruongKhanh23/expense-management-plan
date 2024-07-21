@@ -31,10 +31,9 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
     });
     return list.value;
   } catch (error) {
-    alert("Get handleIncomes failed");
+    alert("Get handleIncomes failed\n" + error);
   }
 }
-
 export async function setHandleIncomes(values) {
   try {
     const id = values[0].type;
@@ -52,4 +51,35 @@ export async function setHandleIncomes(values) {
   } catch (error) {
     alert(`Set HandleIncomes failed: ${error}`);
   }
+}
+export function mergeItems(data) {
+  const dataJson = JSON.parse(data);
+  return dataJson.reduce((accumulator, current) => {
+    // Kiểm tra xem current.items có tồn tại và có phải là một mảng không
+    if (Array.isArray(current.items)) {
+      // Gộp các item vào accumulator
+      accumulator.push(...current.items);
+    }
+    return accumulator;
+  }, []);
+}
+export function calculateTotalAmountByDebtId(data) {
+  const items = mergeItems(data);
+  // Sử dụng reduce để nhóm các đối tượng theo debtId và tính tổng amount
+  const groupedByDebtId = items.reduce((accumulator, item) => {
+    // Nếu debtId chưa có trong accumulator, khởi tạo với totalAmount = 0
+    if (!accumulator[item.debtId]) {
+      accumulator[item.debtId] = {
+        debtId: item.debtId,
+        fund: item.fund,
+        totalAmount: 0,
+      };
+    }
+    // Cộng dồn amount vào totalAmount của debtId tương ứng
+    accumulator[item.debtId].totalAmount += item.amount;
+    return accumulator;
+  }, {});
+
+  // Chuyển đối tượng nhóm thành mảng
+  return Object.values(groupedByDebtId);
 }

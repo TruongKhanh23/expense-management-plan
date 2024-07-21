@@ -65,7 +65,7 @@ export async function getFunds(year, monthYear, user = "admin") {
     );
     return funds.value;
   } catch (error) {
-    alert("Get funds failed");
+    alert("Get funds failed\n", error);
   }
 }
 

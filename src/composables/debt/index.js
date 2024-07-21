@@ -1,7 +1,15 @@
 import { ref } from "vue";
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
-import { collection, onSnapshot, query, setDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  setDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import dayjs from "dayjs";
 
 export async function getDebt() {
   try {
@@ -25,20 +33,21 @@ export async function getDebt() {
     });
     return list.value;
   } catch (error) {
-    alert("Get Debt failed");
+    alert("Get Debt failed\n" + error);
   }
 }
 
 export async function setDebt(values) {
   try {
     const pathSegments = ["users", "admin", "debt"];
-    for (const id of Object.keys(values)) {
+    for (const item of values) {
       await setDoc(
-        doc(db, ...pathSegments, id),
+        doc(db, ...pathSegments, item.key),
         {
-          name: values[id].name,
-          amount: values[id].amount,
-          isFinished: values[id].isFinished,
+          name: item.name,
+          amount: item.amount,
+          isFinished: item.isFinished,
+          startDate: item.startDate.format("YYYY-MM-DD"),
         },
         { merge: true },
       );
@@ -48,3 +57,19 @@ export async function setDebt(values) {
     alert(`Set debts failed: ${error}`);
   }
 }
+
+export const deleteDebt = async (id, user = "admin") => {
+  try {
+    const pathSegments = ["users", user, "debt"];
+    // Tạo tham chiếu đến document cần xóa
+    const docRef = doc(db, ...pathSegments, id);
+
+    // Xóa document
+    await deleteDoc(docRef);
+    console.log(`Debt with ID ${id} has been deleted`);
+    alert(`Debt ${id} was deleted`);
+  } catch (error) {
+    console.error(`Delete debt failed: ${error.message}`);
+    alert(`Delete debt failed\n${error.message}`);
+  }
+};

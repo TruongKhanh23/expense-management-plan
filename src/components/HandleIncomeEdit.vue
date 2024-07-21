@@ -1,5 +1,4 @@
 <template>
-  <div>Handle Income Edit View</div>
   <a-form
     ref="formRef"
     name="dynamic_form_nest_item"
@@ -7,6 +6,7 @@
     @finish="onFinish"
   >
     <!-- Form Fields -->
+
     <a-space
       v-for="(item, index) in dynamicValidateForm.handleIncomes"
       :key="index"
@@ -23,10 +23,15 @@
         />
       </a-form-item>
       <a-form-item
-        :name="['handleIncomes', index, 'type']"
-        :rules="{ required: true, message: 'Missing type' }"
+        v-if="item.isDebt === 'true'"
+        :name="['handleIncomes', index, 'debtId']"
+        :rules="{ required: true, message: 'Missing debtId' }"
       >
-        <a-input v-model:value="item.type" placeholder="Income from (type)" />
+        <a-select
+          v-model:value="item.debtId"
+          placeholder="Income from (debtId)"
+          :options="debtOptions"
+        />
       </a-form-item>
       <a-form-item
         :name="['handleIncomes', index, 'wallet']"
@@ -65,7 +70,12 @@
       </a-button>
     </a-form-item>
     <a-form-item>
-      <a-button type="default" html-type="submit">Submit</a-button>
+      <div class="flex justify-between">
+        <a-button type="default" html-type="submit">Submit</a-button>
+        <a-tag color="green" class="flex justify-center items-center">
+          {{ dynamicValidateForm.handleIncomes[0].type.toUpperCase() }}
+        </a-tag>
+      </div>
     </a-form-item>
   </a-form>
 </template>
@@ -83,7 +93,9 @@ import {
   Button,
   InputNumber,
   Select,
+  Tag,
 } from "ant-design-vue";
+import type { Dayjs } from "dayjs";
 
 interface HandleIncome {
   key: string;
@@ -92,8 +104,16 @@ interface HandleIncome {
   fund: string;
   amount: number;
   isDebt: string;
-  debtId: number | null;
+  debtId: string;
 }
+
+type DebtItem = {
+  key: string;
+  name: string;
+  amount: number;
+  startDate: string | Dayjs;
+  isFinished: string;
+};
 
 export default {
   components: {
@@ -104,6 +124,7 @@ export default {
     AInputNumber: InputNumber,
     AButton: Button,
     ASelect: Select,
+    ATag: Tag,
     MinusCircleOutlined,
     PlusOutlined,
   },
@@ -115,6 +136,22 @@ export default {
   },
   setup(props) {
     const formRef = ref<FormInstance>();
+
+    const debtsString = localStorage.getItem("debt");
+    const debts: DebtItem[] = debtsString ? JSON.parse(debtsString) : [];
+
+    const debtOptions = debts.map((item) => ({
+      label: item.name,
+      value: item.key,
+    }));
+
+    const options = [{ label: "", value: "" }];
+    if (debts.length > 0) {
+      for (const item of debts) {
+        options.push({ label: item.name, value: item.key });
+      }
+    }
+
     const isDebtOptions = [
       { label: "Tích lũy", value: "false" },
       { label: "Trả nợ", value: "true" },
@@ -151,7 +188,7 @@ export default {
         wallet: "",
         type: "",
         isDebt: "false",
-        debtId: null,
+        debtId: "Please choose a debt",
       });
     };
 
@@ -166,6 +203,7 @@ export default {
     return {
       formRef,
       isDebtOptions,
+      debtOptions,
       removeItem,
       dynamicValidateForm,
       addItem,
