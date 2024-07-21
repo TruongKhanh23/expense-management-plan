@@ -31,7 +31,7 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
     });
     return list.value;
   } catch (error) {
-    alert("Get handleIncomes failed");
+    alert("Get handleIncomes failed\n" + error);
   }
 }
 export async function setHandleIncomes(values) {

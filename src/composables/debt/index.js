@@ -32,7 +32,7 @@ export async function getDebt() {
     });
     return list.value;
   } catch (error) {
-    alert("Get Debt failed");
+    alert("Get Debt failed\n" + error);
   }
 }
 

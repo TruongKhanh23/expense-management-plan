@@ -41,7 +41,7 @@ export async function getIncomes(year, monthYear, user = "admin") {
     );
     return incomes.value;
   } catch (error) {
-    alert("Get incomes failed");
+    alert("Get incomes failed\n" + error);
   }
 }
 export async function setIncomes(values) {
