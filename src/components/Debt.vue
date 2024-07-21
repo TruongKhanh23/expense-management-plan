@@ -86,6 +86,10 @@ export default {
       type: Array as () => DebtItem[],
       default: () => [],
     },
+    allHandleIncomesIsDebt: {
+      type: Array,
+      default: () => [],
+    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
@@ -95,8 +99,8 @@ export default {
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
 
-    const totalAmountByDebtId = calculateTotalAmountByDebtId(
-      localStorage.getItem("handleIncomes"),
+    const totalAmountByDebtId = computed(() =>
+      calculateTotalAmountByDebtId(props.allHandleIncomesIsDebt),
     );
 
     const columns: TableColumnType<DebtItem>[] =

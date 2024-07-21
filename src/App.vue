@@ -69,7 +69,11 @@
       <a-tab-pane key="3" tab="Nợ" force-render>
         <div class="flex justify-center items-center">
           <a-col :md="{ span: 12 }">
-            <Debt :isDark="isDarkProps" :debt="debt" />
+            <Debt
+              :isDark="isDarkProps"
+              :debt="debt"
+              :allHandleIncomesIsDebt="allHandleIncomesIsDebt"
+            />
           </a-col>
         </div>
       </a-tab-pane>
@@ -86,10 +90,12 @@
   </div>
 </template>
 <script lang="ts">
+//#region import
 import { ref, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
+import { getHandleIncomesAllYears } from "@/composables/collection/index.js";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -116,6 +122,7 @@ import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import detectDevice from "@/utils/device.util";
 import { calculateTotalIncome } from "@/utils/number.util";
 import { getCurrentTime, setCurrentChooseMonth } from "@/utils/time.util";
+//#endregion
 
 export default {
   components: {
@@ -160,6 +167,7 @@ export default {
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
     const dataEstimateNecessity: any = ref([]);
+    const allHandleIncomesIsDebt: any = ref([]);
     const debt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
@@ -197,6 +205,13 @@ export default {
       dataEstimateNecessity.value = await getEstimateNecessityExpenses(
         currentYear,
         currentMonthYear,
+      );
+      allHandleIncomesIsDebt.value = (await getHandleIncomesAllYears()).filter(
+        (item) => item.isDebt === "true",
+      );
+      console.log(
+        "allHandleIncomesIsDebt.value ",
+        allHandleIncomesIsDebt.value,
       );
 
       debt.value = await getDebt();
@@ -247,6 +262,7 @@ export default {
       columnsHandleIncome,
       dataHandleIncome,
       dataEstimateNecessity,
+      allHandleIncomesIsDebt,
       debt,
       necessityLimitation,
       handleUpdateTotalIncome,

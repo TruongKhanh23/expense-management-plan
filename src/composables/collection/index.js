@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 import { checkDocumentExists } from "@/utils/document.util";
 
-const countries = ref([]);
 export async function createNewMonth(month, year, monthYear) {
   const isYearExist = await checkDocumentExists(
     ["users", "admin", "years"],
@@ -154,4 +153,66 @@ export async function createNewMonth(month, year, monthYear) {
         break;
     }
   });
+}
+
+export async function getListYears() {
+  const pathSegments = ["users", "admin", "years"];
+  return await getListDocsByCollection(pathSegments);
+}
+
+export async function getListMonthsByYear(year) {
+  const pathSegments = ["users", "admin", "years", year, "months"];
+  return await getListDocsByCollection(pathSegments);
+}
+
+export async function getHandleIncomesByMonth(year, month) {
+  const originPathSegments = ["users", "admin", "years", year, "months", month];
+  const handleIncomesPathSegments = [...originPathSegments, "handleIncomes"];
+
+  const handleIncomesByType = await getListDocsByCollection(
+    handleIncomesPathSegments,
+  );
+
+  const allHandleIncomes = handleIncomesByType.docsData.map((type) => {
+    return type.items;
+  });
+
+  const allHandleIncomesDetails = allHandleIncomes
+    .filter((item) => item !== undefined)
+    .flat();
+
+  return allHandleIncomesDetails;
+}
+
+export async function getHandleIncomesAllYears() {
+  const { docIds: allYears } = await getListYears();
+  let allMonths = [];
+  let allHandleIncomes = [];
+  for (const year of allYears) {
+    const { docIds: listMonthsByYear } = await getListMonthsByYear(year);
+    for (const month of listMonthsByYear) {
+      const listHandleIncomesByMonth = await getHandleIncomesByMonth(
+        year,
+        month,
+      );
+      allHandleIncomes.push(...listHandleIncomesByMonth);
+    }
+  }
+  return allHandleIncomes;
+}
+
+export async function getListDocsByCollection(pathSegments) {
+  const colRef = collection(db, ...pathSegments);
+
+  try {
+    const querySnapshot = await getDocs(colRef);
+    const documents = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return { docIds: documents.map((item) => item.id), docsData: documents };
+  } catch (error) {
+    console.error("Error getting documents: ", error);
+    return [];
+  }
 }

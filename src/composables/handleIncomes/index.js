@@ -53,16 +53,20 @@ export async function setHandleIncomes(values) {
   }
 }
 export function mergeItems(data) {
-  const dataJson = JSON.parse(data);
-  return dataJson.reduce((accumulator, current) => {
-    // Kiểm tra xem current.items có tồn tại và có phải là một mảng không
-    if (Array.isArray(current.items)) {
-      // Gộp các item vào accumulator
-      accumulator.push(...current.items);
-    }
+  // Kiểm tra nếu data là mảng, nếu không, trả về mảng rỗng
+  if (!Array.isArray(data)) {
+    return [];
+  }
+
+  console.log("data", data);
+
+  return data.reduce((accumulator, current) => {
+    // Gộp current item vào accumulator
+    accumulator.push(current);
     return accumulator;
   }, []);
 }
+
 export function calculateTotalAmountByDebtId(data) {
   // Nếu data là null hoặc không phải là mảng, trả về mảng rỗng
   if (!Array.isArray(data)) {
@@ -70,6 +74,7 @@ export function calculateTotalAmountByDebtId(data) {
   }
 
   const items = mergeItems(data);
+  console.log("items", items);
 
   // Sử dụng reduce để nhóm các đối tượng theo debtId và tính tổng amount
   const groupedByDebtId = items.reduce((accumulator, item) => {
