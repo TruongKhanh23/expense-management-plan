@@ -64,7 +64,13 @@ export function mergeItems(data) {
   }, []);
 }
 export function calculateTotalAmountByDebtId(data) {
+  // Nếu data là null hoặc không phải là mảng, trả về mảng rỗng
+  if (!Array.isArray(data)) {
+    return [];
+  }
+
   const items = mergeItems(data);
+
   // Sử dụng reduce để nhóm các đối tượng theo debtId và tính tổng amount
   const groupedByDebtId = items.reduce((accumulator, item) => {
     // Nếu debtId chưa có trong accumulator, khởi tạo với totalAmount = 0
