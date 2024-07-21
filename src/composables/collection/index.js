@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 import { checkDocumentExists } from "@/utils/document.util";
 
-const countries = ref([]);
 export async function createNewMonth(month, year, monthYear) {
   const isYearExist = await checkDocumentExists(
     ["users", "admin", "years"],
