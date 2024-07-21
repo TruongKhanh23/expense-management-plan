@@ -157,6 +157,15 @@ export async function createNewMonth(month, year, monthYear) {
 
 export async function getListYears() {
   const pathSegments = ["users", "admin", "years"];
+  return await getListDocsByCollection(pathSegments);
+}
+
+export async function getListMonthsByYear(year) {
+  const pathSegments = ["users", "admin", "years", year, "months"];
+  return await getListDocsByCollection(pathSegments);
+}
+
+export async function getListDocsByCollection(pathSegments) {
   const colRef = collection(db, ...pathSegments);
 
   try {
