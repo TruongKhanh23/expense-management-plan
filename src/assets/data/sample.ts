@@ -1,4 +1,5 @@
 import { TableColumnType } from "ant-design-vue";
+import type { Dayjs } from "dayjs";
 
 type TableDataType = {
   key: string;
@@ -23,6 +24,7 @@ type DebtItem = {
   key: string;
   name: string;
   amount: number;
+  startDate: string | Dayjs;
   isFinished: string;
 };
 
@@ -424,15 +426,7 @@ export const columnsDebt: TableColumnType<DebtItem>[] = [
     dataIndex: "name",
   },
   { title: "Số tiền", dataIndex: "amount", align: "right" },
+  { title: "Ngày bắt đầu", dataIndex: "startDate", align: "right" },
   { title: "Trạng thái", dataIndex: "isFinished", align: "right" },
   { title: "Còn lại", dataIndex: "remaining", align: "right" },
-];
-
-export const debts: DebtItem[] = [
-  {
-    key: "snjks78669sjnj",
-    name: "Iphone14",
-    amount: 13500000,
-    isFinished: "false",
-  },
 ];

@@ -95,6 +95,7 @@ import {
   Select,
   Tag,
 } from "ant-design-vue";
+import type { Dayjs } from "dayjs";
 
 interface HandleIncome {
   key: string;
@@ -110,6 +111,7 @@ type DebtItem = {
   key: string;
   name: string;
   amount: number;
+  startDate: string | Dayjs;
   isFinished: string;
 };
 

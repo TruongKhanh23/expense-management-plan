@@ -23,6 +23,11 @@
         <template v-if="column.dataIndex === 'amount'">
           <p>{{ new Intl.NumberFormat().format(record.amount) }}</p>
         </template>
+        <template v-if="column.dataIndex === 'startDate'">
+          <p>
+            {{ dayjs(record.startDate, "YYYY-MM-DD").format("DD-MM-YYYY") }}
+          </p>
+        </template>
         <template v-if="column.dataIndex === 'isFinished'">
           <p>
             {{ record.isFinished === "false" ? "Chưa trả hết" : "Đã trả xong" }}
@@ -53,7 +58,8 @@ import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
-
+import dayjs from "dayjs";
+import type { Dayjs } from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
 
 import { roundDecimals } from "@/utils/number.util";
@@ -62,6 +68,7 @@ type DebtItem = {
   key: string;
   name: string;
   amount: number;
+  startDate: string | Dayjs;
   isFinished: string;
 };
 
@@ -136,6 +143,7 @@ export default {
       roundDecimals,
       totalAmountByDebtId,
       getRemainingDebtByDebtId,
+      dayjs,
     };
   },
 };

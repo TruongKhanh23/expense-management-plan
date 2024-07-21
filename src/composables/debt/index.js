@@ -9,6 +9,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
+import dayjs from "dayjs";
 
 export async function getDebt() {
   try {
@@ -46,6 +47,7 @@ export async function setDebt(values) {
           name: item.name,
           amount: item.amount,
           isFinished: item.isFinished,
+          startDate: item.startDate.format("YYYY-MM-DD"),
         },
         { merge: true },
       );

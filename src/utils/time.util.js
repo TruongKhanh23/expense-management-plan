@@ -1,5 +1,6 @@
 export function getCurrentTime() {
   const currentDate = new Date();
+  const currentDateString = currentDate.toString();
   const currentMonth =
     currentDate.getMonth() < 10
       ? "0" + (currentDate.getMonth() + 1).toString()
@@ -7,7 +8,12 @@ export function getCurrentTime() {
   const currentYear = currentDate.getFullYear().toString();
   const currentMonthYear = `${currentMonth}-${currentYear}`;
 
-  return { currentYear, currentMonth, currentMonthYear };
+  return {
+    currentYear,
+    currentMonth,
+    currentMonthYear,
+    currentDate: currentDateString,
+  };
 }
 
 export function setCurrentChooseMonth(year, monthYear) {
