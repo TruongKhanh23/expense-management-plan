@@ -1,6 +1,9 @@
 <template>
   <a-col :md="{ span: 6 }">
-    <EstimateNecessity :necessityLimitation="necessityLimitation" />
+    <EstimateNecessity
+      :data="dataEstimateNecessity"
+      :necessityLimitation="necessityLimitation"
+    />
   </a-col>
 
   <a-col :md="{ span: 8 }">
@@ -44,6 +47,17 @@ type HandleIncomeItem = {
   isRepay: string;
   debtId: number;
 };
+type EstimateNecessityType = {
+  id: string;
+  details: EstimateNecessityItem[];
+  name: string;
+  order: number;
+};
+type EstimateNecessityItem = {
+  id: string;
+  name: string;
+  amount: number;
+};
 
 export default {
   components: {
@@ -75,6 +89,10 @@ export default {
     },
     dataHandleIncome: {
       type: Array as () => HandleIncomeType[],
+      default: () => [],
+    },
+    dataEstimateNecessity: {
+      type: Array as () => EstimateNecessityType[],
       default: () => [],
     },
     isDark: {

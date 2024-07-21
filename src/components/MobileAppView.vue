@@ -1,7 +1,10 @@
 <template>
   <a-tabs centered class="dark:text-[#ffffff]">
     <a-tab-pane key="1" tab="Dự chi thiết yếu">
-      <EstimateNecessity :necessityLimitation="necessityLimitation" />
+      <EstimateNecessity
+        :data="dataEstimateNecessity"
+        :necessityLimitation="necessityLimitation"
+      />
     </a-tab-pane>
     <a-tab-pane key="2" tab="Thu nhập" force-render>
       <IncomeDebt
@@ -46,6 +49,17 @@ type HandleIncomeItem = {
   isRepay: string;
   debtId: number;
 };
+type EstimateNecessityType = {
+  id: string;
+  details: EstimateNecessityItem[];
+  name: string;
+  order: number;
+};
+type EstimateNecessityItem = {
+  id: string;
+  name: string;
+  amount: number;
+};
 
 export default {
   components: {
@@ -79,6 +93,10 @@ export default {
     },
     dataHandleIncome: {
       type: Array as () => HandleIncomeType[],
+      default: () => [],
+    },
+    dataEstimateNecessity: {
+      type: Array as () => EstimateNecessityType[],
       default: () => [],
     },
     isDark: {

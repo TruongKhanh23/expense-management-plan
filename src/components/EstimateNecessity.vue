@@ -52,15 +52,14 @@ export default {
       type: Number,
       require: true,
     },
+    data: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup() {
     const isEditable = ref(false);
     const dropDownOpen = ref([]);
-    const data = ref([]);
-
-    (async () => {
-      data.value = await getEstimateNecessityExpenses();
-    })();
 
     function sumOfDetails(item) {
       if (Object.hasOwn(item, "details")) {
@@ -94,7 +93,6 @@ export default {
       return dropDownOpen.value.includes(id);
     }
     return {
-      data,
       sumOfDetails,
       calculateTotalExpense,
       toggleDropDown,
