@@ -35,6 +35,7 @@
             :totalIncome="totalIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :dataHandleIncome="dataHandleIncome"
+            :dataEstimateNecessity="dataEstimateNecessity"
             :isDark="isDarkProps"
             @action:updateDataTotalIncome="handleUpdateTotalIncome"
           />
@@ -51,6 +52,7 @@
             :dataIncome="dataIncome"
             :totalIncome="totalIncome"
             :columnsHandleIncome="columnsHandleIncome"
+            :dataEstimateNecessity="dataEstimateNecessity"
             :dataHandleIncome="dataHandleIncome"
             :isDark="isDarkProps"
             @action:updateDataTotalIncome="handleUpdateTotalIncome"
@@ -106,6 +108,7 @@ import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 import { getDebt } from "@/composables/debt/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
@@ -156,6 +159,7 @@ export default {
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
+    const dataEstimateNecessity: any = ref([]);
     const debt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
@@ -190,6 +194,11 @@ export default {
         currentYear,
         currentMonthYear,
       );
+      dataEstimateNecessity.value = await getEstimateNecessityExpenses(
+        currentYear,
+        currentMonthYear,
+      );
+
       debt.value = await getDebt();
     })();
 
@@ -217,6 +226,10 @@ export default {
       funds.value = await getFunds(year, monthYear);
       dataIncome.value = await getIncomes(year, monthYear);
       dataHandleIncome.value = await getHandleIncomes(year, monthYear);
+      dataEstimateNecessity.value = await getEstimateNecessityExpenses(
+        year,
+        monthYear,
+      );
 
       setTimeout(() => {
         isOpenLoadingModal.value = close();
@@ -233,6 +246,7 @@ export default {
       totalIncome,
       columnsHandleIncome,
       dataHandleIncome,
+      dataEstimateNecessity,
       debt,
       necessityLimitation,
       handleUpdateTotalIncome,

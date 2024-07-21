@@ -11,16 +11,17 @@ import {
 import { buildPathSegments } from "@/composables/segment/index.js";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
-export async function getEstimateNecessityExpenses() {
+export async function getEstimateNecessityExpenses(
+  currentYear,
+  currentMonthYear,
+) {
   try {
     const count = ref(0);
     const estimateNecessityList = ref([]);
-    const year = getCurrentChooseMonth().year;
-    const monthYear = getCurrentChooseMonth().monthYear;
     const pathSegments = buildPathSegments(
       "estimateNecessityExpenses",
-      year,
-      monthYear,
+      currentYear,
+      currentMonthYear,
     );
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("order", "asc")),
