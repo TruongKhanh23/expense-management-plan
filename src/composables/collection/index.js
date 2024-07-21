@@ -165,6 +165,42 @@ export async function getListMonthsByYear(year) {
   return await getListDocsByCollection(pathSegments);
 }
 
+export async function getHandleIncomesByMonth(year, month) {
+  const originPathSegments = ["users", "admin", "years", year, "months", month];
+  const handleIncomesPathSegments = [...originPathSegments, "handleIncomes"];
+
+  const handleIncomesByType = await getListDocsByCollection(
+    handleIncomesPathSegments,
+  );
+
+  const allHandleIncomes = handleIncomesByType.docsData.map((type) => {
+    return type.items;
+  });
+
+  const allHandleIncomesDetails = allHandleIncomes
+    .filter((item) => item !== undefined)
+    .flat();
+
+  return allHandleIncomesDetails;
+}
+
+export async function getHandleIncomesAllYears() {
+  const { docIds: allYears } = await getListYears();
+  let allMonths = [];
+  let allHandleIncomes = [];
+  for (const year of allYears) {
+    const { docIds: listMonthsByYear } = await getListMonthsByYear(year);
+    for (const month of listMonthsByYear) {
+      const listHandleIncomesByMonth = await getHandleIncomesByMonth(
+        year,
+        month,
+      );
+      allHandleIncomes.push(...listHandleIncomesByMonth);
+    }
+  }
+  return allHandleIncomes;
+}
+
 export async function getListDocsByCollection(pathSegments) {
   const colRef = collection(db, ...pathSegments);
 
@@ -174,7 +210,7 @@ export async function getListDocsByCollection(pathSegments) {
       id: doc.id,
       ...doc.data(),
     }));
-    return documents.map((item) => item.id);
+    return { docIds: documents.map((item) => item.id), docsData: documents };
   } catch (error) {
     console.error("Error getting documents: ", error);
     return [];
