@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
+import { toastWithPromise } from '@/utils/toast.util';
+
 export async function getIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
@@ -44,22 +46,38 @@ export async function getIncomes(year, monthYear, user = "admin") {
     alert("Get incomes failed\n" + error);
   }
 }
+
 export async function setIncomes(values) {
-  try {
-    const pathSegments = buildPathSegments(
-      "incomes",
-      getCurrentChooseMonth().year,
-      getCurrentChooseMonth().monthYear,
-    );
-    for (const item of values) {
-      await setDoc(doc(db, ...pathSegments, item.key), {
-        source: item.source,
-        amount: item.amount,
-      });
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const pathSegments = buildPathSegments(
+        "incomes",
+        getCurrentChooseMonth().year,
+        getCurrentChooseMonth().monthYear,
+      );
+      for (const item of values) {
+        await setDoc(doc(db, ...pathSegments, item.key), {
+          source: item.source,
+          amount: item.amount,
+        });
+      }
+      resolve("Set incomes successfully");
+    } catch (error) {
+      reject(error);
     }
-    alert("Set incomes successfully");
+  });
+
+  toastWithPromise(
+    promise,
+    "Setting incomes...",
+    "Set incomes successfully",
+    "Set incomes failed"
+  );
+
+  try {
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    alert(`Set incomes failed: ${error}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
 }
 
@@ -68,16 +86,29 @@ export const deleteIncome = async (id, user = "admin") => {
   const monthYear = getCurrentChooseMonth().monthYear;
   const pathSegments = buildPathSegments("incomes", year, monthYear, user);
 
-  try {
-    // Tạo tham chiếu đến document cần xóa
-    const docRef = doc(db, ...pathSegments, id);
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      // Tạo tham chiếu đến document cần xóa
+      const docRef = doc(db, ...pathSegments, id);
+  
+      // Xóa document
+      await deleteDoc(docRef);
+      resolve("Delete income successfully");
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-    // Xóa document
-    await deleteDoc(docRef);
-    console.log(`Income with ID ${id} has been deleted`);
-    alert(`Income ${id} was deleted`);
+  toastWithPromise(
+    promise,
+    "Deleting income...",
+    "Delete income successfully",
+    "Delete income failed"
+  );
+
+  try {
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    console.error(`Delete income failed: ${error.message}`);
-    alert(`Delete income failed\n${error.message}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
 };
