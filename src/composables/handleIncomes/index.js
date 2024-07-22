@@ -75,8 +75,6 @@ export function mergeItems(data) {
     return [];
   }
 
-  console.log("data", data);
-
   return data.reduce((accumulator, current) => {
     // Gộp current item vào accumulator
     accumulator.push(current);
@@ -90,7 +88,6 @@ export function calculateTotalAmountByDebtId(data) {
   }
 
   const items = mergeItems(data);
-  console.log("items", items);
 
   // Sử dụng reduce để nhóm các đối tượng theo debtId và tính tổng amount
   const groupedByDebtId = items.reduce((accumulator, item) => {

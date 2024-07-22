@@ -209,10 +209,6 @@ export default {
       allHandleIncomesIsDebt.value = (await getHandleIncomesAllYears()).filter(
         (item) => item.isDebt === "true",
       );
-      console.log(
-        "allHandleIncomesIsDebt.value ",
-        allHandleIncomesIsDebt.value,
-      );
 
       debt.value = await getDebt();
     })();
@@ -232,7 +228,6 @@ export default {
 
     async function handleUpdateNewMonthCreated(value: any) {
       newMonthCreated.value = value;
-      console.log("handleUpdateNewMonthCreated", newMonthCreated.value);
     }
 
     async function getMasterData(year: any, monthYear: any) {
