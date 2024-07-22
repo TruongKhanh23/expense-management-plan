@@ -10,6 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
+import { toastWithPromise } from "@/utils/toast.util";
 
 const pathSegments = [
   "users",
@@ -89,21 +90,35 @@ export function getFundsPercentage(funds) {
 }
 
 export async function setFunds(values) {
-  try {
-    const year = getCurrentChooseMonth().year;
-    const monthYear = getCurrentChooseMonth().monthYear;
-    const pathSegments = buildPathSegments("funds", year, monthYear);
-    for (const fund of Object.keys(values)) {
-      await setDoc(
-        doc(db, ...pathSegments, fund),
-        {
-          percentage: parseFloat(values[fund]),
-        },
-        { merge: true },
-      );
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const year = getCurrentChooseMonth().year;
+      const monthYear = getCurrentChooseMonth().monthYear;
+      const pathSegments = buildPathSegments("funds", year, monthYear);
+      for (const fund of Object.keys(values)) {
+        await setDoc(
+          doc(db, ...pathSegments, fund),
+          {
+            percentage: parseFloat(values[fund]),
+          },
+          { merge: true },
+        );
+      }
+      resolve("Set funds successfully");
+    } catch (error) {
+      reject(`Set funds failed`);
     }
-    alert("Set funds successfully");
+  });
+
+  toastWithPromise(
+    promise,
+    "Setting funds...",
+    "Set funds successfully",
+    "Set funds failed",
+  );
+  try {
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    alert(`Set funds failed: ${error}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
 }

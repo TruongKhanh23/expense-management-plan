@@ -11,6 +11,8 @@ import {
 import { buildPathSegments } from "@/composables/segment/index.js";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
+import { toastWithPromise } from '@/utils/toast.util';
+
 export async function getEstimateNecessityExpenses(
   currentYear,
   currentMonthYear,
@@ -52,23 +54,39 @@ export async function getEstimateNecessityExpenses(
 }
 
 export async function setEstimateNecessityExpenses(id, values) {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const year = getCurrentChooseMonth().year;
+      const monthYear = getCurrentChooseMonth().monthYear;
+      const pathSegments = buildPathSegments(
+        "estimateNecessityExpenses",
+        year,
+        monthYear,
+      );
+      await setDoc(
+        doc(db, ...pathSegments, id),
+        {
+          details: values,
+        },
+        { merge: true },
+      );
+      resolve("Set estimate necessity expenses successfully");
+    } catch (error) {
+      reject(`Set estimate necessity expenses failed: ${error}`);
+    }
+  });
+ 
+  toastWithPromise(
+    promise,
+    "Setting estimate necessity expenses...",
+    "Set estimate necessity expenses successfully",
+    "Set estimate necessity expenses failed"
+  );
+ 
   try {
-    const year = getCurrentChooseMonth().year;
-    const monthYear = getCurrentChooseMonth().monthYear;
-    const pathSegments = buildPathSegments(
-      "estimateNecessityExpenses",
-      year,
-      monthYear,
-    );
-    await setDoc(
-      doc(db, ...pathSegments, id),
-      {
-        details: values,
-      },
-      { merge: true },
-    );
-    alert("Set EstimateNecessityExpenses successfully");
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    alert(`Set EstimateNecessityExpenses failed: ${error}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
+  
 }

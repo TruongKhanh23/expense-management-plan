@@ -11,6 +11,8 @@ import {
 } from "firebase/firestore";
 import dayjs from "dayjs";
 
+import { toastWithPromise } from '@/utils/toast.util';
+
 export async function getDebt() {
   try {
     const count = ref(0);
@@ -38,38 +40,67 @@ export async function getDebt() {
 }
 
 export async function setDebt(values) {
-  try {
-    const pathSegments = ["users", "admin", "debt"];
-    for (const item of values) {
-      await setDoc(
-        doc(db, ...pathSegments, item.key),
-        {
-          name: item.name,
-          amount: item.amount,
-          isFinished: item.isFinished,
-          startDate: item.startDate.format("YYYY-MM-DD"),
-        },
-        { merge: true },
-      );
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const pathSegments = ["users", "admin", "debt"];
+      for (const item of values) {
+        await setDoc(
+          doc(db, ...pathSegments, item.key),
+          {
+            name: item.name,
+            amount: item.amount,
+            isFinished: item.isFinished,
+            startDate: item.startDate.format("YYYY-MM-DD"),
+          },
+          { merge: true },
+        );
+      }
+      resolve("Set debts successfully");
+    } catch (error) {
+      reject(`Set debts failed`);
     }
-    alert("Set debts successfully");
+  });
+ 
+  toastWithPromise(
+    promise,
+    "Setting debts...",
+    "Set debts successfully",
+    "Set debts failed"
+  );
+ 
+  try {
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    alert(`Set debts failed: ${error}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
 }
 
 export const deleteDebt = async (id, user = "admin") => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const pathSegments = ["users", user, "debt"];
+      // Tạo tham chiếu đến document cần xóa
+      const docRef = doc(db, ...pathSegments, id);
+  
+      // Xóa document
+      await deleteDoc(docRef);
+      resolve(`Debt was deleted`);
+    } catch (error) {
+      reject(`Delete debt failed`);
+    }
+  });
+ 
+  toastWithPromise(
+    promise,
+    "Deleting debt...",
+    "Delete debt successfully",
+    "Delete debt failed"
+  );
+ 
   try {
-    const pathSegments = ["users", user, "debt"];
-    // Tạo tham chiếu đến document cần xóa
-    const docRef = doc(db, ...pathSegments, id);
-
-    // Xóa document
-    await deleteDoc(docRef);
-    console.log(`Debt with ID ${id} has been deleted`);
-    alert(`Debt ${id} was deleted`);
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    console.error(`Delete debt failed: ${error.message}`);
-    alert(`Delete debt failed\n${error.message}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
+  
 };

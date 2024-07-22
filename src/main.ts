@@ -1,15 +1,12 @@
-import { createApp } from "vue";
-import "./style.css";
 import App from "./App.vue";
+import { createApp } from "vue";
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import "./style.css";
+import 'vue3-toastify/dist/index.css';
+
 const firebaseConfig = {
   apiKey: "AIzaSyAgjREuHZTcn5zLddy-00uTKxbzA07pl40",
   authDomain: "kdotkhanh-expemaplan.firebaseapp.com",
@@ -19,8 +16,8 @@ const firebaseConfig = {
   appId: "1:726093436025:web:e3bdda44d79014e517f0a8",
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 
-createApp(App).mount("#app");
+const app = createApp(App)
+app.mount("#app");
