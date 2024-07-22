@@ -124,13 +124,10 @@ export default {
       key: any,
       amount: any,
     ) {
-      console.log("key", key);
-      console.log("totalAmountByDebtId", totalAmountByDebtId);
       const item =
         totalAmountByDebtId.find(
           (item: { debtId: any }) => item.debtId === key,
         ) ?? {};
-      console.log("item", item);
 
       const totalAmount = item.totalAmount ?? 0;
       const remaining = amount - totalAmount;

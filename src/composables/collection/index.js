@@ -11,6 +11,7 @@ import {
   setDoc,
   doc,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 import { checkDocumentExists } from "@/utils/document.util";
 
@@ -153,6 +154,59 @@ export async function createNewMonth(month, year, monthYear) {
         break;
     }
   });
+}
+
+export async function createNewMonthByDuplicate(year, monthYear) {
+  const { currentYear } = getCurrentTime();
+  const { docIds: listMonthsByYear } = await getListMonthsByYear(currentYear);
+  const lastMonth = listMonthsByYear[listMonthsByYear.length - 1];
+  const pathSegmentsCreateMonth = ["users", "admin", "years", year, "months"];
+
+  // Lấy document hiện tại
+  const lastMonthDocRef = doc(db, ...pathSegmentsCreateMonth, lastMonth);
+
+  const lastMonthDocSnap = await getDoc(lastMonthDocRef);
+
+  if (lastMonthDocSnap.exists()) {
+    const data = lastMonthDocSnap.data();
+
+    // Tạo một document mới với dữ liệu sao chép
+    const newMonthDocRef = doc(db, ...pathSegmentsCreateMonth, monthYear); // monthYear là ID của document mới
+
+    await setDoc(newMonthDocRef, data);
+
+    // Các collection con cần sao chép
+    const subcollections = [
+      "estimateNecessityExpenses",
+      "funds",
+      "handleIncomes",
+      "incomes",
+    ];
+
+    for (const subcolId of subcollections) {
+      const subcollectionRef = collection(
+        db,
+        ...pathSegmentsCreateMonth,
+        lastMonth,
+        subcolId,
+      );
+      const newSubcollectionRef = collection(
+        db,
+        ...pathSegmentsCreateMonth,
+        monthYear,
+        subcolId,
+      );
+
+      const subcollectionDocs = await getDocs(subcollectionRef);
+      for (const subDocSnap of subcollectionDocs.docs) {
+        const subDocData = subDocSnap.data();
+        await setDoc(doc(newSubcollectionRef, subDocSnap.id), subDocData);
+      }
+    }
+    console.log("Duplicate new month successfully");
+  } else {
+    console.log("No such document!");
+  }
 }
 
 export async function getListYears() {

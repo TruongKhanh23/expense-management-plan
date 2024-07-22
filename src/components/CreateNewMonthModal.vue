@@ -48,11 +48,12 @@
 import { ref, computed } from "vue";
 import { Button, DatePicker, Form, FormItem, Modal } from "ant-design-vue";
 import { reactive } from "vue";
-import { createNewMonth } from "@/composables/collection/index.js";
+import { createNewMonthByDuplicate } from "@/composables/collection/index.js";
 import CIcon from "@/components/reusable/CIcon.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import { open, close } from "@/composables/loadingModal/index.js";
 import { Dayjs } from "dayjs";
+import { setCurrentChooseMonth } from "@/utils/time.util";
 
 interface FormState {
   month: Dayjs;
@@ -100,12 +101,13 @@ export default {
     const onFinish = async (values: any) => {
       const monthYear = values.month;
       const year = monthYear.substring(monthYear.length - 4);
-      const month = monthYear.slice(0, 2);
+      //const month = monthYear.slice(0, 2);
       emit("action:updateIsOpenCreateNewMonthModal");
 
       isOpenLoadingModal.value = open();
-      await createNewMonth(month, year, monthYear);
+      await createNewMonthByDuplicate(year, monthYear);
 
+      setCurrentChooseMonth(year, monthYear);
       emit("action:updateMonth", year, monthYear);
       emit("action:updateNewMonthCreated", monthYear);
 
