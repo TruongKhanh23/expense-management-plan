@@ -4,6 +4,8 @@ import { buildPathSegments } from "@/composables/segment/index.js";
 import { collection, onSnapshot, query, setDoc, doc } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
+import { toastWithPromise } from "@/utils/toast.util";
+
 export async function getHandleIncomes(year, monthYear, user = "admin") {
   try {
     const count = ref(0);
@@ -35,21 +37,36 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
   }
 }
 export async function setHandleIncomes(values) {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const id = values[0].type;
+      const year = getCurrentChooseMonth().year;
+      const monthYear = getCurrentChooseMonth().monthYear;
+      const pathSegments = buildPathSegments("handleIncomes", year, monthYear);
+      await setDoc(
+        doc(db, ...pathSegments, id),
+        {
+          items: values,
+        },
+        { merge: true },
+      );
+      resolve("Set handle incomes successfully");
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+  toastWithPromise(
+    promise,
+    "Setting handle incomes...",
+    "Set handle incomes successfully",
+    "Set handle incomes failed",
+  );
+
   try {
-    const id = values[0].type;
-    const year = getCurrentChooseMonth().year;
-    const monthYear = getCurrentChooseMonth().monthYear;
-    const pathSegments = buildPathSegments("handleIncomes", year, monthYear);
-    await setDoc(
-      doc(db, ...pathSegments, id),
-      {
-        items: values,
-      },
-      { merge: true },
-    );
-    alert("Set HandleIncomes successfully");
+    await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
-    alert(`Set HandleIncomes failed: ${error}`);
+    console.error(error); // Xử lý lỗi nếu cần
   }
 }
 export function mergeItems(data) {
@@ -66,7 +83,6 @@ export function mergeItems(data) {
     return accumulator;
   }, []);
 }
-
 export function calculateTotalAmountByDebtId(data) {
   // Nếu data là null hoặc không phải là mảng, trả về mảng rỗng
   if (!Array.isArray(data)) {
