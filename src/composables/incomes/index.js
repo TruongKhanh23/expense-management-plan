@@ -51,11 +51,10 @@ export async function setIncomes(values) {
       getCurrentChooseMonth().year,
       getCurrentChooseMonth().monthYear,
     );
-    console.log("values", values);
-    for (const id of Object.keys(values)) {
-      await setDoc(doc(db, ...pathSegments, id), {
-        source: values[id].source,
-        amount: values[id].amount,
+    for (const item of values) {
+      await setDoc(doc(db, ...pathSegments, item.key), {
+        source: item.source,
+        amount: item.amount,
       });
     }
     alert("Set incomes successfully");
@@ -71,7 +70,7 @@ export const deleteIncome = async (id, user = "admin") => {
 
   try {
     // Tạo tham chiếu đến document cần xóa
-    const docRef = doc(db, ...pathSegments, id.toString());
+    const docRef = doc(db, ...pathSegments, id);
 
     // Xóa document
     await deleteDoc(docRef);
