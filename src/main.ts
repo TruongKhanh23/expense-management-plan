@@ -6,7 +6,6 @@ import { getFirestore } from "firebase/firestore";
 
 import "./style.css";
 import 'vue3-toastify/dist/index.css';
-import '@/assets/css/custom-toast-styles.css';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAgjREuHZTcn5zLddy-00uTKxbzA07pl40",
