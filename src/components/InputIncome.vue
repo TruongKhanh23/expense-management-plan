@@ -8,7 +8,7 @@
   >
     <a-space
       v-for="(item, index) in dynamicValidateForm.incomes"
-      :key="item.id"
+      :key="item.key"
       style="display: flex; margin-bottom: 8px"
     >
       <a-form-item
@@ -64,11 +64,12 @@ import {
   InputNumber,
 } from "ant-design-vue";
 import { setIncomes, deleteIncome } from "@/composables/incomes/index.js";
+import { uuid } from "vue-uuid";
 
 interface Income {
   source: string;
   amount: number;
-  id: number;
+  key: string;
 }
 
 export default {
@@ -105,7 +106,7 @@ export default {
     });
     const removeItem = (item: Income) => {
       const index = dynamicValidateForm.incomes.indexOf(item);
-      deleteIncome(index);
+      deleteIncome(item.key);
       if (index !== -1) {
         dynamicValidateForm.incomes.splice(index, 1);
       }
@@ -114,7 +115,7 @@ export default {
       dynamicValidateForm.incomes.push({
         source: "",
         amount: 0,
-        id: Date.now(),
+        key: uuid.v1(),
       });
     };
     const onFinish = async () => {
