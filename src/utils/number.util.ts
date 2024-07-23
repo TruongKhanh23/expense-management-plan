@@ -18,7 +18,8 @@ export function calculateTotalIncome(data: DataIncomeType[]) {
   return totalAmount;
 }
 
-export function roundDecimals(value: number, decimals: number): number {
-  if (isNaN(value)) return 0;
-  return parseFloat(value.toFixed(decimals));
+export function roundDecimals(value: number): string {
+  if (isNaN(value)) return "0";
+  const result = Math.round(value);
+  return new Intl.NumberFormat().format(result);
 }
