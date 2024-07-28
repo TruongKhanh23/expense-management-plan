@@ -1,17 +1,21 @@
 <template>
   <div
-    class="h-screen w-full p-4 bg-white border border-gray-200 shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700 flex items-start justify-center"
+    class="min-h-screen w-full p-4 bg-white border border-gray-200 shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700 flex items-center justify-center"
   >
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
     >
       <form class="space-y-6" @submit.prevent="register">
-        <h5
-          class="text-xl font-medium text-gray-900 dark:text-white !text-center"
-        >
-          Register <br />
-          Expense Management Plan
-        </h5>
+        <div class="flex flex-col items-center justify-center">
+          <img src="/logo-transparent.png" class="h-16" />
+          <h5
+            class="text-xl font-medium text-gray-900 dark:text-white !text-center"
+          >
+            Register <br />
+            Expense Management Plan
+          </h5>
+        </div>
+
         <div>
           <label
             for="email"
