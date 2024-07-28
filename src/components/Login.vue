@@ -194,7 +194,7 @@ const login = async () => {
     );
     console.log("Successfully signed in!");
     console.log("auth currentUser", auth.currentUser);
-    localStorage.setItem("users", JSON.stringify(auth.currentUser));
+    localStorage.setItem("user", JSON.stringify(auth.currentUser));
 
     if (rememberMe.value) {
       localStorage.setItem("email", email.value);
@@ -205,6 +205,8 @@ const login = async () => {
       localStorage.removeItem("password");
       localStorage.removeItem("rememberMe");
     }
+
+    grantPermission();
 
     console.log("Redirecting to home page...");
 
@@ -235,6 +237,8 @@ const signInWithGoogle = () => {
     .then((result) => {
       console.log("Successfully signed in with Google!");
       console.log(result.user);
+      localStorage.setItem("user", JSON.stringify(result.user));
+      grantPermission();
       router.push("/");
     })
     .catch((error) => {
@@ -254,6 +258,26 @@ const resetPassword = async () => {
     resetPasswordError.value =
       "Error sending password reset email. Please try again.";
     resetPasswordMessage.value = "";
+  }
+};
+
+const grantPermission = () => {
+  // Lấy thông tin người dùng từ localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user?.email;
+
+  // Lấy danh sách permissions từ localStorage
+  const permissions = JSON.parse(localStorage.getItem("permissions"));
+
+  // Kiểm tra quyền hạn của người dùng và lưu vào localStorage
+  const userPermission = permissions.find(
+    (permission) => permission.email === userEmail,
+  );
+
+  if (userPermission && userPermission.permission === "admin") {
+    localStorage.setItem("isAllowEditing", true);
+  } else {
+    localStorage.setItem("isAllowEditing", false);
   }
 };
 </script>
