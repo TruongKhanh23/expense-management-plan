@@ -5,7 +5,7 @@
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
     >
-      <form class="space-y-6" action="#">
+      <form class="space-y-6" @submit.prevent="register">
         <h5
           class="text-xl font-medium text-gray-900 dark:text-white !text-center"
         >
@@ -47,12 +47,11 @@
         <button
           type="submit"
           class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          @click="register"
         >
           Submit
         </button>
         <button
-          type="submit"
+          type="button"
           class="w-full border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-[#1D1D1D] dark:hover:bg-[#3b3b3b] dark:focus:bg-[#3b3b3b]"
           @click="signInWithGoogle"
         >
@@ -93,9 +92,8 @@ const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Successfully registered!");
-
       console.log(auth.currentUser);
-      // router.push("/")
+      router.push("/");
     })
     .catch((error) => {
       console.log(error.code);
@@ -111,7 +109,8 @@ const signInWithGoogle = () => {
       router.push("/");
     })
     .catch((error) => {
-      //handle error
+      console.error(error);
+      alert(error.message);
     });
 };
 </script>
