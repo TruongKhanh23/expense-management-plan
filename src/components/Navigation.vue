@@ -45,39 +45,17 @@
         id="navbar-default"
       >
         <ul
-          class="font-medium flex flex-col text-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+          class="flex flex-col p-4 mt-4 text-center border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-[#181A1B] md:dark:bg-[#181A1B] dark:border-gray-700 font-medium"
         >
-          <li v-if="!isLoggedIn">
+          <li v-for="item in menuItems" :key="item.text">
             <a
-              href="/"
+              v-if="item.condition"
+              :href="item.href"
+              @click="item.action"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              :class="{ 'cursor-pointer': item.action }"
             >
-              Home
-            </a>
-          </li>
-          <li v-if="!isLoggedIn">
-            <a
-              href="/login"
-              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >
-              Login
-            </a>
-          </li>
-          <li v-if="!isLoggedIn">
-            <a
-              href="/register"
-              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >
-              Register
-            </a>
-          </li>
-          <li>
-            <a
-              v-if="isLoggedIn"
-              class="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              @click="handleSignOut"
-            >
-              Sign out
+              {{ item.text }}
             </a>
           </li>
         </ul>
@@ -93,6 +71,7 @@ import router from "@/router";
 
 const isLoggedIn = ref(false);
 const isMenuOpen = ref(false);
+const isPopupVisible = ref(false);
 
 let auth;
 onMounted(() => {
@@ -107,6 +86,29 @@ const handleSignOut = () => {
     router.push("/login");
   });
 };
+
+const closePopup = () => {
+  isPopupVisible.value = false;
+};
+
+const menuItems = ref([
+  {
+    text: "Login",
+    href: "/login",
+    condition: !isLoggedIn,
+  },
+  {
+    text: "Register",
+    href: "/register",
+    condition: !isLoggedIn,
+  },
+  {
+    text: "Sign out",
+    href: "#",
+    condition: isLoggedIn,
+    action: handleSignOut,
+  },
+]);
 </script>
 
 <style></style>
