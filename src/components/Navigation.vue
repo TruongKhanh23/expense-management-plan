@@ -14,31 +14,12 @@
         >
           Expense Management Plan
         </span>
-      </a>
-      <button
-        @click="isMenuOpen = !isMenuOpen"
-        type="button"
-        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-        aria-controls="navbar-default"
-        aria-expanded="false"
-      >
-        <span class="sr-only">Open main menu</span>
-        <svg
-          class="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 17 14"
+        <span
+          class="md:hidden self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
         >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M1 1h15M1 7h15M1 13h15"
-          />
-        </svg>
-      </button>
+          EMP
+        </span>
+      </a>
       <div
         :class="{ hidden: !isMenuOpen }"
         class="w-full md:block md:w-auto"
@@ -60,6 +41,29 @@
           </li>
         </ul>
       </div>
+      <div v-if="isLoggedIn" class="relative" @click="togglePopup">
+        <div class="flex items-center cursor-pointer">
+          <span class="text-gray-900 dark:text-white">{{
+            user.displayName
+          }}</span>
+          <img
+            :src="user.photoUrl"
+            alt="User Photo"
+            class="w-10 h-10 rounded-full ml-2"
+          />
+        </div>
+        <div
+          v-if="isPopupVisible"
+          class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#181a1b] border rounded shadow-lg py-1 z-10"
+        >
+          <button
+            @click="handleSignOut"
+            class="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 dark:hover:bg-[#181a1b]"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -73,19 +77,34 @@ const isLoggedIn = ref(false);
 const isMenuOpen = ref(false);
 const isPopupVisible = ref(false);
 
-let auth;
+const user = ref({
+  displayName: "",
+  photoUrl: "",
+});
+
 onMounted(() => {
-  auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user;
+  const auth = getAuth();
+  onAuthStateChanged(auth, (userData) => {
+    isLoggedIn.value = !!userData;
+    if (userData) {
+      user.value = {
+        displayName: userData.displayName || userData.email || "",
+        photoUrl: userData.photoURL || "/default-avatar.webp",
+      };
+    }
   });
 });
 
 const handleSignOut = () => {
+  const auth = getAuth();
   signOut(auth).then(() => {
     document.documentElement.classList.remove("dark");
     router.push("/login");
   });
+};
+
+const togglePopup = () => {
+  isPopupVisible.value = !isPopupVisible.value;
 };
 
 const closePopup = () => {
@@ -106,7 +125,7 @@ const menuItems = ref([
   {
     text: "Sign out",
     href: "#",
-    condition: isLoggedIn,
+    condition: false,
     action: handleSignOut,
   },
 ]);
