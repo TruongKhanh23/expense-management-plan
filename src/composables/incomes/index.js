@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
-import { toastWithPromise } from '@/utils/toast.util';
+import { toastWithPromise } from "@/utils/toast.util";
 
 export async function getIncomes(year, monthYear, user = "admin") {
   try {
@@ -48,12 +48,14 @@ export async function getIncomes(year, monthYear, user = "admin") {
 }
 
 export async function setIncomes(values) {
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
       const pathSegments = buildPathSegments(
         "incomes",
         getCurrentChooseMonth().year,
         getCurrentChooseMonth().monthYear,
+        user,
       );
       for (const item of values) {
         await setDoc(doc(db, ...pathSegments, item.key), {
@@ -71,7 +73,7 @@ export async function setIncomes(values) {
     promise,
     "Setting incomes...",
     "Set incomes successfully",
-    "Set incomes failed"
+    "Set incomes failed",
   );
 
   try {
@@ -81,7 +83,8 @@ export async function setIncomes(values) {
   }
 }
 
-export const deleteIncome = async (id, user = "admin") => {
+export const deleteIncome = async (id) => {
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
   const year = getCurrentChooseMonth().year;
   const monthYear = getCurrentChooseMonth().monthYear;
   const pathSegments = buildPathSegments("incomes", year, monthYear, user);
@@ -90,7 +93,7 @@ export const deleteIncome = async (id, user = "admin") => {
     try {
       // Tạo tham chiếu đến document cần xóa
       const docRef = doc(db, ...pathSegments, id);
-  
+
       // Xóa document
       await deleteDoc(docRef);
       resolve("Delete income successfully");
@@ -103,7 +106,7 @@ export const deleteIncome = async (id, user = "admin") => {
     promise,
     "Deleting income...",
     "Delete income successfully",
-    "Delete income failed"
+    "Delete income failed",
   );
 
   try {

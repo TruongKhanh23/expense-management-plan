@@ -16,12 +16,10 @@ import {
 import { checkDocumentExists } from "@/utils/document.util";
 
 export async function createNewMonth(month, year, monthYear) {
-  const isYearExist = await checkDocumentExists(
-    ["users", "admin", "years"],
-    year,
-  );
-  const pathSegmentsCreateYear = ["users", "admin", "years"];
-  const pathSegmentsCreateMonth = ["users", "admin", "years", year, "months"];
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const isYearExist = await checkDocumentExists(["users", user, "years"], year);
+  const pathSegmentsCreateYear = ["users", user, "years"];
+  const pathSegmentsCreateMonth = ["users", user, "years", year, "months"];
 
   try {
     if (!isYearExist) {
@@ -156,11 +154,12 @@ export async function createNewMonth(month, year, monthYear) {
   });
 }
 
-export async function createNewMonthByDuplicate(year, monthYear) {
+export async function createNewMonthByDuplicate(month, year, monthYear) {
   const { currentYear } = getCurrentTime();
   const { docIds: listMonthsByYear } = await getListMonthsByYear(currentYear);
   const lastMonth = listMonthsByYear[listMonthsByYear.length - 1];
-  const pathSegmentsCreateMonth = ["users", "admin", "years", year, "months"];
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const pathSegmentsCreateMonth = ["users", user, "years", year, "months"];
 
   // Lấy document hiện tại
   const lastMonthDocRef = doc(db, ...pathSegmentsCreateMonth, lastMonth);
@@ -205,7 +204,7 @@ export async function createNewMonthByDuplicate(year, monthYear) {
     }
     console.log("Duplicate new month successfully");
   } else {
-    console.log("No such document!");
+    await createNewMonth(month, year, monthYear);
   }
 }
 
