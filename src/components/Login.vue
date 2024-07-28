@@ -1,17 +1,20 @@
 <template>
   <div
-    class="flex justify-center items-start h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700"
+    class="flex justify-center items-center min-h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700"
   >
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-[#181A1B] dark:border-gray-700"
     >
       <form class="space-y-6" @submit.prevent="login">
-        <h5
-          class="text-xl font-medium text-gray-900 dark:text-white !text-center"
-        >
-          Sign in<br />
-          Expense Management Plan
-        </h5>
+        <div class="flex flex-col items-center justify-center">
+          <img src="/logo-transparent.png" class="h-16" />
+          <h5
+            class="text-xl font-medium text-gray-900 dark:text-white !text-center"
+          >
+            Sign in <br />
+            Expense Management Plan
+          </h5>
+        </div>
         <div>
           <label
             for="email"
@@ -65,7 +68,7 @@
             href="#"
             class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
             @click.prevent="showResetPasswordModal = true"
-            >Lost Password?</a
+            >Forgot Password?</a
           >
         </div>
         <button
