@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center items-start h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"
+    class="flex justify-center items-start h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700"
   >
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
@@ -38,7 +38,7 @@
             type="password"
             name="password"
             id="password"
-            placeholder="••••••••"
+            placeholder="Enter your passsword"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
             v-model="password"
@@ -75,7 +75,9 @@
         </button>
         <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
           Not registered?
-          <a href="#" class="text-blue-700 hover:underline dark:text-blue-500"
+          <a
+            href="/register"
+            class="text-blue-700 hover:underline dark:text-blue-500"
             >Create account</a
           >
         </div>
@@ -85,42 +87,54 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { getPermissions } from "@/composables/permissions/index.js";
 
 const email = ref("");
 const password = ref("");
-const errorMessage = ref();
+const errorMessage = ref("");
 const router = useRouter();
 
-const login = (event) => {
-  // event.preventDefault(); // Không cần nếu sử dụng @submit.prevent
+onMounted(async () => {
+  const permissions = await getPermissions();
+  console.log("Permissions:", permissions);
+});
+
+const login = async () => {
   const auth = getAuth();
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully signed in!");
-      console.log("auth currentUser", auth.currentUser);
-      router.push("/");
-    })
-    .catch((error) => {
-      console.log("error code", error.code);
-      console.log("went catch");
-      switch (error.code) {
-        case "auth/invalid-email":
-          errorMessage.value = "Invalid Email";
-          break;
-        case "auth/user-not-found":
-          errorMessage.value = "No account with that email was found";
-          break;
-        case "auth/wrong-password":
-          errorMessage.value = "Incorrect password";
-          break;
-        default:
-          errorMessage.value = "Email or password was incorrect";
-          break;
-      }
-    });
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value,
+    );
+    console.log("Successfully signed in!");
+    console.log("auth currentUser", auth.currentUser);
+    localStorage.setItem("users", JSON.stringify(auth.currentUser));
+
+    // Additional debug log to ensure code execution reaches here
+    console.log("Redirecting to home page...");
+
+    router.push("/");
+  } catch (error) {
+    console.log("error code", error.code);
+    switch (error.code) {
+      case "auth/invalid-email":
+        errorMessage.value = "Invalid Email";
+        break;
+      case "auth/user-not-found":
+        errorMessage.value = "No account with that email was found";
+        break;
+      case "auth/wrong-password":
+        errorMessage.value = "Incorrect password";
+        break;
+      default:
+        errorMessage.value = "Email or password was incorrect";
+        break;
+    }
+  }
 };
 
 const signInWithGoogle = () => {};

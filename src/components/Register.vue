@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen w-full p-4 bg-white border border-gray-200 shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 flex justify-center"
+    class="h-screen w-full p-4 bg-white border border-gray-200 shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700 flex items-start justify-center"
   >
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
