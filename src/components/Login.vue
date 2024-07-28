@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center items-start h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"
+    class="flex justify-center items-start h-screen w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-[#181A1B] dark:border-gray-700"
   >
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
@@ -38,7 +38,7 @@
             type="password"
             name="password"
             id="password"
-            placeholder="••••••••"
+            placeholder="Enter your passsword"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
             v-model="password"
@@ -75,7 +75,9 @@
         </button>
         <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
           Not registered?
-          <a href="#" class="text-blue-700 hover:underline dark:text-blue-500"
+          <a
+            href="/register"
+            class="text-blue-700 hover:underline dark:text-blue-500"
             >Create account</a
           >
         </div>
