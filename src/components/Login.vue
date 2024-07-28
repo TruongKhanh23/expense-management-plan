@@ -195,6 +195,10 @@ const login = async () => {
     console.log("Successfully signed in!");
     console.log("auth currentUser", auth.currentUser);
     localStorage.setItem("user", JSON.stringify(auth.currentUser));
+    if (auth.currentUser.email === "truongnguyenkhanh230800@gmail.com") {
+      auth.currentUser.email = "admin";
+      localStorage.setItem("user", JSON.stringify(auth.currentUser));
+    }
 
     if (rememberMe.value) {
       localStorage.setItem("email", email.value);
@@ -237,6 +241,10 @@ const signInWithGoogle = () => {
     .then((result) => {
       console.log("Successfully signed in with Google!");
       console.log(result.user);
+      if (result.user.email === "truongnguyenkhanh230800@gmail.com") {
+        result.user.email = "admin";
+        localStorage.setItem("user", JSON.stringify(result.user));
+      }
       localStorage.setItem("user", JSON.stringify(result.user));
       grantPermission();
       router.push("/");
