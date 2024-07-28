@@ -163,6 +163,7 @@ export default {
       return isDark;
     });
 
+    const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
     const funds: any = ref([]);
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
@@ -196,15 +197,17 @@ export default {
       const { currentYear, currentMonthYear } = getCurrentTime();
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
-      funds.value = await getFunds(currentYear, currentMonthYear);
-      dataIncome.value = await getIncomes(currentYear, currentMonthYear);
+      funds.value = await getFunds(currentYear, currentMonthYear, user);
+      dataIncome.value = await getIncomes(currentYear, currentMonthYear, user);
       dataHandleIncome.value = await getHandleIncomes(
         currentYear,
         currentMonthYear,
+        user,
       );
       dataEstimateNecessity.value = await getEstimateNecessityExpenses(
         currentYear,
         currentMonthYear,
+        user,
       );
       allHandleIncomesIsDebt.value = (await getHandleIncomesAllYears()).filter(
         (item) => item.isDebt === "true",

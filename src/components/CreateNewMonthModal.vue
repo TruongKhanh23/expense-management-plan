@@ -101,11 +101,11 @@ export default {
     const onFinish = async (values: any) => {
       const monthYear = values.month;
       const year = monthYear.substring(monthYear.length - 4);
-      //const month = monthYear.slice(0, 2);
+      const month = monthYear.slice(0, 2);
       emit("action:updateIsOpenCreateNewMonthModal");
 
       isOpenLoadingModal.value = open();
-      await createNewMonthByDuplicate(year, monthYear);
+      await createNewMonthByDuplicate(month, year, monthYear);
 
       setCurrentChooseMonth(year, monthYear);
       emit("action:updateMonth", year, monthYear);

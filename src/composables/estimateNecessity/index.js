@@ -11,11 +11,12 @@ import {
 import { buildPathSegments } from "@/composables/segment/index.js";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 
-import { toastWithPromise } from '@/utils/toast.util';
+import { toastWithPromise } from "@/utils/toast.util";
 
 export async function getEstimateNecessityExpenses(
   currentYear,
   currentMonthYear,
+  user = "admin",
 ) {
   try {
     const count = ref(0);
@@ -24,6 +25,7 @@ export async function getEstimateNecessityExpenses(
       "estimateNecessityExpenses",
       currentYear,
       currentMonthYear,
+      user,
     );
     onSnapshot(
       query(collection(db, ...pathSegments), orderBy("order", "asc")),
@@ -54,6 +56,7 @@ export async function getEstimateNecessityExpenses(
 }
 
 export async function setEstimateNecessityExpenses(id, values) {
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
       const year = getCurrentChooseMonth().year;
@@ -62,6 +65,7 @@ export async function setEstimateNecessityExpenses(id, values) {
         "estimateNecessityExpenses",
         year,
         monthYear,
+        user,
       );
       await setDoc(
         doc(db, ...pathSegments, id),
@@ -75,18 +79,17 @@ export async function setEstimateNecessityExpenses(id, values) {
       reject(`Set estimate necessity expenses failed: ${error}`);
     }
   });
- 
+
   toastWithPromise(
     promise,
     "Setting estimate necessity expenses...",
     "Set estimate necessity expenses successfully",
-    "Set estimate necessity expenses failed"
+    "Set estimate necessity expenses failed",
   );
- 
+
   try {
     await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
   } catch (error) {
     console.error(error); // Xử lý lỗi nếu cần
   }
-  
 }

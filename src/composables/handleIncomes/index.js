@@ -37,12 +37,18 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
   }
 }
 export async function setHandleIncomes(values) {
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
       const id = values[0].type;
       const year = getCurrentChooseMonth().year;
       const monthYear = getCurrentChooseMonth().monthYear;
-      const pathSegments = buildPathSegments("handleIncomes", year, monthYear);
+      const pathSegments = buildPathSegments(
+        "handleIncomes",
+        year,
+        monthYear,
+        user,
+      );
       await setDoc(
         doc(db, ...pathSegments, id),
         {

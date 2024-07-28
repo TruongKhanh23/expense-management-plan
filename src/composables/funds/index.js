@@ -90,11 +90,12 @@ export function getFundsPercentage(funds) {
 }
 
 export async function setFunds(values) {
+  const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
       const year = getCurrentChooseMonth().year;
       const monthYear = getCurrentChooseMonth().monthYear;
-      const pathSegments = buildPathSegments("funds", year, monthYear);
+      const pathSegments = buildPathSegments("funds", year, monthYear, user);
       for (const fund of Object.keys(values)) {
         await setDoc(
           doc(db, ...pathSegments, fund),
