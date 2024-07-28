@@ -70,10 +70,13 @@
         </div>
         <button
           type="submit"
-          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Login
         </button>
+      </form>
+      <div class="mt-4 space-y-2">
+        <p class="text-center">hoặc đăng nhập nhanh bằng</p>
         <button
           type="button"
           class="w-full border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-[#1D1D1D] dark:hover:bg-[#3b3b3b] dark:focus:bg-[#3b3b3b]"
@@ -91,26 +94,28 @@
             >Create account</a
           >
         </div>
-      </form>
+      </div>
     </div>
 
     <div
       v-if="showResetPasswordModal"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div
+        class="dark:bg-[#181A1B] bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+      >
         <h3 class="text-xl font-medium mb-4">Reset Password</h3>
         <form @submit.prevent="resetPassword">
           <div class="mb-4">
             <label
               for="resetEmail"
-              class="block text-sm font-medium text-gray-700"
+              class="block text-sm font-medium text-gray-700 dark:text-white"
               >Enter your email address</label
             >
             <input
               type="email"
               id="resetEmail"
-              class="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              class="mt-1 p-2 block w-full border border-gray-300 dark:bg-[#181A1B] rounded-md"
               v-model="resetEmail"
               required
             />
