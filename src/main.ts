@@ -4,8 +4,10 @@ import { createApp } from "vue";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+import router from "./router";
+
 import "./style.css";
-import 'vue3-toastify/dist/index.css';
+import "vue3-toastify/dist/index.css";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAgjREuHZTcn5zLddy-00uTKxbzA07pl40",
@@ -19,5 +21,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 
-const app = createApp(App)
+const app = createApp(App);
+app.use(router);
 app.mount("#app");
