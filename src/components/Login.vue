@@ -161,7 +161,10 @@ import {
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { getPermissions } from "@/composables/permissions/index.js";
-import { grantPermission } from "@/composables/login/index.js";
+import {
+  grantPermission,
+  signInWithGoogle,
+} from "@/composables/login/index.js";
 
 const email = ref("");
 const password = ref("");
@@ -235,24 +238,6 @@ const login = async () => {
         break;
     }
   }
-};
-
-const signInWithGoogle = () => {
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      if (result.user.email === "truongnguyenkhanh230800@gmail.com") {
-        result.user.email = "admin";
-        localStorage.setItem("user", JSON.stringify(result.user));
-      }
-      localStorage.setItem("user", JSON.stringify(result.user));
-      grantPermission();
-      router.push("/");
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
 };
 
 const resetPassword = async () => {
