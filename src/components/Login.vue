@@ -51,7 +51,7 @@
               <input
                 id="remember"
                 type="checkbox"
-                value=""
+                v-model="rememberMe"
                 class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
               />
             </div>
@@ -108,10 +108,21 @@ import { getPermissions } from "@/composables/permissions/index.js";
 
 const email = ref("");
 const password = ref("");
+const rememberMe = ref(false);
 const errorMessage = ref("");
 const router = useRouter();
 
 onMounted(async () => {
+  const savedEmail = localStorage.getItem("email");
+  const savedPassword = localStorage.getItem("password");
+  const savedRememberMe = localStorage.getItem("rememberMe") === "true";
+
+  if (savedRememberMe && savedEmail && savedPassword) {
+    email.value = savedEmail;
+    password.value = savedPassword;
+    rememberMe.value = savedRememberMe;
+  }
+
   const permissions = await getPermissions();
   console.log("Permissions:", permissions);
 });
@@ -128,7 +139,16 @@ const login = async () => {
     console.log("auth currentUser", auth.currentUser);
     localStorage.setItem("users", JSON.stringify(auth.currentUser));
 
-    // Additional debug log to ensure code execution reaches here
+    if (rememberMe.value) {
+      localStorage.setItem("email", email.value);
+      localStorage.setItem("password", password.value);
+      localStorage.setItem("rememberMe", rememberMe.value);
+    } else {
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+      localStorage.removeItem("rememberMe");
+    }
+
     console.log("Redirecting to home page...");
 
     router.push("/");
