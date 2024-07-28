@@ -87,42 +87,54 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { getPermissions } from "@/composables/permissions/index.js";
 
 const email = ref("");
 const password = ref("");
-const errorMessage = ref();
+const errorMessage = ref("");
 const router = useRouter();
 
-const login = (event) => {
-  // event.preventDefault(); // Không cần nếu sử dụng @submit.prevent
+onMounted(async () => {
+  const permissions = await getPermissions();
+  console.log("Permissions:", permissions);
+});
+
+const login = async () => {
   const auth = getAuth();
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      console.log("Successfully signed in!");
-      console.log("auth currentUser", auth.currentUser);
-      router.push("/");
-    })
-    .catch((error) => {
-      console.log("error code", error.code);
-      console.log("went catch");
-      switch (error.code) {
-        case "auth/invalid-email":
-          errorMessage.value = "Invalid Email";
-          break;
-        case "auth/user-not-found":
-          errorMessage.value = "No account with that email was found";
-          break;
-        case "auth/wrong-password":
-          errorMessage.value = "Incorrect password";
-          break;
-        default:
-          errorMessage.value = "Email or password was incorrect";
-          break;
-      }
-    });
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value,
+    );
+    console.log("Successfully signed in!");
+    console.log("auth currentUser", auth.currentUser);
+    localStorage.setItem("users", JSON.stringify(auth.currentUser));
+
+    // Additional debug log to ensure code execution reaches here
+    console.log("Redirecting to home page...");
+
+    router.push("/");
+  } catch (error) {
+    console.log("error code", error.code);
+    switch (error.code) {
+      case "auth/invalid-email":
+        errorMessage.value = "Invalid Email";
+        break;
+      case "auth/user-not-found":
+        errorMessage.value = "No account with that email was found";
+        break;
+      case "auth/wrong-password":
+        errorMessage.value = "Incorrect password";
+        break;
+      default:
+        errorMessage.value = "Email or password was incorrect";
+        break;
+    }
+  }
 };
 
 const signInWithGoogle = () => {};
