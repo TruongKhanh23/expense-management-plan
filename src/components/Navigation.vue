@@ -83,6 +83,7 @@ onMounted(() => {
 
 const handleSignOut = () => {
   signOut(auth).then(() => {
+    document.documentElement.classList.remove("dark");
     router.push("/login");
   });
 };
