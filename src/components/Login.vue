@@ -161,6 +161,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { getPermissions } from "@/composables/permissions/index.js";
+import { grantPermission } from "@/composables/login/index.js";
 
 const email = ref("");
 const password = ref("");
@@ -185,6 +186,7 @@ onMounted(async () => {
 
   const permissions = await getPermissions();
   console.log("Permissions:", permissions);
+  await getPermissions();
 });
 
 const login = async () => {
@@ -195,8 +197,6 @@ const login = async () => {
       email.value,
       password.value,
     );
-    console.log("Successfully signed in!");
-    console.log("auth currentUser", auth.currentUser);
     localStorage.setItem("user", JSON.stringify(auth.currentUser));
     if (auth.currentUser.email === "truongnguyenkhanh230800@gmail.com") {
       auth.currentUser.email = "admin";
@@ -242,8 +242,6 @@ const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
     .then((result) => {
-      console.log("Successfully signed in with Google!");
-      console.log(result.user);
       if (result.user.email === "truongnguyenkhanh230800@gmail.com") {
         result.user.email = "admin";
         localStorage.setItem("user", JSON.stringify(result.user));
@@ -253,7 +251,6 @@ const signInWithGoogle = () => {
       router.push("/");
     })
     .catch((error) => {
-      console.error("Error during Google sign-in:", error);
       alert(error.message);
     });
 };
@@ -269,26 +266,6 @@ const resetPassword = async () => {
     resetPasswordError.value =
       "Error sending password reset email. Please try again.";
     resetPasswordMessage.value = "";
-  }
-};
-
-const grantPermission = () => {
-  // Lấy thông tin người dùng từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userEmail = user?.email;
-
-  // Lấy danh sách permissions từ localStorage
-  const permissions = JSON.parse(localStorage.getItem("permissions"));
-
-  // Kiểm tra quyền hạn của người dùng và lưu vào localStorage
-  const userPermission = permissions.find(
-    (permission) => permission.email === userEmail,
-  );
-
-  if (userPermission && userPermission.permission === "admin") {
-    localStorage.setItem("isAllowEditing", true);
-  } else {
-    localStorage.setItem("isAllowEditing", false);
   }
 };
 </script>
