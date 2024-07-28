@@ -64,6 +64,7 @@
           <a
             href="#"
             class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+            @click.prevent="showResetPasswordModal = true"
             >Lost Password?</a
           >
         </div>
@@ -92,6 +93,52 @@
         </div>
       </form>
     </div>
+
+    <div
+      v-if="showResetPasswordModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h3 class="text-xl font-medium mb-4">Reset Password</h3>
+        <form @submit.prevent="resetPassword">
+          <div class="mb-4">
+            <label
+              for="resetEmail"
+              class="block text-sm font-medium text-gray-700"
+              >Enter your email address</label
+            >
+            <input
+              type="email"
+              id="resetEmail"
+              class="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              v-model="resetEmail"
+              required
+            />
+          </div>
+          <p v-if="resetPasswordMessage" class="text-green-500">
+            {{ resetPasswordMessage }}
+          </p>
+          <p v-if="resetPasswordError" class="text-red-500">
+            {{ resetPasswordError }}
+          </p>
+          <div class="flex justify-end">
+            <button
+              type="button"
+              @click="showResetPasswordModal = false"
+              class="mr-4"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Send Reset Email
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -102,6 +149,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { getPermissions } from "@/composables/permissions/index.js";
@@ -110,6 +158,10 @@ const email = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 const errorMessage = ref("");
+const resetEmail = ref("");
+const resetPasswordMessage = ref("");
+const resetPasswordError = ref("");
+const showResetPasswordModal = ref(false);
 const router = useRouter();
 
 onMounted(async () => {
@@ -184,6 +236,20 @@ const signInWithGoogle = () => {
       console.error("Error during Google sign-in:", error);
       alert(error.message);
     });
+};
+
+const resetPassword = async () => {
+  const auth = getAuth();
+  try {
+    await sendPasswordResetEmail(auth, resetEmail.value);
+    resetPasswordMessage.value = "Password reset email sent successfully!";
+    resetPasswordError.value = "";
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    resetPasswordError.value =
+      "Error sending password reset email. Please try again.";
+    resetPasswordMessage.value = "";
+  }
 };
 </script>
 
