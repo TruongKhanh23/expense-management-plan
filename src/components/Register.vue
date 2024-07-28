@@ -52,11 +52,11 @@
         </button>
         <button
           type="button"
-          class="w-full border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-[#1D1D1D] dark:hover:bg-[#3b3b3b] dark:focus:bg-[#3b3b3b]"
+          class="w-full border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#1D1D1D] dark:hover:bg-[#3b3b3b] dark:focus:bg-[#3b3b3b]"
           @click="signInWithGoogle"
         >
           <div class="flex flex-row items-center justify-center">
-            <img src="/google.svg" /> Google
+            <img src="/google.svg" alt="Google logo" class="mr-2" /> Google
           </div>
         </button>
         <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
@@ -102,14 +102,16 @@ const register = () => {
 };
 
 const signInWithGoogle = () => {
+  const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  signInWithPopup(getAuth(), provider)
+  signInWithPopup(auth, provider)
     .then((result) => {
+      console.log("Successfully signed in with Google!");
       console.log(result.user);
       router.push("/");
     })
     .catch((error) => {
-      console.error(error);
+      console.error("Error during Google sign-in:", error);
       alert(error.message);
     });
 };
