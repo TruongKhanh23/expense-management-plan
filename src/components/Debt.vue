@@ -107,7 +107,7 @@ export default {
       columnsDebt as TableColumnType<DebtItem>[];
 
     const data: any = computed(() => {
-      return props.debt;
+      return props.debt.filter((item) => item.isFinished === "false");
     });
 
     function calculateTotal(values: any) {
