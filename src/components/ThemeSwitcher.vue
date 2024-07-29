@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row items-center justify-center gap-2 py-2 text-whiterounded cursor-pointer hover:font-bold"
+    class="flex flex-row items-center justify-center gap-2 text-whiterounded cursor-pointer hover:font-bold"
     @click="toggleDark()"
   >
     <i data-feather="moon" class="w-5"></i>

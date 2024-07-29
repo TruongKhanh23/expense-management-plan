@@ -80,7 +80,7 @@
     </a-tabs>
   </div>
   <div
-    class="flex flex-col md:flex-row mb-12 gap-4 items-center justify-center"
+    class="flex flex-col md:flex-row my-12 gap-4 items-center justify-center"
   >
     <div class="flex items-center justify-center">
       <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />

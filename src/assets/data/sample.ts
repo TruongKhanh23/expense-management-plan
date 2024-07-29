@@ -422,11 +422,10 @@ export const dataNecessaryThings: NecessaryThingsItem[] = [
 
 export const columnsDebt: TableColumnType<DebtItem>[] = [
   {
-    title: "Tên nợ",
+    title: "Tên",
     dataIndex: "name",
   },
   { title: "Số tiền", dataIndex: "amount", align: "right" },
-  { title: "Ngày bắt đầu", dataIndex: "startDate", align: "right" },
-  { title: "Trạng thái", dataIndex: "isFinished", align: "right" },
+  { title: "Ngày nợ", dataIndex: "startDate", align: "center" },
   { title: "Còn lại", dataIndex: "remaining", align: "right" },
 ];
