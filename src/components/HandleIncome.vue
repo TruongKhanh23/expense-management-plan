@@ -1,7 +1,7 @@
 <template>
   <div class="px-4">
     <Slider
-      :list="data"
+      :list="reorderedData"
       :attrs="{
         perPage: 1,
         arrows: false,
@@ -131,6 +131,27 @@ export default {
 
       return total;
     }
+
+    const desiredOrder = [
+      "necessity",
+      "freedom",
+      "education",
+      "enjoy",
+      "giving",
+      "longTermSaving",
+    ];
+
+    const reorderData = (data: any, order: any) => {
+      const orderMap = order.reduce((acc: any, key: any, index: any) => {
+        acc[key] = index;
+        return acc;
+      }, {});
+
+      return data.sort((a: any, b: any) => orderMap[a.key] - orderMap[b.key]);
+    };
+
+    const reorderedData = computed(() => reorderData(data.value, desiredOrder));
+
     return {
       tagColor,
       columns,
@@ -139,6 +160,7 @@ export default {
       isEditable,
       calculateTotal,
       isDarkMode,
+      reorderedData,
     };
   },
 };
