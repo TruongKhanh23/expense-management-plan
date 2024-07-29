@@ -25,7 +25,7 @@
         </template>
         <template v-if="column.dataIndex === 'startDate'">
           <p>
-            {{ dayjs(record.startDate, "YYYY-MM-DD").format("DD-MM-YYYY") }}
+            {{ dayjs(record.startDate, "YYYY-MM-DD").format("DD/MM/YY") }}
           </p>
         </template>
         <template v-if="column.dataIndex === 'isFinished'">
