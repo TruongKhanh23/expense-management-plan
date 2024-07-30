@@ -80,26 +80,7 @@
         </button>
       </form>
       <!-- Hoặc đăng nhập nhanh bằng -->
-      <div class="mt-4 space-y-2">
-        <p class="text-center">hoặc đăng nhập nhanh bằng</p>
-        <button
-          type="button"
-          class="w-full border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-[#1D1D1D] dark:hover:bg-[#3b3b3b] dark:focus:bg-[#3b3b3b]"
-          @click="signInWithGoogle"
-        >
-          <div class="flex flex-row items-center justify-center">
-            <img src="/google.svg" alt="Google logo" class="mr-2" /> Google
-          </div>
-        </button>
-        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-          Not registered?
-          <a
-            href="/register"
-            class="text-blue-700 hover:underline dark:text-blue-500"
-            >Create account</a
-          >
-        </div>
-      </div>
+      <SignInWithGoogle />
     </div>
 
     <ResetPasswordModal :isShow="showResetPasswordModal" @action:closeModal="handleCloseResetPasswordModal" />
@@ -115,9 +96,10 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
-import { getPermissions } from "@/composables/permissions/index.js";
+import { getPermissions, grantPermission } from "@/composables/permissions/index.js";
 
 import ResetPasswordModal from "@/components/Login/ResetPasswordModal.vue"
+import SignInWithGoogle from "@/components/Login/SignInWithGoogle.vue"
 
 const email = ref("");
 const password = ref("");
@@ -188,47 +170,6 @@ const login = async () => {
         errorMessage.value = "Email or password was incorrect";
         break;
     }
-  }
-};
-
-const signInWithGoogle = () => {
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log("Successfully signed in with Google!");
-      console.log(result.user);
-      if (result.user.email === "truongnguyenkhanh230800@gmail.com") {
-        result.user.email = "admin";
-        localStorage.setItem("user", JSON.stringify(result.user));
-      }
-      localStorage.setItem("user", JSON.stringify(result.user));
-      grantPermission();
-      router.push("/");
-    })
-    .catch((error) => {
-      console.error("Error during Google sign-in:", error);
-      alert(error.message);
-    });
-};
-
-const grantPermission = () => {
-  // Lấy thông tin người dùng từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userEmail = user?.email;
-
-  // Lấy danh sách permissions từ localStorage
-  const permissions = JSON.parse(localStorage.getItem("permissions"));
-
-  // Kiểm tra quyền hạn của người dùng và lưu vào localStorage
-  const userPermission = permissions.find(
-    (permission) => permission.email === userEmail,
-  );
-
-  if (userPermission && userPermission.permission === "admin") {
-    localStorage.setItem("isAllowEditing", true);
-  } else {
-    localStorage.setItem("isAllowEditing", false);
   }
 };
 
