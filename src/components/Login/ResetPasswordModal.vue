@@ -4,7 +4,7 @@
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
   >
     <div
-      class="dark:bg-[#181A1B] bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+      class="dark:bg-[#181A1B] bg-white p-6 rounded-lg shadow-lg max-w-md w-[90%]"
     >
       <h3 class="text-xl font-medium mb-4">Reset Password</h3>
       <form @submit.prevent="resetPassword">

@@ -1,7 +1,7 @@
 <template>
   <form class="space-y-6" @submit.prevent="login">
     <div class="flex flex-col items-center justify-center">
-      <img src="/logo-transparent.png" class="h-16" />
+      <img src="/logo-transparent.png" alt="logo" class="h-16" />
       <h5 class="text-xl font-medium text-gray-900 dark:text-white !text-center">
         Sign in <br />
         Expense Management Plan
