@@ -5,6 +5,7 @@
     <div
       class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-[#181A1B] dark:border-gray-700"
     >
+      <!--Form Login-->
       <form class="space-y-6" @submit.prevent="login">
         <div class="flex flex-col items-center justify-center">
           <img src="/logo-transparent.png" class="h-16" />
@@ -78,6 +79,7 @@
           Login
         </button>
       </form>
+      <!-- Hoặc đăng nhập nhanh bằng -->
       <div class="mt-4 space-y-2">
         <p class="text-center">hoặc đăng nhập nhanh bằng</p>
         <button
@@ -100,53 +102,7 @@
       </div>
     </div>
 
-    <div
-      v-if="showResetPasswordModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-    >
-      <div
-        class="dark:bg-[#181A1B] bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
-      >
-        <h3 class="text-xl font-medium mb-4">Reset Password</h3>
-        <form @submit.prevent="resetPassword">
-          <div class="mb-4">
-            <label
-              for="resetEmail"
-              class="block text-sm font-medium text-gray-700 dark:text-white"
-              >Enter your email address</label
-            >
-            <input
-              type="email"
-              id="resetEmail"
-              class="mt-1 p-2 block w-full border border-gray-300 dark:bg-[#181A1B] rounded-md"
-              v-model="resetEmail"
-              required
-            />
-          </div>
-          <p v-if="resetPasswordMessage" class="text-green-500">
-            {{ resetPasswordMessage }}
-          </p>
-          <p v-if="resetPasswordError" class="text-red-500">
-            {{ resetPasswordError }}
-          </p>
-          <div class="flex justify-end">
-            <button
-              type="button"
-              @click="showResetPasswordModal = false"
-              class="mr-4"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
-              Send Reset Email
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <ResetPasswordModal :isShow="showResetPasswordModal" @action:closeModal="handleCloseResetPasswordModal" />
   </div>
 </template>
 
@@ -157,18 +113,16 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendPasswordResetEmail,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { getPermissions } from "@/composables/permissions/index.js";
+
+import ResetPasswordModal from "@/components/Login/ResetPasswordModal.vue"
 
 const email = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 const errorMessage = ref("");
-const resetEmail = ref("");
-const resetPasswordMessage = ref("");
-const resetPasswordError = ref("");
 const showResetPasswordModal = ref(false);
 const router = useRouter();
 
@@ -258,20 +212,6 @@ const signInWithGoogle = () => {
     });
 };
 
-const resetPassword = async () => {
-  const auth = getAuth();
-  try {
-    await sendPasswordResetEmail(auth, resetEmail.value);
-    resetPasswordMessage.value = "Password reset email sent successfully!";
-    resetPasswordError.value = "";
-  } catch (error) {
-    console.error("Error sending password reset email:", error);
-    resetPasswordError.value =
-      "Error sending password reset email. Please try again.";
-    resetPasswordMessage.value = "";
-  }
-};
-
 const grantPermission = () => {
   // Lấy thông tin người dùng từ localStorage
   const user = JSON.parse(localStorage.getItem("user"));
@@ -291,6 +231,10 @@ const grantPermission = () => {
     localStorage.setItem("isAllowEditing", false);
   }
 };
+
+const handleCloseResetPasswordModal = () => {
+  showResetPasswordModal.value = false
+}
 </script>
 
 <style scoped></style>
