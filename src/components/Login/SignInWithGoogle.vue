@@ -10,14 +10,6 @@
         <img src="/google.svg" alt="Google logo" class="mr-2" /> Google
       </div>
     </button>
-    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Not registered?
-      <a
-        @click="router.push('/register')"
-        class="text-blue-700 hover:underline dark:text-blue-500"
-        >Create account</a
-      >
-    </div>
   </div>
 </template>
 

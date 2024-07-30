@@ -27,7 +27,7 @@
 import { ref, onMounted, defineEmits } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
-import { grantPermission } from "@/composables/permissions/index.js";
+import { getPermissions, grantPermission } from "@/composables/permissions/index.js";
 import EmailInput from '@/components/Login/EmailInput.vue';
 import PasswordInput from '@/components/Login/PasswordInput.vue';
 import RememberMeCheckbox from '@/components/Login/RememberMeCheckbox.vue';

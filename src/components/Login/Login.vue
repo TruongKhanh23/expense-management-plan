@@ -4,7 +4,7 @@
       class="sm:flex sm:flex-col sm:items-center sm:justify-start w-full mr-[2rem] hidden text-center text-[#008037]"
     >
       <h1 class="text-3xl font-semibold mb-6">Expense Management Plan</h1>
-      <img src="/loginImageCloud.png" class="w-[60%] h-[60%]" alt="login" />
+      <img src="/homePageNew.png" class="w-[60%] h-[60%]" alt="login" />
       <div class="font-bold">
         <p>Quy tắc 6 chiếc lọ</p>
         <p>The 6 JARS Money Management System</p>
@@ -18,33 +18,19 @@
         quản lý tiền bạc, lập kế hoạch chi tiêu và sử dụng dòng tiền hợp lý.
       </p>
     </div>
-    <div
-      class="w-full max-w-md sm:mr-[6rem] bg-white dark:bg-[#181A1B] p-6 md:border md:border-gray-200 dark:border-gray-700 rounded-3xl sm:shadow"
-    >
-      <LoginForm
-        @action:openResetPasswordModal="handleOpenResetPasswordModal"
-      />
-      <SignInWithGoogle />
-    </div>
-    <ResetPasswordModal
-      :isShow="showResetPasswordModal"
-      @action:closeModal="handleCloseResetPasswordModal"
-    />
+    <SignIn v-if="loginType === 'signIn'" @action:updateLoginType="handleUpdateLoginType" />
+    <Register v-if="loginType === 'register'" @action:updateLoginType="handleUpdateLoginType"/>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import LoginForm from "@/components/Login/LoginForm.vue";
-import SignInWithGoogle from "@/components/Login/SignInWithGoogle.vue";
-import ResetPasswordModal from "@/components/Login/ResetPasswordModal.vue";
+import SignIn from "@/components/Login/SignIn.vue";
+import Register from "@/components/Login/Register.vue";
 
-const showResetPasswordModal = ref(false);
-
-const handleCloseResetPasswordModal = () => {
-  showResetPasswordModal.value = false;
-};
-const handleOpenResetPasswordModal = () => {
-  showResetPasswordModal.value = true;
-};
+const loginType = ref('signIn')
+const handleUpdateLoginType = (newType) => {
+  console.log("newType", newType);
+  loginType.value = newType
+}
 </script>
