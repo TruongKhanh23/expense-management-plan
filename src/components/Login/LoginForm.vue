@@ -80,7 +80,7 @@ const login = async () => {
 
     console.log("Redirecting to home page...");
 
-    router.push("/");
+    router.push("/home");
   } catch (error) {
     console.log("error code", error.code);
     switch (error.code) {

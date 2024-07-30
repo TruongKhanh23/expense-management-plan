@@ -3,7 +3,7 @@
     <div
       class="max-w-screen flex flex-wrap items-center justify-between mx-auto md:mx-32 p-4"
     >
-      <a href="/" class="flex items-center">
+      <a href="/home" class="flex items-center">
         <img
           src="/logo-transparent.png"
           class="h-12 mr-3"

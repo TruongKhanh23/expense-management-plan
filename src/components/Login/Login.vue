@@ -18,8 +18,14 @@
         quản lý tiền bạc, lập kế hoạch chi tiêu và sử dụng dòng tiền hợp lý.
       </p>
     </div>
-    <SignIn v-if="loginType === 'signIn'" @action:updateLoginType="handleUpdateLoginType" />
-    <Register v-if="loginType === 'register'" @action:updateLoginType="handleUpdateLoginType"/>
+    <SignIn
+      v-if="loginType === 'signIn'"
+      @action:updateLoginType="handleUpdateLoginType"
+    />
+    <Register
+      v-if="loginType === 'register'"
+      @action:updateLoginType="handleUpdateLoginType"
+    />
   </div>
 </template>
 
@@ -28,9 +34,9 @@ import { ref } from "vue";
 import SignIn from "@/components/Login/SignIn.vue";
 import Register from "@/components/Login/Register.vue";
 
-const loginType = ref('signIn')
+const loginType = ref("signIn");
 const handleUpdateLoginType = (newType) => {
   console.log("newType", newType);
-  loginType.value = newType
-}
+  loginType.value = newType;
+};
 </script>

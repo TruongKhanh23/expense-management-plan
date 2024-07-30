@@ -42,6 +42,11 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    mimeTypes: {
+      'application/javascript': ['.js', '.mjs', '.jsx', '.vue']
+    }
+  },
   resolve: {
     alias: {
       '@': '/src',

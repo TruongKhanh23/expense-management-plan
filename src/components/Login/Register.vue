@@ -98,7 +98,7 @@ const register = () => {
     .then((data) => {
       console.log("Successfully registered!");
       console.log(auth.currentUser);
-      router.push("/");
+      router.push("/home");
     })
     .catch((error) => {
       console.log(error.code);
@@ -113,7 +113,7 @@ const signInWithGoogle = () => {
     .then((result) => {
       console.log("Successfully signed in with Google!");
       console.log(result.user);
-      router.push("/");
+      router.push("/home");
     })
     .catch((error) => {
       console.error("Error during Google sign-in:", error);

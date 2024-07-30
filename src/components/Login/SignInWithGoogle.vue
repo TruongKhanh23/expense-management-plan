@@ -36,7 +36,7 @@ const signInWithGoogle = () => {
       }
       localStorage.setItem("user", JSON.stringify(result.user));
       grantPermission();
-      router.push("/");
+      router.push("/home");
     })
     .catch((error) => {
       console.error("Error during Google sign-in:", error);
