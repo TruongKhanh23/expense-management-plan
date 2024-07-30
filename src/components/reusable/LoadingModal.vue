@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="isOpen"
-    class="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-opacity-100 bg-[#000000]"
+    class="fixed inset-0 z-50 h-screen w-screen flex items-center justify-center bg-opacity-100 dark:bg-[#000000] bg-[#ffffff]"
   >
     <div
-      class="h-24 w-[500px] mx-4 md:mx-0 flex flex-col items-center justify-center rounded-lg bg-[#ffffff] dark:bg-[#181A1B]"
+      class="h-24 w-[500px] mx-4 md:mx-0 flex flex-col items-center justify-center rounded-lg bg-[#ffffff] dark:bg-[#181A1B] shadow border"
     >
       <div class="text-xl"><LoadingOutlined /></div>
       <p class="text-lg font-bold mt-2">Đang tải...</p>
