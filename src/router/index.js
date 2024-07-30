@@ -1,13 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router"; // Import the necessary functions and objects
 
 import Home from "@/components/Home.vue";
-import Login from "@/components/Login.vue";
-import Register from "@/components/Register.vue";
+import Login from "@/components/Login/Login.vue";
+import Register from "@/components/Login/Register.vue";
+import SplashScreen from "@/components/SplashScreen.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const routes = [
   {
     path: "/",
+    name: "Splash",
+    component: SplashScreen,
+  },
+  {
+    path: "/home",
     component: Home,
     meta: {
       requiresAuth: true,
