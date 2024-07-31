@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navigation v-if="isLoggedIn" />
+    <Navigation v-if="isLoggedIn && routeName !== 'SplashScreen'" />
     <router-view v-slot="{ Component }">
       <transition name="fade">
         <component :is="Component" />
@@ -10,9 +10,11 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
-import Navigation from "@/components/Navigation.vue";
+import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRoute } from "vue-router"
+
+import Navigation from "@/components/Navigation.vue";
 
 export default {
   components: {
@@ -20,6 +22,10 @@ export default {
   },
   setup() {
     let auth;
+    const route = useRoute();
+    const routeName = computed(() => {
+      return route.name;
+    });
     const isLoggedIn = ref(false);
     onMounted(() => {
       auth = getAuth();
@@ -27,13 +33,14 @@ export default {
         isLoggedIn.value = !!user;
       });
     });
-    return { isLoggedIn };
+    return { isLoggedIn, routeName };
   },
 };
 </script>
 <style>
 /* CSS cho hiệu ứng chuyển tiếp */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
