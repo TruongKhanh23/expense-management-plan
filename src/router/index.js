@@ -8,18 +8,19 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const routes = [
   {
     path: "/",
-    name: "Splash",
+    name: "SplashScreen",
     component: SplashScreen,
   },
   {
     path: "/home",
+    name: "Home",
     component: Home,
     meta: {
       requiresAuth: true,
     },
   },
-  { path: "/login", component: Login },
-  { path: "/register", component: Register },
+  { path: "/login", name: "Login", component: Login },
+  { path: "/register", name: "Register", component: Register },
 ];
 
 const router = createRouter({
@@ -50,8 +51,8 @@ router.beforeEach(async (to, from, next) => {
       next("/login");
     }
   } else {
-    if ((to.path === '/login' || to.path === '/register') && user) {
-      next('/home');
+    if ((to.path === "/login" || to.path === "/register") && user) {
+      next("/home");
     } else {
       next();
     }
