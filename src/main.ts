@@ -2,6 +2,7 @@ import App from "./App.vue";
 import { createApp } from "vue";
 
 import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 import router from "./router";
@@ -21,6 +22,18 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 
-const app = createApp(App);
-app.use(router);
-app.mount("#app");
+const auth = getAuth(firebaseApp);
+
+let isInitialized = false;
+
+onAuthStateChanged(auth, (user) => {
+  if (!isInitialized) {
+    if (user) {
+      router.push("/home");
+    }
+    const app = createApp(App);
+    app.use(router);
+    app.mount("#app");
+    isInitialized = true;
+  }
+});

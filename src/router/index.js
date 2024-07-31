@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router"; // Import the necessary functions and objects
-
 import Home from "@/components/Home.vue";
 import Login from "@/components/Login/Login.vue";
 import Register from "@/components/Login/Register.vue";
@@ -42,14 +41,20 @@ const getCurrentUser = () => {
 };
 
 router.beforeEach(async (to, from, next) => {
+  const user = await getCurrentUser();
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (await getCurrentUser()) {
+    if (user) {
       next();
     } else {
       next("/login");
     }
   } else {
-    next();
+    if ((to.path === '/login' || to.path === '/register') && user) {
+      next('/home');
+    } else {
+      next();
+    }
   }
 });
 
