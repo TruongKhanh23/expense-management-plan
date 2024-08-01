@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"; // Import the necessary functions and objects
-import Home from "@/components/Home.vue";
+import Home from "@/components/Home/Home.vue";
 import Login from "@/components/Login/Login.vue";
 import Register from "@/components/Login/Register.vue";
 import SplashScreen from "@/components/SplashScreen.vue";
