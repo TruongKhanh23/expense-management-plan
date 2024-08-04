@@ -48,7 +48,7 @@
         </template>
       </template>
     </a-table>
-    <DebtEdit v-else :data="data" />
+    <DebtEdit v-else :data="data" @action:updateDebts="handleUpdateDebts" />
   </ConfigProvider>
 </template>
 <script lang="ts">
@@ -95,7 +95,8 @@ export default {
       require: undefined,
     },
   },
-  setup(props) {
+  emits: ["action:updateDebts"],
+  setup(props, { emit }) {
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
 
@@ -109,6 +110,10 @@ export default {
     const data: any = computed(() => {
       return props.debt.filter((item) => item.isFinished === "false");
     });
+
+    const handleUpdateDebts = (newDebts: any) => {
+      emit("action:updateDebts", newDebts);
+    };
 
     function calculateTotal(values: any) {
       let total = 0;
@@ -144,6 +149,7 @@ export default {
       roundDecimals,
       totalAmountByDebtId,
       getRemainingDebtByDebtId,
+      handleUpdateDebts,
       dayjs,
     };
   },
