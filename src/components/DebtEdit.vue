@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import { reactive, ref, computed } from "vue";
-import { uuid } from "vue-uuid";
+import { v1 as uuidv1 } from "uuid";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setDebt, deleteDebt } from "@/composables/debt/index.js";
@@ -113,11 +113,12 @@ export default {
   },
   props: {
     data: {
-      type: Object,
+      type: Array,
       default: () => ({ debt: [] }),
     },
   },
-  setup(props) {
+  emits: ["action:updateDebts"],
+  setup(props, { emit }) {
     const formRef = ref<FormInstance>();
 
     const debtStorageString = computed((debt: Debt[]) => {
@@ -140,6 +141,7 @@ export default {
       deleteDebt(item.key);
       if (index !== -1) {
         dynamicValidateForm.debt.splice(index, 1);
+        emit("action:updateDebts", dynamicValidateForm.debt);
       }
     };
 
@@ -147,20 +149,18 @@ export default {
       const currentDate = dayjs();
 
       dynamicValidateForm.debt.push({
-        key: uuid.v1(),
+        key: uuidv1(),
         name: "",
         amount: 0,
-        startDate: currentDate, // Khởi tạo trường startDate với ngày hôm nay
-        isFinished: "",
+        startDate: currentDate,
+        isFinished: "false",
       });
+      emit("action:updateDebts", dynamicValidateForm.debt);
     };
 
     const onFinish = async () => {
       const stringifyDebts = JSON.stringify(dynamicValidateForm.debt);
       localStorage.setItem("debt", stringifyDebts);
-      console.log("stringifyDebts", stringifyDebts);
-
-      console.log("dynamicValidateForm.debt", dynamicValidateForm.debt);
 
       await setDebt(dynamicValidateForm.debt);
     };

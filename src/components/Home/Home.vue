@@ -73,6 +73,7 @@
               :isDark="isDarkProps"
               :debt="debt"
               :allHandleIncomesIsDebt="allHandleIncomesIsDebt"
+              @action:updateDebts="handleUpdateDebts"
             />
           </a-col>
         </div>
@@ -253,6 +254,10 @@ export default {
       isOpenCreateNewMonthModal.value = close();
     }
 
+    function handleUpdateDebts(newValues: any) {
+      debt.value = newValues;
+    }
+
     return {
       columnsIncome,
       dataIncome,
@@ -265,6 +270,7 @@ export default {
       necessityLimitation,
       handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,
+      handleUpdateDebts,
       funds,
       isFundsEditable,
       isMobile,
