@@ -98,6 +98,7 @@ import {
 } from "ant-design-vue";
 import type { Dayjs } from "dayjs";
 import unorm from "unorm";
+import { roundDecimals } from "@/utils/number.util";
 
 interface HandleIncome {
   key: string;
@@ -137,6 +138,11 @@ export default {
     },
     funds: {
       type: Object,
+      require: true,
+    },
+    totalIncome: {
+      type: Number,
+      default: 0, // Giá trị mặc định là 0
       require: true,
     },
   },
@@ -228,15 +234,21 @@ export default {
       );
     };
 
+    function calculateLimitation(percentageFund: any) {
+      const limitation = (props.totalIncome * percentageFund) / 100;
+      return roundDecimals(limitation);
+    }
+
     return {
       formRef,
       isDebtOptions,
       debtOptions,
-      removeItem,
       dynamicValidateForm,
+      removeItem,
       addItem,
       onFinish,
       isFundRestricted,
+      calculateLimitation,
     };
   },
 };

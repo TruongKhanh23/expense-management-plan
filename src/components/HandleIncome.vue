@@ -98,6 +98,10 @@ export default {
       type: Object,
       require: true,
     },
+    totalIncome: {
+      type: Number,
+      require: true,
+    },
   },
   setup(props) {
     const isDarkMode = props.isDark;

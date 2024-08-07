@@ -24,6 +24,7 @@
         :columnsHandleIncome="columnsHandleIncome"
         :dataHandleIncome="dataHandleIncome"
         :funds="funds"
+        :totalIncome="totalIncome"
       />
     </a-tab-pane>
   </a-tabs>
