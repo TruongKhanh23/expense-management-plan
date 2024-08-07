@@ -19,7 +19,7 @@
       v-if="data.percentage"
       class="my-2 font-bold md:bg-[#FAFAFA] md:dark:bg-[#1D1D1D] leading-[2.5rem] left-0 w-full"
     >
-      {{ calculateLimitation(totalIncome, data.percentage) }}
+      {{ calculateLimitation(totalIncome, data.percentage).text }}
     </div>
     <div v-else class="absolute bottom-0 left-0 w-full">
       <div class="md:hidden">

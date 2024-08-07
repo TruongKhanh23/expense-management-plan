@@ -1,7 +1,4 @@
 <template>
-  <div v-if="funds && funds[1]">
-    <p>{{ calculateLimitation(totalIncome, funds[1].percentage) }}</p>
-  </div>
   <a-form
     ref="formRef"
     name="dynamic_form_nest_item"
@@ -61,6 +58,7 @@
             :disabled="isFundRestricted(item.fund)"
             placeholder="Amount"
             style="width: 100%"
+            @change="recalculateDisabledAmounts"
           />
         </a-form-item>
         <MinusCircleOutlined @click="removeItem(item)" />
@@ -85,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
@@ -141,6 +139,7 @@ export default {
     },
     funds: {
       type: Object,
+      default: [],
       require: true,
     },
     totalIncome: {
@@ -237,6 +236,55 @@ export default {
       );
     };
 
+    const recalculateDisabledAmounts = () => {
+      console.log("props.totalIncome", props.totalIncome);
+      console.log("props.funds", props.funds);
+
+      const fundLimits: any = {
+        necessity: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "necessity").percentage,
+        ).number,
+        freedom: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "freedom").percentage,
+        ).number,
+        education: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "education").percentage,
+        ).number,
+        enjoy: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "enjoy").percentage,
+        ).number,
+        giving: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "giving").percentage,
+        ).number,
+        longTermSaving: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "longTermSaving")
+            .percentage,
+        ).number,
+      };
+
+      dynamicValidateForm.handleIncomes.forEach((item) => {
+        const fundType = item.type;
+        if (fundType && isFundRestricted(item.fund)) {
+          const totalOtherAmounts = dynamicValidateForm.handleIncomes
+            .filter((income) => income.fund === item.fund && income !== item)
+            .reduce((acc, income) => acc + income.amount, 0);
+          console.log("fundLimits[fundType]", fundLimits[fundType]);
+          console.log("totalOtherAmounts", totalOtherAmounts);
+          item.amount = fundLimits[fundType] - totalOtherAmounts;
+        }
+      });
+    };
+
+    watch(() => dynamicValidateForm.handleIncomes, recalculateDisabledAmounts, {
+      deep: true,
+    });
+
     return {
       formRef,
       isDebtOptions,
@@ -247,6 +295,7 @@ export default {
       onFinish,
       isFundRestricted,
       calculateLimitation,
+      recalculateDisabledAmounts,
     };
   },
 };

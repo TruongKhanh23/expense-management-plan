@@ -126,8 +126,6 @@ export async function setFunds(values) {
 }
 
 export function calculateLimitation(totalIncome, percentageFund) {
-  console.log("totalIncome, percentageFund", totalIncome, percentageFund);
-
   const limitation = (totalIncome * percentageFund) / 100;
-  return roundDecimals(limitation);
+  return { text: roundDecimals(limitation), number: Math.round(limitation) };
 }
