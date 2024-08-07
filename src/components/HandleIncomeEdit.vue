@@ -55,6 +55,7 @@
         >
           <a-input-number
             v-model:value="item.amount"
+            :disabled="isFundRestricted(item.fund)"
             placeholder="Amount"
             style="width: 100%"
           />
@@ -96,6 +97,7 @@ import {
   Tag,
 } from "ant-design-vue";
 import type { Dayjs } from "dayjs";
+import unorm from "unorm";
 
 interface HandleIncome {
   key: string;
@@ -200,6 +202,28 @@ export default {
       await setHandleIncomes(dynamicValidateForm.handleIncomes);
     };
 
+    const restrictedFunds = [
+      "học tập",
+      "du lịch",
+      "cho đi",
+      "hưởng thụ",
+      "tích lũy",
+    ];
+
+    const normalizeString = (str: string) => {
+      return unorm
+        .nfkd(str)
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    };
+
+    const isFundRestricted = (fund: string) => {
+      const normalizedFund = normalizeString(fund);
+      return restrictedFunds.some((term) =>
+        normalizedFund.includes(normalizeString(term)),
+      );
+    };
+
     return {
       formRef,
       isDebtOptions,
@@ -208,6 +232,7 @@ export default {
       dynamicValidateForm,
       addItem,
       onFinish,
+      isFundRestricted,
     };
   },
 };

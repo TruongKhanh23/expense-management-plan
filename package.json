@@ -17,6 +17,7 @@
     "feather-icons": "^4.29.1",
     "firebase": "^10.5.0",
     "tailwind-merge": "^1.14.0",
+    "unorm": "^1.6.0",
     "vue": "^3.3.4",
     "vue-router": "^4.4.0",
     "vue-uuid": "^3.0.0",
