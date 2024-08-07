@@ -1,4 +1,7 @@
 <template>
+  <div v-if="funds && funds[1]">
+    <p>{{ calculateLimitation(totalIncome, funds[1].percentage) }}</p>
+  </div>
   <a-form
     ref="formRef"
     name="dynamic_form_nest_item"
@@ -98,7 +101,7 @@ import {
 } from "ant-design-vue";
 import type { Dayjs } from "dayjs";
 import unorm from "unorm";
-import { roundDecimals } from "@/utils/number.util";
+import { calculateLimitation } from "@/composables/funds/index";
 
 interface HandleIncome {
   key: string;
@@ -233,11 +236,6 @@ export default {
         normalizedFund.includes(normalizeString(term)),
       );
     };
-
-    function calculateLimitation(percentageFund: any) {
-      const limitation = (props.totalIncome * percentageFund) / 100;
-      return roundDecimals(limitation);
-    }
 
     return {
       formRef,

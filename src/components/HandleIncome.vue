@@ -43,7 +43,12 @@
               </template>
             </template>
           </a-table>
-          <HandleIncomeEdit v-else :data="data.items" :funds="funds" />
+          <HandleIncomeEdit
+            v-else
+            :data="data.items"
+            :funds="funds"
+            :totalIncome="totalIncome"
+          />
         </ConfigProvider>
       </template>
     </Slider>

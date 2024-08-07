@@ -23,3 +23,5 @@ export function roundDecimals(value: number): string {
   const result = Math.round(value);
   return new Intl.NumberFormat().format(result);
 }
+
+

@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { getCurrentChooseMonth } from "@/utils/time.util";
 import { toastWithPromise } from "@/utils/toast.util";
+import { roundDecimals } from "@/utils/number.util";
 
 const pathSegments = [
   "users",
@@ -122,4 +123,11 @@ export async function setFunds(values) {
   } catch (error) {
     console.error(error); // Xử lý lỗi nếu cần
   }
+}
+
+export function calculateLimitation(totalIncome, percentageFund) {
+  console.log("totalIncome, percentageFund", totalIncome, percentageFund);
+
+  const limitation = (totalIncome * percentageFund) / 100;
+  return roundDecimals(limitation);
 }
