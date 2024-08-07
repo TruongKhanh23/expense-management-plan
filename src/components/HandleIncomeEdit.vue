@@ -135,6 +135,10 @@ export default {
       type: Object,
       default: () => ({ handleIncomes: [] }),
     },
+    funds: {
+      type: Object,
+      require: true,
+    },
   },
   setup(props) {
     const formRef = ref<FormInstance>();
