@@ -37,6 +37,7 @@
             :dataHandleIncome="dataHandleIncome"
             :dataEstimateNecessity="dataEstimateNecessity"
             :isDark="isDarkProps"
+            :funds="funds"
             @action:updateDataTotalIncome="handleUpdateTotalIncome"
           />
         </div>
@@ -55,6 +56,7 @@
             :dataEstimateNecessity="dataEstimateNecessity"
             :dataHandleIncome="dataHandleIncome"
             :isDark="isDarkProps"
+            :funds="funds"
             @action:updateDataTotalIncome="handleUpdateTotalIncome"
           />
         </div>

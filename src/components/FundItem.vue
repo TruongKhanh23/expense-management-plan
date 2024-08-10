@@ -19,7 +19,7 @@
       v-if="data.percentage"
       class="my-2 font-bold md:bg-[#FAFAFA] md:dark:bg-[#1D1D1D] leading-[2.5rem] left-0 w-full"
     >
-      {{ calculateLimitation(data.percentage) }}
+      {{ calculateLimitation(totalIncome, data.percentage).text }}
     </div>
     <div v-else class="absolute bottom-0 left-0 w-full">
       <div class="md:hidden">
@@ -55,7 +55,7 @@
 <script>
 import { ref } from "vue";
 import { Switch } from "ant-design-vue";
-import { roundDecimals } from "@/utils/number.util";
+import { calculateLimitation } from "@/composables/funds/index";
 export default {
   components: {
     ASwitch: Switch,
@@ -75,10 +75,6 @@ export default {
     const checked = ref(false);
     function updateIsFundsEditable() {
       emit("action:updateIsFundsEditable");
-    }
-    function calculateLimitation(percentageFund) {
-      const limitation = (props.totalIncome * percentageFund) / 100;
-      return roundDecimals(limitation, 2);
     }
     return { checked, calculateLimitation, updateIsFundsEditable };
   },

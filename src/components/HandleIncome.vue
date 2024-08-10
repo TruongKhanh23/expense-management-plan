@@ -43,7 +43,12 @@
               </template>
             </template>
           </a-table>
-          <HandleIncomeEdit v-else :data="data.items" />
+          <HandleIncomeEdit
+            v-else
+            :data="data.items"
+            :funds="funds"
+            :totalIncome="totalIncome"
+          />
         </ConfigProvider>
       </template>
     </Slider>
@@ -93,6 +98,14 @@ export default {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
+    },
+    funds: {
+      type: Object,
+      require: true,
+    },
+    totalIncome: {
+      type: Number,
+      require: true,
     },
   },
   setup(props) {

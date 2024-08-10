@@ -55,8 +55,10 @@
         >
           <a-input-number
             v-model:value="item.amount"
+            :disabled="isFundRestricted(item.fund)"
             placeholder="Amount"
             style="width: 100%"
+            @change="recalculateDisabledAmounts"
           />
         </a-form-item>
         <MinusCircleOutlined @click="removeItem(item)" />
@@ -81,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
@@ -96,6 +98,8 @@ import {
   Tag,
 } from "ant-design-vue";
 import type { Dayjs } from "dayjs";
+import unorm from "unorm";
+import { calculateLimitation } from "@/composables/funds/index";
 
 interface HandleIncome {
   key: string;
@@ -132,6 +136,16 @@ export default {
     data: {
       type: Object,
       default: () => ({ handleIncomes: [] }),
+    },
+    funds: {
+      type: Object,
+      default: [],
+      require: true,
+    },
+    totalIncome: {
+      type: Number,
+      default: 0, // Giá trị mặc định là 0
+      require: true,
     },
   },
   setup(props) {
@@ -200,14 +214,86 @@ export default {
       await setHandleIncomes(dynamicValidateForm.handleIncomes);
     };
 
+    const restrictedFunds = [
+      "học tập",
+      "du lịch",
+      "cho đi",
+      "hưởng thụ",
+      "tích lũy",
+    ];
+
+    const normalizeString = (str: string) => {
+      return unorm
+        .nfkd(str)
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    };
+
+    const isFundRestricted = (fund: string) => {
+      const normalizedFund = normalizeString(fund);
+      return restrictedFunds.some((term) =>
+        normalizedFund.includes(normalizeString(term)),
+      );
+    };
+
+    const recalculateDisabledAmounts = () => {
+      console.log("props.totalIncome", props.totalIncome);
+      console.log("props.funds", props.funds);
+
+      const fundLimits: any = {
+        necessity: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "necessity").percentage,
+        ).number,
+        freedom: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "freedom").percentage,
+        ).number,
+        education: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "education").percentage,
+        ).number,
+        enjoy: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "enjoy").percentage,
+        ).number,
+        giving: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "giving").percentage,
+        ).number,
+        longTermSaving: calculateLimitation(
+          props.totalIncome,
+          props.funds.find((item: any) => item.id === "longTermSaving")
+            .percentage,
+        ).number,
+      };
+
+      dynamicValidateForm.handleIncomes.forEach((item) => {
+        const fundType = item.type;
+        if (fundType && isFundRestricted(item.fund)) {
+          const totalOtherAmounts = dynamicValidateForm.handleIncomes
+            .filter((income) => income !== item)
+            .reduce((acc, income) => acc + income.amount, 0);
+          item.amount = fundLimits[fundType] - totalOtherAmounts;
+        }
+      });
+    };
+
+    watch(() => dynamicValidateForm.handleIncomes, recalculateDisabledAmounts, {
+      deep: true,
+    });
+
     return {
       formRef,
       isDebtOptions,
       debtOptions,
-      removeItem,
       dynamicValidateForm,
+      removeItem,
       addItem,
       onFinish,
+      isFundRestricted,
+      calculateLimitation,
+      recalculateDisabledAmounts,
     };
   },
 };

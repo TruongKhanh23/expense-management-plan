@@ -23,6 +23,8 @@
         :isDark="isDark"
         :columnsHandleIncome="columnsHandleIncome"
         :dataHandleIncome="dataHandleIncome"
+        :funds="funds"
+        :totalIncome="totalIncome"
       />
     </a-tab-pane>
   </a-tabs>
@@ -102,6 +104,10 @@ export default {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
+    },
+    funds: {
+      type: Object,
+      require: true,
     },
   },
   emits: ["action:updateDataTotalIncome"],
