@@ -272,10 +272,8 @@ export default {
         const fundType = item.type;
         if (fundType && isFundRestricted(item.fund)) {
           const totalOtherAmounts = dynamicValidateForm.handleIncomes
-            .filter((income) => income.fund === item.fund && income !== item)
+            .filter((income) => income !== item)
             .reduce((acc, income) => acc + income.amount, 0);
-          console.log("fundLimits[fundType]", fundLimits[fundType]);
-          console.log("totalOtherAmounts", totalOtherAmounts);
           item.amount = fundLimits[fundType] - totalOtherAmounts;
         }
       });
