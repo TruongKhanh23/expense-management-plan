@@ -9,6 +9,7 @@ type TableDataType = {
   amount: number;
   isRepay: string;
   debtId: number;
+  isSolved: boolean;
 };
 
 type NecessaryThingsItem = {
@@ -40,6 +41,11 @@ export const columnsIncome = [
 
 export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
   {
+    title: "", // Tên cột
+    dataIndex: "isSolved",
+    align: "center",
+  },
+  {
     title: "Loại",
     dataIndex: "type",
     filters: [
@@ -66,6 +72,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 1259499,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "2",
@@ -75,6 +82,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 200000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "3",
@@ -84,6 +92,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 600000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "4",
@@ -93,6 +102,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 670000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "5",
@@ -102,6 +112,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 400000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "6",
@@ -111,6 +122,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 300000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "7",
@@ -120,6 +132,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 100000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "8",
@@ -129,6 +142,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 30000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "9",
@@ -138,6 +152,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 265000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "10",
@@ -147,6 +162,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 35000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "11",
@@ -156,6 +172,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 100000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "12",
@@ -165,6 +182,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 200000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "13",
@@ -174,6 +192,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 0,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "14",
@@ -183,6 +202,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 100000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "15",
@@ -192,6 +212,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 100000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "16",
@@ -201,6 +222,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 400000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "17",
@@ -210,6 +232,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 2200000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "18",
@@ -219,6 +242,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 222000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
     key: "19",
@@ -228,6 +252,7 @@ export const dataHandleIncome: TableDataType[] = [
     amount: 300000,
     isRepay: "false",
     debtId: 0,
+    isSolved: false, // Thêm trường isSolved với giá trị false
   },
 ];
 

@@ -66,7 +66,7 @@
     </a-space>
     <!-- Button Add Item & Button Submit-->
     <a-form-item>
-      <a-button type="dashed" block @click="addItem">
+      <a-button type="dashed" block @click="addItem(data)">
         <PlusOutlined />
         Add item
       </a-button>
@@ -100,6 +100,7 @@ import {
 import type { Dayjs } from "dayjs";
 import unorm from "unorm";
 import { calculateLimitation } from "@/composables/funds/index";
+import { uuid } from "vue-uuid";
 
 interface HandleIncome {
   key: string;
@@ -109,6 +110,7 @@ interface HandleIncome {
   amount: number;
   isDebt: string;
   debtId: string;
+  isSolved: boolean;
 }
 
 type DebtItem = {
@@ -194,16 +196,21 @@ export default {
       }
     };
 
-    const addItem = () => {
+    const addItem = (handleIncomes: any) => {
       dynamicValidateForm.handleIncomes.push({
-        key: "",
+        key: uuid.v1(),
         fund: "",
         amount: 0,
         wallet: "",
-        type: "",
+        isSolved: false,
+        type: handleIncomes[0].type,
         isDebt: "false",
         debtId: "Please choose a debt",
       });
+      console.log(
+        "dynamicValidateForm.handleIncomes",
+        dynamicValidateForm.handleIncomes,
+      );
     };
 
     const onFinish = async () => {

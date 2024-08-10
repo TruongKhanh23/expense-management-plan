@@ -37,6 +37,8 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
   }
 }
 export async function setHandleIncomes(values) {
+  console.log("values setHandleIncomes", values);
+
   const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
