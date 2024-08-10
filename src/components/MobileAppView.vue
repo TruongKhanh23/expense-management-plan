@@ -50,6 +50,7 @@ type HandleIncomeItem = {
   amount: number;
   isRepay: string;
   debtId: number;
+  isSolved: boolean;
 };
 type EstimateNecessityType = {
   id: string;

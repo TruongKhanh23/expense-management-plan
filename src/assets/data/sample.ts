@@ -40,6 +40,11 @@ export const columnsIncome = [
 
 export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
   {
+    title: "", // Tên cột
+    dataIndex: "isSolved",
+    align: "center",
+  },
+  {
     title: "Loại",
     dataIndex: "type",
     filters: [

@@ -30,6 +30,14 @@
             :pagination="{ hideOnSinglePage: true }"
           >
             <template #bodyCell="{ column, record }">
+              <template v-if="column.dataIndex === 'isSolved'">
+                <input
+                  type="checkbox"
+                  :id="record.isSolved"
+                  @change="(e) => onCheckboxChange(e, record)"
+                  :checked="record.isSolved"
+                />
+              </template>
               <template v-if="column.dataIndex === 'amount'">
                 <a>{{ new Intl.NumberFormat().format(record.amount) }}</a>
               </template>
@@ -58,6 +66,7 @@
 import { ref, computed } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
+import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
@@ -75,6 +84,7 @@ type HandleIncomeItem = {
   amount: number;
   isRepay: string;
   debtId: number;
+  isSolved: boolean;
 };
 
 export default {
@@ -119,15 +129,18 @@ export default {
       giving: "default",
       longTermSaving: "orange",
     };
+
     function tagColor(type: string) {
       if (type in tagTypeColor) {
         return tagTypeColor[type];
       }
     }
+
     const columns: TableColumnType<HandleIncomeItem>[] =
       props.columnsHandleIncome as TableColumnType<HandleIncomeItem>[];
 
     const data: any = computed(() => props.dataHandleIncome);
+
     const onChange: TableProps<HandleIncomeItem>["onChange"] = (
       pagination,
       filters,
@@ -141,7 +154,6 @@ export default {
       for (const item of values) {
         total += item.amount;
       }
-
       return total;
     }
 
@@ -165,6 +177,28 @@ export default {
 
     const reorderedData = computed(() => reorderData(data.value, desiredOrder));
 
+    async function onCheckboxChange(event: Event, record: any) {
+      const target = event.target as HTMLInputElement | null;
+      if (!target) return;
+
+      const isSolved = target.checked;
+      record.isSolved = isSolved;
+      console.log("record", record);
+
+      const handleIncome = data.value.find(
+        (item: any) => item.id === record.type,
+      );
+      if (handleIncome) {
+        const item = handleIncome.items.find(
+          (item: any) => item.key === record.key,
+        );
+        if (item) {
+          item.isSolved = isSolved;
+          await setHandleIncomes(handleIncome.items);
+        }
+      }
+    }
+
     return {
       tagColor,
       columns,
@@ -174,6 +208,7 @@ export default {
       calculateTotal,
       isDarkMode,
       reorderedData,
+      onCheckboxChange, // Thêm phương thức vào return
     };
   },
 };
