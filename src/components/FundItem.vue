@@ -19,7 +19,10 @@
       v-if="data.percentage"
       class="my-2 font-bold md:bg-[#FAFAFA] md:dark:bg-[#1D1D1D] leading-[2.5rem] left-0 w-full"
     >
-      {{ calculateLimitation(totalIncome, data.percentage).text }}
+      <p v-if="isVisible">
+        {{ calculateLimitation(totalIncome, data.percentage).text }}
+      </p>
+      <p v-else>******</p>
     </div>
     <div v-else class="absolute bottom-0 left-0 w-full">
       <div class="md:hidden">
@@ -37,7 +40,11 @@
           Tên quỹ
         </div>
       </div>
-      <div>
+      <div class="flex sm:flex-col items-center justify-center my-2">
+        <div class="px-2 sm:py-4 cursor-pointer" @click="toggleVisibility">
+          <img v-if="isVisible" :src="showEye" class="w-6 h-6" />
+          <img v-else :src="hideEye" class="w-6 h-6" />
+        </div>
         <a-switch
           class="my-ant-switch"
           v-model:checked="checked"
@@ -52,15 +59,19 @@
     </div>
   </div>
 </template>
+
 <script>
 import { ref } from "vue";
 import { Switch } from "ant-design-vue";
 import { calculateLimitation } from "@/composables/funds/index";
+import showEye from "@/assets/icons/showEye.png";
+import hideEye from "@/assets/icons/hideEye.png";
+
 export default {
   components: {
     ASwitch: Switch,
   },
-  emits: ["action:updateIsFundsEditable"],
+  emits: ["action:updateIsFundsEditable", "action:updateIsVisibleLimitation"],
   props: {
     totalIncome: {
       type: Number,
@@ -70,16 +81,36 @@ export default {
       type: Object,
       default: () => {},
     },
+    isVisible: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const checked = ref(false);
+
+    function toggleVisibility() {
+      console.log("click toggleVisibility");
+
+      emit("action:updateIsVisibleLimitation");
+    }
+
     function updateIsFundsEditable() {
       emit("action:updateIsFundsEditable");
     }
-    return { checked, calculateLimitation, updateIsFundsEditable };
+
+    return {
+      checked,
+      hideEye,
+      showEye,
+      calculateLimitation,
+      updateIsFundsEditable,
+      toggleVisibility,
+    };
   },
 };
 </script>
+
 <style>
 .my-ant-switch.ant-switch {
   background-color: grey;

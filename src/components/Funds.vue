@@ -6,13 +6,15 @@
           @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')"
           :data="data"
           :totalIncome="totalIncome"
+          :isVisible="isVisible"
+          @action:updateIsVisibleLimitation="handleUpdateIsVisibleLimitation"
         />
       </template>
     </Slider>
   </div>
 </template>
 <script>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import FundItem from "@/components/FundItem.vue";
 import Slider from "../components/reusable/Slider.vue";
 import detectDevice from "@/utils/device.util";
@@ -35,7 +37,9 @@ export default {
     },
   },
   setup(props) {
-    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } = detectDevice();
+    const isVisible = ref(false);
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
+      detectDevice();
 
     const sliderAttrs = computed(() => {
       if (isMobile) {
@@ -63,7 +67,12 @@ export default {
       }
     });
 
-    return { sliderAttrs };
+    function handleUpdateIsVisibleLimitation() {
+      isVisible.value = !isVisible.value;
+      console.log("isVisible.value", isVisible.value);
+    }
+
+    return { sliderAttrs, isVisible, handleUpdateIsVisibleLimitation };
   },
 };
 </script>
