@@ -1,9 +1,15 @@
 import Vuex from "vuex";
+import VuexPersist from "vuex-persist";
 export interface State {
   count: number;
 }
 
 const { createStore } = Vuex;
+
+const vuexPersist = new VuexPersist({
+  key: "expense-management-plan", // Tên khóa trong localStorage
+  storage: localStorage,
+});
 
 const store = createStore<State>({
   state: {
@@ -15,15 +21,16 @@ const store = createStore<State>({
     },
   },
   actions: {
-    increment(context) {
-      context.commit("increment");
+    increment({ commit }) {
+      commit("increment");
     },
   },
   getters: {
-    getCount(state): number {
+    getCount(state) {
       return state.count;
     },
   },
+  plugins: [vuexPersist.plugin], // Thêm plugin vào Vuex
 });
 
 export default store;
