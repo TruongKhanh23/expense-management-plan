@@ -173,11 +173,9 @@ export default {
       { label: "Trả nợ", value: "true" },
     ];
 
-    const handleIncomesStorageString = computed(
-      (handleIncomes: HandleIncome[]) => {
-        return props.data ?? handleIncomes;
-      },
-    );
+    const handleIncomesStorageString = computed(() => {
+      return props.data ?? [];
+    });
 
     const handleIncomesStorage = computed(() => {
       return handleIncomesStorageString.value;

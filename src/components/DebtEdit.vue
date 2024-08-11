@@ -121,8 +121,8 @@ export default {
   setup(props, { emit }) {
     const formRef = ref<FormInstance>();
 
-    const debtStorageString = computed((debt: Debt[]) => {
-      return props.data ?? debt;
+    const debtStorageString = computed(() => {
+      return props.data ?? [];
     });
 
     const debtStorage = computed(() => {
