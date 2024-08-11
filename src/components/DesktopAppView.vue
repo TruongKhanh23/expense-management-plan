@@ -7,6 +7,8 @@
   </a-col>
 
   <a-col :md="{ span: 8 }">
+    <p>Current Count: {{ count }}</p>
+    <a-button type="primary" @click="increment">Increment</a-button>
     <IncomeDebt
       :columns="columnsIncome"
       :data="dataIncome"
@@ -29,11 +31,13 @@
   </a-col>
 </template>
 <script lang="ts">
-import { Col } from "ant-design-vue";
+import { computed } from "vue";
+import { Col, Button } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
+import { useStore } from "vuex";
 
 type HandleIncomeType = {
   id: string;
@@ -65,6 +69,7 @@ type EstimateNecessityItem = {
 export default {
   components: {
     ACol: Col,
+    AButton: Button,
     IncomeDebt,
     HandleIncome,
     EstimateNecessity,
@@ -108,5 +113,18 @@ export default {
     },
   },
   emits: ["action:updateDataTotalIncome"],
+  setup() {
+    const store = useStore();
+    const count = computed(() => store.getters.getCount);
+    // Gọi action để tăng giá trị count
+    const increment = () => {
+      store.dispatch("increment");
+    };
+
+    return {
+      count,
+      increment,
+    };
+  },
 };
 </script>
