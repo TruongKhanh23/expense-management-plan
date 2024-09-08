@@ -9,6 +9,7 @@
   <a-col :md="{ span: 8 }">
     <p>Current Count: {{ count }}</p>
     <a-button type="primary" @click="increment">Increment</a-button>
+    <a-button type="primary" @click="decrement">Decrement</a-button>
     <IncomeDebt
       :columns="columnsIncome"
       :data="dataIncome"
@@ -120,10 +121,14 @@ export default {
     const increment = () => {
       store.dispatch("increment");
     };
+    const decrement = () => {
+      store.dispatch("decrement");
+    };
 
     return {
       count,
       increment,
+      decrement,
     };
   },
 };

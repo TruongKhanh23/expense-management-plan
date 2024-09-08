@@ -1,5 +1,4 @@
-// getters.ts
-import { State } from "@/store"; // Đảm bảo import đúng interface State
+import { State } from "@/store/state";
 
 export function getCount(state: State): number {
   return state.count;

@@ -1,6 +1,8 @@
-// mutations.ts
-import { State } from "@/store"; // Đảm bảo import đúng interface State
+import { State } from "@/store/state";
 
 export function increment(state: State) {
   state.count++;
+}
+export function decrement(state: State) {
+  state.count--;
 }

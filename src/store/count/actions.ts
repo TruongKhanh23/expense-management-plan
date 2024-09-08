@@ -1,5 +1,4 @@
-// actions.ts
-import { State } from "@/store"; // Import interface State
+import { State } from "@/store/state";
 
 interface ActionContextCustom {
   commit: (mutation: string) => void;
@@ -8,4 +7,7 @@ interface ActionContextCustom {
 
 export function increment({ commit }: ActionContextCustom) {
   commit("increment");
+}
+export function decrement({ commit }: ActionContextCustom) {
+  commit("decrement");
 }

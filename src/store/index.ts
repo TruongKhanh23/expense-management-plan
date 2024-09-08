@@ -1,13 +1,12 @@
 // store.ts
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
-import { increment as incrementMutation } from "@/store/count/mutations"; // Import mutation
-import { increment as incrementAction } from "@/store/count/actions"; // Import action
-import { getCount } from "@/store/count/getters"; // Import getter
-
-export interface State {
-  count: number;
-}
+import { increment as countIncrementMutation } from "@/store/count/mutations";
+import { increment as countIncrementAction } from "@/store/count/actions";
+import { decrement as countDecrementMutation } from "@/store/count/mutations";
+import { decrement as countDecrementAction } from "@/store/count/actions";
+import { getCount } from "@/store/count/getters";
+import { state, State } from "@/store/state";
 
 const { createStore } = Vuex;
 
@@ -17,14 +16,14 @@ const vuexPersist = new VuexPersist({
 });
 
 const store = createStore<State>({
-  state: {
-    count: 0,
-  },
+  state,
   mutations: {
-    increment: incrementMutation,
+    increment: countIncrementMutation,
+    decrement: countDecrementMutation,
   },
   actions: {
-    increment: incrementAction,
+    increment: countIncrementAction,
+    decrement: countDecrementAction,
   },
   getters: {
     getCount,
