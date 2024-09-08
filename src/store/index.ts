@@ -2,10 +2,7 @@
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import { mutations } from "@/store/mutations"; // Import mutations từ file store/mutations.ts
-import {
-  increment as countIncrementAction,
-  decrement as countDecrementAction,
-} from "@/store/count/actions";
+import { actions } from "@/store/actions"; // Import actions từ file store/actions.ts
 import { getCount } from "@/store/count/getters";
 import { state, State } from "@/store/state";
 
@@ -19,10 +16,7 @@ const vuexPersist = new VuexPersist({
 const store = createStore<State>({
   state,
   mutations,
-  actions: {
-    increment: countIncrementAction,
-    decrement: countDecrementAction,
-  },
+  actions,
   getters: {
     getCount,
   },

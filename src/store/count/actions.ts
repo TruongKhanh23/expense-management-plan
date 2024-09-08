@@ -1,13 +1,10 @@
-import { State } from "@/store/state";
+// store/count/actions.ts
 
-interface ActionContextCustom {
-  commit: (mutation: string) => void;
-  state: State;
-}
-
-export function increment({ commit }: ActionContextCustom) {
-  commit("increment");
-}
-export function decrement({ commit }: ActionContextCustom) {
-  commit("decrement");
-}
+export const actions = {
+  increment(context: { commit: Function }) {
+    context.commit("increment");
+  },
+  decrement(context: { commit: Function }) {
+    context.commit("decrement");
+  },
+};
