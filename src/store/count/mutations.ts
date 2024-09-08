@@ -1,8 +1,11 @@
+// store/count/mutations.ts
 import { State } from "@/store/state";
 
-export function increment(state: State) {
-  state.count++;
-}
-export function decrement(state: State) {
-  state.count--;
-}
+export const mutations = {
+  increment(state: State) {
+    state.count++;
+  },
+  decrement(state: State) {
+    state.count--;
+  },
+};
