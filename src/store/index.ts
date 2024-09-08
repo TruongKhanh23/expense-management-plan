@@ -1,9 +1,8 @@
-// store.ts
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
-import { mutations } from "@/store/mutations"; // Import mutations từ file store/mutations.ts
-import { actions } from "@/store/actions"; // Import actions từ file store/actions.ts
-import { getCount } from "@/store/count/getters";
+import { mutations } from "@/store/mutations";
+import { actions } from "@/store/actions";
+import { getters } from "@/store/getters";
 import { state, State } from "@/store/state";
 
 const { createStore } = Vuex;
@@ -17,9 +16,7 @@ const store = createStore<State>({
   state,
   mutations,
   actions,
-  getters: {
-    getCount,
-  },
+  getters,
   plugins: [vuexPersist.plugin],
 });
 

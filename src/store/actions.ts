@@ -1,6 +1,5 @@
-// store/actions.ts
-import { actions as countActions } from "@/store/count/actions"; // Import các action của count
+import { actions as countActions } from "@/store/count/actions";
 
 export const actions = {
-  ...countActions, // Gộp các action từ countActions
+  ...countActions,
 };

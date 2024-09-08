@@ -1,5 +1,3 @@
-// store/count/actions.ts
-
 export const actions = {
   increment(context: { commit: Function }) {
     context.commit("increment");

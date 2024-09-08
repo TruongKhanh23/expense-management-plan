@@ -1,4 +1,4 @@
-import { mutations as countMutations } from "@/store/count/mutations"; // Import các mutation của count
+import { mutations as countMutations } from "@/store/count/mutations";
 
 export const mutations = {
   ...countMutations,

@@ -1,4 +1,3 @@
-// state.ts
 export interface State {
   count: number;
 }
