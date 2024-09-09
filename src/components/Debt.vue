@@ -36,13 +36,7 @@
         <template v-if="column.dataIndex === 'remaining'">
           <p>
             {{
-              new Intl.NumberFormat().format(
-                getRemainingDebtByDebtId(
-                  totalAmountByDebtId,
-                  record.key,
-                  record.amount,
-                ),
-              )
+              new Intl.NumberFormat().format(record.remaining ?? 0)
             }}
           </p>
         </template>
@@ -51,6 +45,7 @@
     <DebtEdit v-else :data="data" @action:updateDebts="handleUpdateDebts" />
   </ConfigProvider>
 </template>
+
 <script lang="ts">
 import { ref, computed } from "vue";
 import { Col, Table, Tag, Switch } from "ant-design-vue";
@@ -108,10 +103,19 @@ export default {
       columnsDebt as TableColumnType<DebtItem>[];
 
     const data: any = computed(() => {
-      return props.debt.filter((item) => item.isFinished === "false");
+      const filteredData = props.debt.filter((item) => item.isFinished === "false");
+
+      const dataWithRemaining = filteredData.map((item) => ({
+        ...item,
+        remaining: getRemainingDebtByDebtId(totalAmountByDebtId.value, item.key, item.amount),
+      }));
+
+      return dataWithRemaining.filter((item) => item.remaining !== 0);
     });
 
-    const handleUpdateDebts = (newDebts: any) => {
+
+
+    function handleUpdateDebts (newDebts: any) {
       emit("action:updateDebts", newDebts);
     };
 
