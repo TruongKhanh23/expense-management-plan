@@ -1,7 +1,7 @@
-import { State } from "@/store/state";
+import { getters as countGetters } from "@/store/count/getters";
+import { getters as debtGetters } from "@/store/debt/getters";
 
 export const getters = {
-  getCount(state: State): number {
-    return state.count;
-  },
+  ...countGetters,
+  ...debtGetters,
 };

@@ -1,3 +1,5 @@
+import { State } from "@/store/state";
+
 import type { Dayjs } from "dayjs";
 
 type DebtItem = {
@@ -7,12 +9,9 @@ type DebtItem = {
   startDate: string | Dayjs;
   isFinished: string;
 };
-export interface State {
-  count: number;
-  debt: DebtItem[];
-}
 
-export const state: State = {
-  count: 0,
-  debt: [],
+export const getters = {
+  getDebts(state: State): DebtItem[] {
+    return state.debt;
+  },
 };

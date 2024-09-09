@@ -10,6 +10,9 @@
     <p>Current Count: {{ count }}</p>
     <a-button type="primary" @click="increment">Increment</a-button>
     <a-button type="primary" @click="decrement">Decrement</a-button>
+
+    <p>{{ debts }}</p>
+    <a-button type="primary" @click="addDebt">Add Debt</a-button>
     <IncomeDebt
       :columns="columnsIncome"
       :data="dataIncome"
@@ -117,18 +120,23 @@ export default {
   setup() {
     const store = useStore();
     const count = computed(() => store.getters.getCount);
-    // Gọi action để tăng giá trị count
+    const debts = computed(() => store.getters.getDebts);
     const increment = () => {
       store.dispatch("increment");
     };
     const decrement = () => {
       store.dispatch("decrement");
     };
+    const addDebt = () => {
+      store.dispatch("addDebt");
+    };
 
     return {
       count,
       increment,
       decrement,
+      addDebt,
+      debts,
     };
   },
 };
