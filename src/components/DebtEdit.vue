@@ -55,6 +55,7 @@
         >
           <a-input
             v-model:value="item.isFinished"
+            :disabled="true"
             placeholder="Debt isFinished"
           />
         </a-form-item>
