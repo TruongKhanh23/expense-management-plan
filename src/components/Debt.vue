@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between">
     <p class="my-2 font-bold">
-      Tổng:
+      Tổng nợ còn lại:
       {{ new Intl.NumberFormat().format(calculateTotal(data)) }}
     </p>
     <div class="flex flex-row my-2">
@@ -122,7 +122,7 @@ export default {
     function calculateTotal(values: any) {
       let total = 0;
       for (const item of values) {
-        total += item.amount;
+        total += item.remaining;
       }
 
       return total;
