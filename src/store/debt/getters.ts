@@ -12,6 +12,6 @@ type DebtItem = {
 
 export const getters = {
   getDebts(state: State): DebtItem[] {
-    return state.debt;
+    return state.debts;
   },
 };

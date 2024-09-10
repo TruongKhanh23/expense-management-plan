@@ -91,6 +91,7 @@ import {
 } from "ant-design-vue";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
+import { useStore } from "vuex";
 
 interface Debt {
   key: string;
@@ -121,6 +122,8 @@ export default {
   emits: ["action:updateDebts"],
   setup(props, { emit }) {
     const formRef = ref<FormInstance>();
+
+    const store = useStore();
 
     const debtStorageString = computed(() => {
       return props.data ?? [];
@@ -162,6 +165,7 @@ export default {
     const onFinish = async () => {
       const stringifyDebts = JSON.stringify(dynamicValidateForm.debt);
       localStorage.setItem("debt", stringifyDebts);
+      store.dispatch("setDebts", dynamicValidateForm.debt);
 
       await setDebt(dynamicValidateForm.debt);
     };

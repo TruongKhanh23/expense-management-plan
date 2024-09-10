@@ -35,9 +35,7 @@
         </template>
         <template v-if="column.dataIndex === 'remaining'">
           <p>
-            {{
-              new Intl.NumberFormat().format(record.remaining ?? 0)
-            }}
+            {{ new Intl.NumberFormat().format(record.remaining ?? 0) }}
           </p>
         </template>
       </template>
@@ -48,6 +46,8 @@
 
 <script lang="ts">
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
@@ -92,8 +92,12 @@ export default {
   },
   emits: ["action:updateDebts"],
   setup(props, { emit }) {
+    const store = useStore();
+
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
+
+    const debts = computed(() => store.getters.getDebts);
 
     const totalAmountByDebtId = computed(() =>
       calculateTotalAmountByDebtId(props.allHandleIncomesIsDebt),
@@ -103,21 +107,25 @@ export default {
       columnsDebt as TableColumnType<DebtItem>[];
 
     const data: any = computed(() => {
-      const filteredData = props.debt.filter((item) => item.isFinished === "false");
+      const filteredData = debts.value.filter(
+        (item) => item.isFinished === "false",
+      );
 
       const dataWithRemaining = filteredData.map((item) => ({
         ...item,
-        remaining: getRemainingDebtByDebtId(totalAmountByDebtId.value, item.key, item.amount),
+        remaining: getRemainingDebtByDebtId(
+          totalAmountByDebtId.value,
+          item.key,
+          item.amount,
+        ),
       }));
 
       return dataWithRemaining.filter((item) => item.remaining !== 0);
     });
 
-
-
-    function handleUpdateDebts (newDebts: any) {
+    function handleUpdateDebts(newDebts: any) {
       emit("action:updateDebts", newDebts);
-    };
+    }
 
     function calculateTotal(values: any) {
       let total = 0;

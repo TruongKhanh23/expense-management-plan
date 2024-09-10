@@ -9,10 +9,10 @@ type DebtItem = {
 };
 export interface State {
   count: number;
-  debt: DebtItem[];
+  debts: DebtItem[];
 }
 
 export const state: State = {
   count: 0,
-  debt: [],
+  debts: [],
 };
