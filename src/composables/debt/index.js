@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from '@/store'
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import {
@@ -10,6 +11,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import dayjs from "dayjs";
+
 
 import { toastWithPromise } from "@/utils/toast.util";
 
@@ -32,7 +34,7 @@ export async function getDebt() {
         };
         list.value.push(item);
       });
-      localStorage.setItem("debt", JSON.stringify(list.value));
+      store.dispatch("setDebts", list.value);
     });
     return list.value;
   } catch (error) {

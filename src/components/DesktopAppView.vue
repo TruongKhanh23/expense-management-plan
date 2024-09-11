@@ -117,7 +117,6 @@ export default {
   setup() {
     const store = useStore();
     const count = computed(() => store.getters.getCount);
-    const debts = computed(() => store.getters.getDebts);
     const increment = () => {
       store.dispatch("increment");
     };
