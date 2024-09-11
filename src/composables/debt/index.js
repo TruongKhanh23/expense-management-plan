@@ -42,7 +42,7 @@ export async function getDebt() {
   }
 }
 
-export async function setDebt(values) {
+export async function setDebt(values) {  
   const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
@@ -54,14 +54,16 @@ export async function setDebt(values) {
             name: item.name,
             amount: item.amount,
             isFinished: item.isFinished,
-            startDate: item.startDate.format("YYYY-MM-DD"),
+            startDate: item.startDate,
           },
           { merge: true },
         );
       }
       resolve("Set debts successfully");
     } catch (error) {
-      reject(`Set debts failed`);
+      console.log("error", error);
+      
+      reject(`Set debts failed`, error);
     }
   });
 

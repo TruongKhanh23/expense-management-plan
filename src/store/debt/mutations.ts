@@ -1,15 +1,6 @@
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
 import { v1 as uuidv1 } from "uuid";
 import { State } from "@/store/state";
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
 
 export const mutations = {
   addDebt(state: State) {
@@ -26,5 +17,15 @@ export const mutations = {
   },
   setDebts(state: State, { debts }) {
     state.debts = debts;
+  },
+  removeDebt(state: State, { key }) {
+    const currentDebts = state.debts;
+    const indexToRemove = currentDebts.findIndex(item => item.key === key);
+
+    if (indexToRemove !== -1) {
+      currentDebts.splice(indexToRemove, 1);
+    }
+
+    state.debts = currentDebts;
   },
 };

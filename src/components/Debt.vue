@@ -47,7 +47,6 @@
 <script lang="ts">
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
@@ -56,8 +55,6 @@ import DebtEdit from "@/components/DebtEdit.vue";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
-
-import { roundDecimals } from "@/utils/number.util";
 
 type DebtItem = {
   key: string;
@@ -87,7 +84,7 @@ export default {
     },
     isDark: {
       type: [Boolean, Object],
-      require: undefined,
+      default: undefined,
     },
   },
   emits: ["action:updateDebts"],
@@ -158,7 +155,6 @@ export default {
       columns,
       isEditable,
       calculateTotal,
-      roundDecimals,
       totalAmountByDebtId,
       getRemainingDebtByDebtId,
       handleUpdateDebts,

@@ -6,25 +6,19 @@
     @finish="onFinish"
   >
     <a-space
-      v-for="(item, index) in dynamicValidateForm.debt"
+      v-for="(item, index) in dynamicValidateForm"
       :key="index"
       style="display: flex; margin-bottom: 8px"
     >
       <a-form-item
-        :name="['debt', index, 'name']"
-        :rules="{
-          required: true,
-          message: 'Missing name',
-        }"
+        :name="[index, 'name']"
+        :rules="[ { required: true, message: 'Missing name' } ]"
       >
         <a-input v-model:value="item.name" placeholder="Debt name" />
       </a-form-item>
       <a-form-item
-        :name="['debt', index, 'amount']"
-        :rules="{
-          required: true,
-          message: 'Missing amount',
-        }"
+        :name="[index, 'amount']"
+        :rules="[ { required: true, message: 'Missing amount' } ]"
       >
         <a-input-number
           v-model:value="item.amount"
@@ -33,7 +27,7 @@
         />
       </a-form-item>
       <a-form-item
-        :name="['debt', index, 'startDate']"
+        :name="[index, 'startDate']"
         :rules="{
           required: true,
           message: 'Missing start date',
@@ -43,15 +37,13 @@
           v-model:value="item.startDate"
           placeholder="Start Date"
           style="width: 100%"
+          format="DD/MM/YY"
         />
       </a-form-item>
       <a-space align="baseline">
         <a-form-item
-          :name="['debt', index, 'isFinished']"
-          :rules="{
-            required: true,
-            message: 'Missing isFinished',
-          }"
+          :name="[index, 'isFinished']"
+          :rules="[ { required: true, message: 'Missing isFinished' } ]"
         >
           <a-input
             v-model:value="item.isFinished"
@@ -75,20 +67,11 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, computed } from "vue";
-import { v1 as uuidv1 } from "uuid";
+import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setDebt, deleteDebt } from "@/composables/debt/index.js";
-import {
-  Form,
-  Space,
-  FormItem,
-  Input,
-  Button,
-  InputNumber,
-  DatePicker,
-} from "ant-design-vue";
+import { Form, Space, FormItem, Input, Button, InputNumber, DatePicker } from "ant-design-vue";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 import { useStore } from "vuex";
@@ -97,7 +80,7 @@ interface Debt {
   key: string;
   name: string;
   amount: number;
-  startDate: string | Dayjs;
+  startDate: Dayjs | null;
   isFinished: string;
 }
 
@@ -113,67 +96,44 @@ export default {
     PlusOutlined,
     ADatePicker: DatePicker,
   },
-  props: {
-    data: {
-      type: Array,
-      default: () => ({ debt: [] }),
-    },
-  },
-  emits: ["action:updateDebts"],
-  setup(props, { emit }) {
+  setup() {
     const formRef = ref<FormInstance>();
-
     const store = useStore();
 
-    const debtStorageString = computed(() => {
-      return props.data ?? [];
-    });
+    // Computed property to get debts from Vuex store and map to Dayjs
+    const dynamicValidateForm = computed(() => 
+      store.getters.getDebts.map(debt => ({
+        ...debt,
+        startDate: dayjs(debt.startDate) // Convert to Dayjs object
+      }))
+    );
 
-    const debtStorage = computed(() => {
-      debtStorageString.value.map((item: any) => {
-        item.startDate = dayjs(item.startDate);
-      });
-      return debtStorageString.value;
-    });
-
-    const dynamicValidateForm = reactive<{ debt: Debt[] }>({
-      debt: debtStorageString.value ? debtStorage : ([] as any),
-    });
-
-    const removeItem = (item: Debt) => {
-      const index = dynamicValidateForm.debt.indexOf(item);
-      deleteDebt(item.key);
-      if (index !== -1) {
-        dynamicValidateForm.debt.splice(index, 1);
-        emit("action:updateDebts", dynamicValidateForm.debt);
-      }
+    const removeItem = async (item: Debt) => {
+      store.dispatch("removeDebt", item.key);
+      // No need to call deleteDebt here if removeDebt already handles it
+      await deleteDebt(item.key)
     };
 
     const addItem = () => {
-      const currentDate = dayjs();
-
-      dynamicValidateForm.debt.push({
-        key: uuidv1(),
-        name: "",
-        amount: 0,
-        startDate: currentDate,
-        isFinished: "false",
-      });
-      emit("action:updateDebts", dynamicValidateForm.debt);
+      store.dispatch("addDebt");
     };
 
     const onFinish = async () => {
-      const stringifyDebts = JSON.stringify(dynamicValidateForm.debt);
-      localStorage.setItem("debt", stringifyDebts);
-      store.dispatch("setDebts", dynamicValidateForm.debt);
-
-      await setDebt(dynamicValidateForm.debt);
+      // Convert Dayjs objects back to string if necessary
+      const formattedDebts = dynamicValidateForm.value.map(debt => ({
+        ...debt,
+        startDate: debt.startDate?.format('YYYY-MM-DD') // Convert back to string
+      }));
+      
+      store.dispatch("setDebts", formattedDebts);
+       await setDebt(formattedDebts);
     };
 
-    return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };
+    return { formRef, removeItem, dynamicValidateForm, addItem, onFinish, dayjs };
   },
 };
 </script>
+
 <style>
 .ant-picker-clear {
   display: none;

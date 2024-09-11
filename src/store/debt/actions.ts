@@ -5,4 +5,7 @@ export const actions = {
   setDebts(context: { commit: Function }, debts) {
     context.commit("setDebts", { debts });
   },
+  removeDebt(context: { commit: Function }, key) {
+    context.commit("removeDebt", { key });
+  },
 };
