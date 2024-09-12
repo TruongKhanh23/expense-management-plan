@@ -98,7 +98,6 @@ import {
   Select,
   Tag,
 } from "ant-design-vue";
-import type { Dayjs } from "dayjs";
 import unorm from "unorm";
 import { calculateLimitation } from "@/composables/funds/index";
 import { uuid } from "vue-uuid";
@@ -113,14 +112,6 @@ interface HandleIncome {
   debtId: string;
   isSolved: boolean;
 }
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
 
 export default {
   components: {

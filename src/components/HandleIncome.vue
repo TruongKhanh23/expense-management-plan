@@ -63,6 +63,7 @@
   </div>
 </template>
 <script lang="ts">
+import { useStore } from "vuex"
 import { ref, computed } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
@@ -119,6 +120,7 @@ export default {
     },
   },
   setup(props) {
+    const store = useStore();
     const isDarkMode = props.isDark;
     const isEditable = ref(false);
     const tagTypeColor: Record<string, string> = {
@@ -139,7 +141,7 @@ export default {
     const columns: TableColumnType<HandleIncomeItem>[] =
       props.columnsHandleIncome as TableColumnType<HandleIncomeItem>[];
 
-    const data: any = computed(() => props.dataHandleIncome);
+    const data: any = computed(() => store.getters.getHandleIncomes);
 
     const onChange: TableProps<HandleIncomeItem>["onChange"] = (
       pagination,
