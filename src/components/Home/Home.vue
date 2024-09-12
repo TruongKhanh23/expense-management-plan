@@ -236,9 +236,9 @@ export default {
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
 
-      funds.value = await getFunds(year, monthYear);
-      dataIncome.value = await getIncomes(year, monthYear);
-      dataHandleIncome.value = await getHandleIncomes(year, monthYear);
+      funds.value = await getFunds(year, monthYear, user);
+      dataIncome.value = await getIncomes(year, monthYear, user);
+      dataHandleIncome.value = await getHandleIncomes(year, monthYear, user);
       dataEstimateNecessity.value = await getEstimateNecessityExpenses(
         year,
         monthYear,
