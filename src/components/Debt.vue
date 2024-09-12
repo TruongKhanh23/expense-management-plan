@@ -40,7 +40,7 @@
         </template>
       </template>
     </a-table>
-    <DebtEdit v-else :data="data" @action:updateDebts="handleUpdateDebts" />
+    <DebtEdit v-else :data="data" />
   </ConfigProvider>
 </template>
 
@@ -74,10 +74,6 @@ export default {
     ASwitch: Switch,
   },
   props: {
-    debt: {
-      type: Array as () => DebtItem[],
-      default: () => [],
-    },
     allHandleIncomesIsDebt: {
       type: Array,
       default: () => [],
@@ -87,8 +83,7 @@ export default {
       default: undefined,
     },
   },
-  emits: ["action:updateDebts"],
-  setup(props, { emit }) {
+  setup(props) {
     const store = useStore();
 
     const isEditable = ref(false);
@@ -119,10 +114,6 @@ export default {
 
       return dataWithRemaining.filter((item) => item.remaining !== 0);
     });
-
-    function handleUpdateDebts(newDebts: any) {
-      emit("action:updateDebts", newDebts);
-    }
 
     function calculateTotal(values: any) {
       let total = 0;
@@ -157,7 +148,6 @@ export default {
       calculateTotal,
       totalAmountByDebtId,
       getRemainingDebtByDebtId,
-      handleUpdateDebts,
       dayjs,
     };
   },

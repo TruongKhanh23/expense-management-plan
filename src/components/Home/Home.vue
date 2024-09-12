@@ -73,9 +73,7 @@
           <a-col :md="{ span: 12 }">
             <Debt
               :isDark="isDarkProps"
-              :debt="debt"
               :allHandleIncomesIsDebt="allHandleIncomesIsDebt"
-              @action:updateDebts="handleUpdateDebts"
             />
           </a-col>
         </div>
@@ -172,7 +170,6 @@ export default {
     const dataHandleIncome: any = ref([]);
     const dataEstimateNecessity: any = ref([]);
     const allHandleIncomesIsDebt: any = ref([]);
-    const debt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -216,7 +213,7 @@ export default {
         (item) => item.isDebt === "true",
       );
 
-      debt.value = await getDebt();
+      await getDebt();
     })();
 
     const isFundsEditable = ref(false);
@@ -256,10 +253,6 @@ export default {
       isOpenCreateNewMonthModal.value = close();
     }
 
-    function handleUpdateDebts(newValues: any) {
-      debt.value = newValues;
-    }
-
     return {
       columnsIncome,
       dataIncome,
@@ -268,11 +261,9 @@ export default {
       dataHandleIncome,
       dataEstimateNecessity,
       allHandleIncomesIsDebt,
-      debt,
       necessityLimitation,
       handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,
-      handleUpdateDebts,
       funds,
       isFundsEditable,
       isMobile,

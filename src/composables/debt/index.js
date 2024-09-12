@@ -36,7 +36,6 @@ export async function getDebt() {
       });
       store.dispatch("setDebts", list.value);
     });
-    return list.value;
   } catch (error) {
     alert("Get Debt failed\n" + error);
   }

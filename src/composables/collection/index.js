@@ -219,7 +219,8 @@ export async function getListMonthsByYear(year) {
 }
 
 export async function getHandleIncomesByMonth(year, month) {
-  const originPathSegments = ["users", "admin", "years", year, "months", month];
+  const user = JSON.parse(localStorage.getItem("user"));
+  const originPathSegments = ["users", user.email, "years", year, "months", month];
   const handleIncomesPathSegments = [...originPathSegments, "handleIncomes"];
 
   const handleIncomesByType = await getListDocsByCollection(
