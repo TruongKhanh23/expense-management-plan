@@ -148,10 +148,10 @@ export default {
 
     const debts = computed(() => store.getters.getDebts);
 
-    const debtOptions = debts.value.map((item) => ({
+    const debtOptions = computed(() => debts.value.map((item) => ({
       label: item.name,
       value: item.key,
-    }));
+    })));
 
     const options = [{ label: "", value: "" }];
     if (debts.value.length > 0) {
