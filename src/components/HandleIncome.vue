@@ -63,7 +63,7 @@
   </div>
 </template>
 <script lang="ts">
-import { useStore } from "vuex"
+import { useStore } from "vuex";
 import { ref, computed } from "vue";
 import { Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType, TableProps } from "ant-design-vue";
@@ -71,22 +71,7 @@ import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-
-type HandleIncomeType = {
-  id: string;
-  type: string;
-  items: HandleIncomeItem[];
-};
-type HandleIncomeItem = {
-  key: string;
-  wallet: string;
-  type: string;
-  fund: string;
-  amount: number;
-  isRepay: string;
-  debtId: number;
-  isSolved: boolean;
-};
+import type { HandleIncomeType, HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {

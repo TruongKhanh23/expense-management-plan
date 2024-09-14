@@ -12,13 +12,13 @@
     >
       <a-form-item
         :name="[index, 'name']"
-        :rules="[ { required: true, message: 'Missing name' } ]"
+        :rules="[{ required: true, message: 'Missing name' }]"
       >
-        <a-input v-model:value="item.name" placeholder="Debt name" />
+        <a-input v-model:value="item.name" placeholder="DebtItem name" />
       </a-form-item>
       <a-form-item
         :name="[index, 'amount']"
-        :rules="[ { required: true, message: 'Missing amount' } ]"
+        :rules="[{ required: true, message: 'Missing amount' }]"
       >
         <a-input-number
           v-model:value="item.amount"
@@ -43,12 +43,12 @@
       <a-space align="baseline">
         <a-form-item
           :name="[index, 'isFinished']"
-          :rules="[ { required: true, message: 'Missing isFinished' } ]"
+          :rules="[{ required: true, message: 'Missing isFinished' }]"
         >
           <a-input
             v-model:value="item.isFinished"
             :disabled="true"
-            placeholder="Debt isFinished"
+            placeholder="DebtItem isFinished"
           />
         </a-form-item>
         <MinusCircleOutlined @click="removeItem(item)" />
@@ -71,18 +71,18 @@ import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setDebt, deleteDebt } from "@/composables/debt/index.js";
-import { Form, Space, FormItem, Input, Button, InputNumber, DatePicker } from "ant-design-vue";
+import {
+  Form,
+  Space,
+  FormItem,
+  Input,
+  Button,
+  InputNumber,
+  DatePicker,
+} from "ant-design-vue";
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
 import { useStore } from "vuex";
-
-interface Debt {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: Dayjs | null;
-  isFinished: string;
-}
+import type { DebtItem } from "@/types/types";
 
 export default {
   components: {
@@ -101,17 +101,17 @@ export default {
     const store = useStore();
 
     // Computed property to get debts from Vuex store and map to Dayjs
-    const dynamicValidateForm = computed(() => 
-      store.getters.getDebts.map(debt => ({
+    const dynamicValidateForm = computed(() =>
+      store.getters.getDebts.map((debt) => ({
         ...debt,
-        startDate: dayjs(debt.startDate) // Convert to Dayjs object
-      }))
+        startDate: dayjs(debt.startDate), // Convert to Dayjs object
+      })),
     );
 
-    const removeItem = async (item: Debt) => {
+    const removeItem = async (item: DebtItem) => {
       store.dispatch("removeDebt", item.key);
       // No need to call deleteDebt here if removeDebt already handles it
-      await deleteDebt(item.key)
+      await deleteDebt(item.key);
     };
 
     const addItem = () => {
@@ -120,16 +120,23 @@ export default {
 
     const onFinish = async () => {
       // Convert Dayjs objects back to string if necessary
-      const formattedDebts = dynamicValidateForm.value.map(debt => ({
+      const formattedDebts = dynamicValidateForm.value.map((debt) => ({
         ...debt,
-        startDate: debt.startDate?.format('YYYY-MM-DD') // Convert back to string
+        startDate: debt.startDate?.format("YYYY-MM-DD"), // Convert back to string
       }));
-      
+
       store.dispatch("setDebts", formattedDebts);
-       await setDebt(formattedDebts);
+      await setDebt(formattedDebts);
     };
 
-    return { formRef, removeItem, dynamicValidateForm, addItem, onFinish, dayjs };
+    return {
+      formRef,
+      removeItem,
+      dynamicValidateForm,
+      addItem,
+      onFinish,
+      dayjs,
+    };
   },
 };
 </script>

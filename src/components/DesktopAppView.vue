@@ -38,34 +38,12 @@ import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
+import type {
+  EstimateNecessityType,
+  HandleIncomeType,
+  HandleIncomeItem,
+} from "@/types/types";
 import { useStore } from "vuex";
-
-type HandleIncomeType = {
-  id: string;
-  type: string;
-  items: HandleIncomeItem[];
-};
-type HandleIncomeItem = {
-  key: string;
-  wallet: string;
-  type: string;
-  fund: string;
-  amount: number;
-  isRepay: string;
-  debtId: number;
-  isSolved: boolean;
-};
-type EstimateNecessityType = {
-  id: string;
-  details: EstimateNecessityItem[];
-  name: string;
-  order: number;
-};
-type EstimateNecessityItem = {
-  id: string;
-  name: string;
-  amount: number;
-};
 
 export default {
   components: {

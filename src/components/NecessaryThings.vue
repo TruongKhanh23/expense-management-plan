@@ -36,20 +36,12 @@
 <script lang="ts">
 import { Col, Table, Tag } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
+import type { NecessaryThingsItem } from "@/types/types";
 import {
   columnsNecessaryThings,
   dataNecessaryThings,
 } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-
-type NecessaryThingsItem = {
-  id: number;
-  name: string;
-  timespan: number;
-  savePerMonth: number;
-  limitation: number;
-  type: string;
-};
 
 export default {
   components: {

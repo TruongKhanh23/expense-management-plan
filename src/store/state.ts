@@ -1,13 +1,6 @@
-import type { Dayjs } from "dayjs";
-import type { HandleIncomeItem } from '@/types/types'
+import type { HandleIncomeItem } from "@/types/types";
+import type { DebtItem } from "@/types/types";
 
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
 export interface State {
   count: number;
   debts: DebtItem[];

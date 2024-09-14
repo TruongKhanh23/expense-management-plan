@@ -53,16 +53,8 @@ import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
+import type { DebtItem } from "@/types/types";
 
 export default {
   components: {
