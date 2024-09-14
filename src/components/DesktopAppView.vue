@@ -7,6 +7,7 @@
   </a-col>
 
   <a-col :md="{ span: 8 }">
+    <p>Hello</p>
     <IncomeDebt
       :columns="columnsIncome"
       :data="dataIncome"
