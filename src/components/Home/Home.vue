@@ -71,10 +71,7 @@
       <a-tab-pane key="3" tab="Nợ" force-render>
         <div class="flex justify-center items-center">
           <a-col :md="{ span: 12 }">
-            <Debt
-              :isDark="isDarkProps"
-              :allHandleIncomesIsDebt="allHandleIncomesIsDebt"
-            />
+            <Debt :isDark="isDarkProps" />
           </a-col>
         </div>
       </a-tab-pane>
@@ -96,7 +93,6 @@ import { ref, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
-import { getHandleIncomesAllYears } from "@/composables/collection/index.js";
 import Funds from "@/components/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -112,11 +108,12 @@ import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
 
+import { getDebt } from "@/composables/debt/index.js";
 import { getFunds } from "@/composables/funds/index.js";
 import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
+import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
-import { getDebt } from "@/composables/debt/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 
@@ -169,7 +166,6 @@ export default {
     const dataIncome: any = ref([]);
     const dataHandleIncome: any = ref([]);
     const dataEstimateNecessity: any = ref([]);
-    const allHandleIncomesIsDebt: any = ref([]);
     const totalIncome = ref(0);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -197,23 +193,30 @@ export default {
       const { currentYear, currentMonthYear } = getCurrentTime();
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
-      funds.value = await getFunds(currentYear, currentMonthYear, user);
-      dataIncome.value = await getIncomes(currentYear, currentMonthYear, user);
-      dataHandleIncome.value = await getHandleIncomes(
-        currentYear,
-        currentMonthYear,
-        user,
-      );
-      dataEstimateNecessity.value = await getEstimateNecessityExpenses(
-        currentYear,
-        currentMonthYear,
-        user,
-      );
-      allHandleIncomesIsDebt.value = (await getHandleIncomesAllYears()).filter(
-        (item) => item.isDebt === "true",
-      );
+      try {
+        const [
+          fundsResult,
+          incomeResult,
+          handleIncomeResult,
+          estimateNecessityResult,
+        ] = await Promise.all([
+          getFunds(currentYear, currentMonthYear, user),
+          getIncomes(currentYear, currentMonthYear, user),
+          getHandleIncomes(currentYear, currentMonthYear, user),
+          getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
+        ]);
 
-      await getDebt();
+        await getDebt();
+
+        funds.value = fundsResult;
+        dataIncome.value = incomeResult;
+        dataHandleIncome.value = handleIncomeResult;
+        dataEstimateNecessity.value = estimateNecessityResult;
+
+        await getAllHandleIncomesIsDebt();
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
     })();
 
     const isFundsEditable = ref(false);
@@ -260,7 +263,6 @@ export default {
       columnsHandleIncome,
       dataHandleIncome,
       dataEstimateNecessity,
-      allHandleIncomesIsDebt,
       necessityLimitation,
       handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,
