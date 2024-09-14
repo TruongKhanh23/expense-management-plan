@@ -7,9 +7,6 @@
   </a-col>
 
   <a-col :md="{ span: 8 }">
-    <p>Current Count: {{ count }}</p>
-    <a-button type="primary" @click="increment">Increment</a-button>
-    <a-button type="primary" @click="decrement">Decrement</a-button>
     <IncomeDebt
       :columns="columnsIncome"
       :data="dataIncome"
@@ -32,7 +29,6 @@
   </a-col>
 </template>
 <script lang="ts">
-import { computed } from "vue";
 import { Col, Button } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -43,7 +39,6 @@ import type {
   HandleIncomeType,
   HandleIncomeItem,
 } from "@/types/types";
-import { useStore } from "vuex";
 
 export default {
   components: {
@@ -92,21 +87,5 @@ export default {
     },
   },
   emits: ["action:updateDataTotalIncome"],
-  setup() {
-    const store = useStore();
-    const count = computed(() => store.getters.getCount);
-    const increment = () => {
-      store.dispatch("increment");
-    };
-    const decrement = () => {
-      store.dispatch("decrement");
-    };
-
-    return {
-      count,
-      increment,
-      decrement,
-    };
-  },
 };
 </script>

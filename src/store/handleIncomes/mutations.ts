@@ -20,7 +20,6 @@ export const mutations = {
     state: State,
     { handleIncomes }: { handleIncomes: HandleIncomeType[] },
   ) {
-    // Cập nhật giá trị mới cho state.handleIncomes
     state.handleIncomes = handleIncomes;
 
     // Nếu allHandleIncomesIsDebt có giá trị
@@ -32,22 +31,20 @@ export const mutations = {
         });
       });
 
-      // Lặp qua từng danh mục trong handleIncomes
       allHandleIncomes.forEach((newItem) => {
-        // Tìm item trong allHandleIncomesIsDebt có cùng debtId
         const existingItems = state.allHandleIncomesIsDebt.filter(
           (existingItem) => existingItem.debtId === newItem.debtId,
         );
 
-        // Kiểm tra nếu không có item nào trong existingItems có cùng key với newItem
         const hasMatchingKey = existingItems.some(
           (existingItem) => existingItem.key === newItem.key,
         );
 
         if (existingItems.length > 0 && !hasMatchingKey) {
-          // Nếu có ít nhất một item với cùng debtId nhưng không có item nào trùng key
+          // Thêm mới nếu đây là xử lý nợ mới
           state.allHandleIncomesIsDebt.push(newItem);
         } else {
+          // Cập nhật nếu đây là xử lý nợ đã tồn tại
           const matchingItem = state.allHandleIncomesIsDebt.find(
             (existingItem) => {
               return (
@@ -59,12 +56,12 @@ export const mutations = {
           );
 
           if (matchingItem) {
-            // Cập nhật giá trị của allHandleIncomeIsDebt nếu tìm thấy item tương tự
             Object.assign(matchingItem, newItem);
           }
         }
       });
 
+      // Xóa những item của allHandleIncomeIsDebt mà allHandleIncomes không có
       const allHandleIncomeKeys = new Set(
         allHandleIncomes.map((item) => item.key),
       );
