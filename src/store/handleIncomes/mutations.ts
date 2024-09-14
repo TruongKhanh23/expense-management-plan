@@ -1,36 +1,21 @@
-import { v1 as uuidv1 } from "uuid";
 import { State } from "@/store/state";
 import type { HandleIncomeType, HandleIncomeItem } from "@/types/types"; // Import HandleIncomeItem
 
 export const mutations = {
-  addHandleIncome(state: State, { type }) {
-    const newHandleIncome: HandleIncomeItem = {
-      key: uuidv1(),
-      wallet: "",
-      type: type,
-      fund: "",
-      amount: 0,
-      debtId: 0,
-      isDebt: "false",
-      isSolved: false,
-    };
-    //state.handleIncomes.find(item.key == type).push(newHandleIncome); // Thay đổi từ 'debts' thành 'handleIncomes'
-  },
   setHandleIncomes(
     state: State,
     { handleIncomes }: { handleIncomes: HandleIncomeType[] },
   ) {
     state.handleIncomes = handleIncomes;
 
-    // Nếu allHandleIncomesIsDebt có giá trị
-    if (state.allHandleIncomesIsDebt) {
-      const allHandleIncomes: HandleIncomeItem[] = [];
-      handleIncomes.forEach((category) => {
-        category.items.forEach((handleIncomeItem: HandleIncomeItem) => {
-          allHandleIncomes.push(handleIncomeItem);
-        });
+    const allHandleIncomes: HandleIncomeItem[] = [];
+    handleIncomes.forEach((category) => {
+      category.items.forEach((handleIncomeItem: HandleIncomeItem) => {
+        allHandleIncomes.push(handleIncomeItem);
       });
+    });
 
+    if (state.allHandleIncomesIsDebt.length > 0) {
       allHandleIncomes.forEach((newItem) => {
         const existingItems = state.allHandleIncomesIsDebt.filter(
           (existingItem) => existingItem.debtId === newItem.debtId,
@@ -68,6 +53,11 @@ export const mutations = {
       state.allHandleIncomesIsDebt = state.allHandleIncomesIsDebt.filter(
         (item) => allHandleIncomeKeys.has(item.key),
       );
+    } else {
+      const newDebts = allHandleIncomes.filter((item) => item.isDebt == "true");
+      newDebts.forEach((item) => {
+        state.allHandleIncomesIsDebt.push(item);
+      });
     }
   },
   setAllHandleIncomesIsDebt(

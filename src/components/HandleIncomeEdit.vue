@@ -232,9 +232,6 @@ export default {
     };
 
     const recalculateDisabledAmounts = () => {
-      console.log("props.totalIncome", props.totalIncome);
-      console.log("props.funds", props.funds);
-
       const fundLimits: any = {
         necessity: calculateLimitation(
           props.totalIncome,
