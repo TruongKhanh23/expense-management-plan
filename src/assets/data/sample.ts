@@ -1,33 +1,7 @@
 import { TableColumnType } from "ant-design-vue";
-import type { Dayjs } from "dayjs";
-
-type TableDataType = {
-  key: string;
-  wallet: string;
-  type: string;
-  fund: string;
-  amount: number;
-  isRepay: string;
-  debtId: number;
-  isSolved: boolean;
-};
-
-type NecessaryThingsItem = {
-  id: number;
-  name: string;
-  timespan: number;
-  savePerMonth: number;
-  limitation: number;
-  type: string;
-};
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
+import type { HandleIncomeItem } from "@/types/types";
+import type { NecessaryThingsItem } from "@/types/types";
+import type { DebtItem } from "@/types/types";
 
 export const columnsIncome = [
   {
@@ -39,7 +13,7 @@ export const columnsIncome = [
   { title: "Số tiền", dataIndex: "amount", key: "amount", align: "right" },
 ];
 
-export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
+export const columnsHandleIncome: TableColumnType<HandleIncomeItem>[] = [
   {
     title: "", // Tên cột
     dataIndex: "isSolved",
@@ -63,15 +37,15 @@ export const columnsHandleIncome: TableColumnType<TableDataType>[] = [
   { title: "Số tiền", dataIndex: "amount", align: "right" },
 ];
 
-export const dataHandleIncome: TableDataType[] = [
+export const dataHandleIncome: HandleIncomeItem[] = [
   {
     key: "1",
     wallet: "Momo",
     fund: "Q. CT thiết yếu",
     type: "necessity",
     amount: 1259499,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -80,8 +54,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Nội thất",
     type: "necessity",
     amount: 200000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -90,8 +64,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Du lịch",
     type: "freedom",
     amount: 600000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -100,8 +74,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Ví chính H.Thụ",
     type: "enjoy",
     amount: 670000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -110,8 +84,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Hưởng thụ",
     type: "enjoy",
     amount: 400000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -120,8 +94,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Chuyển tiền ăn vặt vợ",
     type: "enjoy",
     amount: 300000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -130,8 +104,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Gia hạn sim",
     type: "enjoy",
     amount: 100000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -140,8 +114,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Qũy Vieon",
     type: "enjoy",
     amount: 30000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -150,8 +124,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Học tập",
     type: "education",
     amount: 265000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -160,8 +134,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Qũy Goalify",
     type: "education",
     amount: 35000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -170,8 +144,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Trả mua ghế công thái",
     type: "education",
     amount: 100000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -180,8 +154,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Trả tiền lễ tốt nghiệp",
     type: "education",
     amount: 200000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -190,8 +164,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Cho đi",
     type: "giving",
     amount: 0,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -200,8 +174,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Qũy birthday mẹ Sang",
     type: "giving",
     amount: 100000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -210,8 +184,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Qũy birthday mẹ Linh",
     type: "giving",
     amount: 100000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -220,8 +194,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Trả tiền cưới Thương Q",
     type: "giving",
     amount: 400000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -230,8 +204,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "TK tích lũy",
     type: "longTermSaving",
     amount: 2200000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -240,8 +214,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Lavie",
     type: "necessity",
     amount: 222000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
   {
@@ -250,8 +224,8 @@ export const dataHandleIncome: TableDataType[] = [
     fund: "Q. Khám bệnh",
     type: "necessity",
     amount: 300000,
-    isRepay: "false",
     debtId: 0,
+    isDebt: "false",
     isSolved: false, // Thêm trường isSolved với giá trị false
   },
 ];

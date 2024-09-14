@@ -1,6 +1,7 @@
 export type HandleIncomeType = {
-  id: string;
+  key: string;
   type: string;
+  id: string;
   items: HandleIncomeItem[];
 };
 

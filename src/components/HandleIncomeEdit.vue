@@ -148,10 +148,12 @@ export default {
 
     const debts = computed(() => store.getters.getDebts);
 
-    const debtOptions = computed(() => debts.value.map((item) => ({
-      label: item.name,
-      value: item.key,
-    })));
+    const debtOptions = computed(() =>
+      debts.value.map((item) => ({
+        label: item.name,
+        value: item.key,
+      })),
+    );
 
     const options = [{ label: "", value: "" }];
     if (debts.value.length > 0) {
@@ -197,10 +199,6 @@ export default {
         isDebt: "false",
         debtId: "Please choose a debt",
       });
-      console.log(
-        "dynamicValidateForm.handleIncomes",
-        dynamicValidateForm.handleIncomes,
-      );
     };
 
     const onFinish = async () => {

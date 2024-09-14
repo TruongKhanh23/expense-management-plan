@@ -66,10 +66,6 @@ export default {
     ASwitch: Switch,
   },
   props: {
-    allHandleIncomesIsDebt: {
-      type: Array,
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       default: undefined,
@@ -82,9 +78,12 @@ export default {
     const isDarkMode = props.isDark;
 
     const debts = computed(() => store.getters.getDebts);
+    const allHandleIncomesIsDebt = computed(
+      () => store.getters.getAllHandleIncomesIsDebt,
+    );
 
     const totalAmountByDebtId = computed(() =>
-      calculateTotalAmountByDebtId(props.allHandleIncomesIsDebt),
+      calculateTotalAmountByDebtId(allHandleIncomesIsDebt.value),
     );
 
     const columns: TableColumnType<DebtItem>[] =
