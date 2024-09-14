@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from '@/store'
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import {
@@ -10,6 +11,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import dayjs from "dayjs";
+
 
 import { toastWithPromise } from "@/utils/toast.util";
 
@@ -32,15 +34,14 @@ export async function getDebt() {
         };
         list.value.push(item);
       });
-      localStorage.setItem("debt", JSON.stringify(list.value));
+      store.dispatch("setDebts", list.value);
     });
-    return list.value;
   } catch (error) {
     alert("Get Debt failed\n" + error);
   }
 }
 
-export async function setDebt(values) {
+export async function setDebt(values) {  
   const { email: user } = JSON.parse(localStorage.getItem("user"));
   const promise = new Promise(async (resolve, reject) => {
     try {
@@ -52,14 +53,16 @@ export async function setDebt(values) {
             name: item.name,
             amount: item.amount,
             isFinished: item.isFinished,
-            startDate: item.startDate.format("YYYY-MM-DD"),
+            startDate: item.startDate,
           },
           { merge: true },
         );
       }
       resolve("Set debts successfully");
     } catch (error) {
-      reject(`Set debts failed`);
+      console.log("error", error);
+      
+      reject(`Set debts failed`, error);
     }
   });
 

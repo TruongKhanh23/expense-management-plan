@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from "@/store";
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import { collection, onSnapshot, query, setDoc, doc } from "firebase/firestore";
@@ -29,6 +30,7 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
         };
         list.value.push(item);
       });
+      store.dispatch("setHandleIncomes", list.value)
       localStorage.setItem("handleIncomes", JSON.stringify(list.value));
     });
     return list.value;

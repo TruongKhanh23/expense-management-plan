@@ -84,6 +84,7 @@
 
 <script lang="ts">
 import { reactive, ref, computed, watch } from "vue";
+import { useStore } from "vuex";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
@@ -97,7 +98,6 @@ import {
   Select,
   Tag,
 } from "ant-design-vue";
-import type { Dayjs } from "dayjs";
 import unorm from "unorm";
 import { calculateLimitation } from "@/composables/funds/index";
 import { uuid } from "vue-uuid";
@@ -112,14 +112,6 @@ interface HandleIncome {
   debtId: string;
   isSolved: boolean;
 }
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
 
 export default {
   components: {
@@ -151,19 +143,21 @@ export default {
     },
   },
   setup(props) {
+    const store = useStore();
     const formRef = ref<FormInstance>();
 
-    const debtsString = localStorage.getItem("debt");
-    const debts: DebtItem[] = debtsString ? JSON.parse(debtsString) : [];
+    const debts = computed(() => store.getters.getDebts);
 
-    const debtOptions = debts.map((item) => ({
-      label: item.name,
-      value: item.key,
-    }));
+    const debtOptions = computed(() =>
+      debts.value.map((item) => ({
+        label: item.name,
+        value: item.key,
+      })),
+    );
 
     const options = [{ label: "", value: "" }];
-    if (debts.length > 0) {
-      for (const item of debts) {
+    if (debts.value.length > 0) {
+      for (const item of debts.value) {
         options.push({ label: item.name, value: item.key });
       }
     }
@@ -205,10 +199,6 @@ export default {
         isDebt: "false",
         debtId: "Please choose a debt",
       });
-      console.log(
-        "dynamicValidateForm.handleIncomes",
-        dynamicValidateForm.handleIncomes,
-      );
     };
 
     const onFinish = async () => {
@@ -242,9 +232,6 @@ export default {
     };
 
     const recalculateDisabledAmounts = () => {
-      console.log("props.totalIncome", props.totalIncome);
-      console.log("props.funds", props.funds);
-
       const fundLimits: any = {
         necessity: calculateLimitation(
           props.totalIncome,

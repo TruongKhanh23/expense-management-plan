@@ -4,7 +4,7 @@ import { createApp } from "vue";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
+import store from "./store/index";
 import router from "./router";
 
 import "./style.css";
@@ -33,6 +33,7 @@ onAuthStateChanged(auth, (user) => {
     }
     const app = createApp(App);
     app.use(router);
+    app.use(store);
     app.mount("#app");
     isInitialized = true;
   }

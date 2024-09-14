@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { db } from "@/main";
-import dayjs from "dayjs";
+import store from "@/store";
 import sampleJson from "@/assets/data/sample.json";
 import { getCurrentTime } from "@/utils/time.util";
 import {
@@ -219,7 +219,15 @@ export async function getListMonthsByYear(year) {
 }
 
 export async function getHandleIncomesByMonth(year, month) {
-  const originPathSegments = ["users", "admin", "years", year, "months", month];
+  const user = JSON.parse(localStorage.getItem("user"));
+  const originPathSegments = [
+    "users",
+    user.email,
+    "years",
+    year,
+    "months",
+    month,
+  ];
   const handleIncomesPathSegments = [...originPathSegments, "handleIncomes"];
 
   const handleIncomesByType = await getListDocsByCollection(
@@ -252,6 +260,14 @@ export async function getHandleIncomesAllYears() {
     }
   }
   return allHandleIncomes;
+}
+
+export async function getAllHandleIncomesIsDebt() {
+  const handleIncomeAllYears = await getHandleIncomesAllYears();
+  const allHandleIncomesIsDebt = handleIncomeAllYears.filter(
+    (item) => item.isDebt === "true",
+  );
+  store.dispatch("setAllHandleIncomesIsDebt", allHandleIncomesIsDebt);
 }
 
 export async function getListDocsByCollection(pathSegments) {

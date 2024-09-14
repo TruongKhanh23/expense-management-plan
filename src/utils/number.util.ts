@@ -1,8 +1,4 @@
-type DataIncomeType = {
-  key: string;
-  source: string;
-  amount: number;
-};
+import type { DataIncomeType } from "@/types/types";
 
 export function calculateTotalIncome(data: DataIncomeType[]) {
   if (!Array.isArray(data)) {
@@ -23,5 +19,3 @@ export function roundDecimals(value: number): string {
   const result = Math.round(value);
   return new Intl.NumberFormat().format(result);
 }
-
-

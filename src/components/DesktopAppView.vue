@@ -29,42 +29,21 @@
   </a-col>
 </template>
 <script lang="ts">
-import { Col } from "ant-design-vue";
+import { Col, Button } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
-
-type HandleIncomeType = {
-  id: string;
-  type: string;
-  items: HandleIncomeItem[];
-};
-type HandleIncomeItem = {
-  key: string;
-  wallet: string;
-  type: string;
-  fund: string;
-  amount: number;
-  isRepay: string;
-  debtId: number;
-  isSolved: boolean;
-};
-type EstimateNecessityType = {
-  id: string;
-  details: EstimateNecessityItem[];
-  name: string;
-  order: number;
-};
-type EstimateNecessityItem = {
-  id: string;
-  name: string;
-  amount: number;
-};
+import type {
+  EstimateNecessityType,
+  HandleIncomeType,
+  HandleIncomeItem,
+} from "@/types/types";
 
 export default {
   components: {
     ACol: Col,
+    AButton: Button,
     IncomeDebt,
     HandleIncome,
     EstimateNecessity,

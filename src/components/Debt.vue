@@ -35,37 +35,26 @@
         </template>
         <template v-if="column.dataIndex === 'remaining'">
           <p>
-            {{
-              new Intl.NumberFormat().format(record.remaining ?? 0)
-            }}
+            {{ new Intl.NumberFormat().format(record.remaining ?? 0) }}
           </p>
         </template>
       </template>
     </a-table>
-    <DebtEdit v-else :data="data" @action:updateDebts="handleUpdateDebts" />
+    <DebtEdit v-else :data="data" />
   </ConfigProvider>
 </template>
 
 <script lang="ts">
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/DebtEdit.vue";
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
-
-import { roundDecimals } from "@/utils/number.util";
-
-type DebtItem = {
-  key: string;
-  name: string;
-  amount: number;
-  startDate: string | Dayjs;
-  isFinished: string;
-};
+import type { DebtItem } from "@/types/types";
 
 export default {
   components: {
@@ -77,47 +66,45 @@ export default {
     ASwitch: Switch,
   },
   props: {
-    debt: {
-      type: Array as () => DebtItem[],
-      default: () => [],
-    },
-    allHandleIncomesIsDebt: {
-      type: Array,
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
-      require: undefined,
+      default: undefined,
     },
   },
-  emits: ["action:updateDebts"],
-  setup(props, { emit }) {
+  setup(props) {
+    const store = useStore();
+
     const isEditable = ref(false);
     const isDarkMode = props.isDark;
 
+    const debts = computed(() => store.getters.getDebts);
+    const allHandleIncomesIsDebt = computed(
+      () => store.getters.getAllHandleIncomesIsDebt,
+    );
+
     const totalAmountByDebtId = computed(() =>
-      calculateTotalAmountByDebtId(props.allHandleIncomesIsDebt),
+      calculateTotalAmountByDebtId(allHandleIncomesIsDebt.value),
     );
 
     const columns: TableColumnType<DebtItem>[] =
       columnsDebt as TableColumnType<DebtItem>[];
 
     const data: any = computed(() => {
-      const filteredData = props.debt.filter((item) => item.isFinished === "false");
+      const filteredData = debts.value.filter(
+        (item) => item.isFinished === "false",
+      );
 
       const dataWithRemaining = filteredData.map((item) => ({
         ...item,
-        remaining: getRemainingDebtByDebtId(totalAmountByDebtId.value, item.key, item.amount),
+        remaining: getRemainingDebtByDebtId(
+          totalAmountByDebtId.value,
+          item.key,
+          item.amount,
+        ),
       }));
 
       return dataWithRemaining.filter((item) => item.remaining !== 0);
     });
-
-
-
-    function handleUpdateDebts (newDebts: any) {
-      emit("action:updateDebts", newDebts);
-    };
 
     function calculateTotal(values: any) {
       let total = 0;
@@ -150,10 +137,8 @@ export default {
       columns,
       isEditable,
       calculateTotal,
-      roundDecimals,
       totalAmountByDebtId,
       getRemainingDebtByDebtId,
-      handleUpdateDebts,
       dayjs,
     };
   },
