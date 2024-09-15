@@ -52,6 +52,7 @@
   </a-form>
 </template>
 <script lang="ts">
+import { useStore } from "vuex";
 import { reactive, ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
@@ -89,20 +90,17 @@ export default {
       default: () => [],
     },
   },
-  emits: ["action:updateDataIncome"],
-  setup(props, { emit }) {
+  setup(props) {
+    const store = useStore();
     const formRef = ref<FormInstance>();
-    const incomesStorageString = computed(() => {
-      return props.incomes ?? [];
-    });
 
-    const incomesStorage = computed(() => {
-      emit("action:updateDataIncome", incomesStorageString.value);
-      return incomesStorageString.value;
+    const incomes = computed(() => {
+      const data = props.incomes ?? [];
+      return data;
     });
 
     const dynamicValidateForm = reactive<{ incomes: Income[] }>({
-      incomes: incomesStorageString.value ? incomesStorage : ([] as any),
+      incomes: incomes.value ? incomes : ([] as any),
     });
     const removeItem = (item: Income) => {
       const index = dynamicValidateForm.incomes.indexOf(item);
@@ -119,9 +117,7 @@ export default {
       });
     };
     const onFinish = async () => {
-      const stringifyIncomes = JSON.stringify(dynamicValidateForm.incomes);
-      localStorage.setItem("incomes", stringifyIncomes);
-      emit("action:updateDataIncome", dynamicValidateForm.incomes);
+      store.dispatch("setIncomes", dynamicValidateForm.incomes);
       await setIncomes(dynamicValidateForm.incomes);
     };
 
