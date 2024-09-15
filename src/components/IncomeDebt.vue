@@ -26,16 +26,13 @@
             </template>
           </template>
         </a-table>
-        <InputIncome
-          v-else
-          @action:updateDataIncome="handleUpdateDataIncome"
-          :incomes="dataIncome"
-        />
+        <InputIncome v-else :incomes="dataIncome" />
       </ConfigProvider>
     </div>
   </div>
 </template>
 <script>
+import { useStore } from "vuex";
 import { ref, computed } from "vue";
 import { Table, Switch } from "ant-design-vue";
 import InputIncome from "@/components/InputIncome.vue";
@@ -52,10 +49,6 @@ export default {
       type: Object,
       require: true,
     },
-    data: {
-      type: Object,
-      require: true,
-    },
     totalIncome: {
       type: Number,
       require: true,
@@ -65,25 +58,20 @@ export default {
       require: undefined,
     },
   },
-  emits: ["action:updateDataTotalIncome"],
   setup(props, { emit }) {
+    const store = useStore();
     const isDarkMode = props.isDark;
     const isEditable = ref(false);
     const dataIncomeStorage = ref(null);
     const dataIncome = computed(() => {
-      emit("action:updateDataTotalIncome", props.data);
-      return props.data;
+      const incomes = store.getters.getIncomes;
+      return incomes;
     });
 
-    function handleUpdateDataIncome(values) {
-      dataIncomeStorage.value = values;
-      emit("action:updateDataTotalIncome", dataIncomeStorage.value);
-    }
     return {
       isEditable,
       dataIncomeStorage,
       dataIncome,
-      handleUpdateDataIncome,
       isDarkMode,
     };
   },

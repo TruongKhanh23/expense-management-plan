@@ -9,12 +9,8 @@
   <a-col :md="{ span: 8 }">
     <IncomeDebt
       :columns="columnsIncome"
-      :data="dataIncome"
       :totalIncome="totalIncome"
       :isDark="isDark"
-      @action:updateDataTotalIncome="
-        $emit('action:updateDataTotalIncome', $event)
-      "
     />
   </a-col>
 
@@ -29,6 +25,8 @@
   </a-col>
 </template>
 <script lang="ts">
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { Col, Button } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -57,14 +55,6 @@ export default {
       type: Object,
       require: true,
     },
-    dataIncome: {
-      type: Object,
-      require: true,
-    },
-    totalIncome: {
-      type: Number,
-      require: true,
-    },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
@@ -86,6 +76,10 @@ export default {
       require: true,
     },
   },
-  emits: ["action:updateDataTotalIncome"],
+  setup() {
+    const store = useStore();
+    const totalIncome = computed(() => store.getters.getTotalIncome);
+    return { totalIncome };
+  },
 };
 </script>

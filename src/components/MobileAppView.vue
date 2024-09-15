@@ -10,12 +10,8 @@
       <IncomeDebt
         class="md:border-l md:border-r px-4"
         :columns="columnsIncome"
-        :data="dataIncome"
         :totalIncome="totalIncome"
         :isDark="isDark"
-        @action:updateDataTotalIncome="
-          $emit('action:updateDataTotalIncome', $event)
-        "
       />
     </a-tab-pane>
     <a-tab-pane key="3" tab="Xử lý thu nhập">
@@ -30,6 +26,8 @@
   </a-tabs>
 </template>
 <script lang="ts">
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { Tabs, TabPane } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
@@ -60,14 +58,6 @@ export default {
       type: Object,
       require: true,
     },
-    dataIncome: {
-      type: Object,
-      require: true,
-    },
-    totalIncome: {
-      type: Number,
-      require: true,
-    },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
@@ -89,6 +79,10 @@ export default {
       require: true,
     },
   },
-  emits: ["action:updateDataTotalIncome"],
+  setup() {
+    const store = useStore();
+    const totalIncome = computed(() => store.getters.getTotalIncome);
+    return { totalIncome };
+  },
 };
 </script>

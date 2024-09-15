@@ -1,9 +1,11 @@
-import { actions as countActions } from "@/store/count/actions";
-import { actions as debtActions } from "@/store/debt/actions";
-import { actions as handleIncomesActions } from "@/store/handleIncomes/actions";
+import { actions as count } from "@/store/count/actions";
+import { actions as debt } from "@/store/debt/actions";
+import { actions as handleIncomes } from "@/store/handleIncomes/actions";
+import { actions as incomes } from "@/store/incomes/actions";
 
 export const actions = {
-  ...countActions,
-  ...debtActions,
-  ...handleIncomesActions,
+  ...count,
+  ...debt,
+  ...handleIncomes,
+  ...incomes,
 };

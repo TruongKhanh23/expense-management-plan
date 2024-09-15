@@ -1,9 +1,11 @@
-import { mutations as countMutations } from "@/store/count/mutations";
-import { mutations as debtMutations } from "@/store/debt/mutations";
-import { mutations as handleIncomesMutations } from "@/store/handleIncomes/mutations";
+import { mutations as count } from "@/store/count/mutations";
+import { mutations as debt } from "@/store/debt/mutations";
+import { mutations as handleIncomes } from "@/store/handleIncomes/mutations";
+import { mutations as incomes } from "@/store/incomes/mutations";
 
 export const mutations = {
-  ...countMutations,
-  ...debtMutations,
-  ...handleIncomesMutations,
+  ...count,
+  ...debt,
+  ...handleIncomes,
+  ...incomes,
 };

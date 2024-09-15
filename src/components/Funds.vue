@@ -15,6 +15,7 @@
 </template>
 <script>
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import FundItem from "@/components/FundItem.vue";
 import Slider from "../components/reusable/Slider.vue";
 import detectDevice from "@/utils/device.util";
@@ -31,16 +32,14 @@ export default {
       type: Object,
       require: true,
     },
-    totalIncome: {
-      type: Number,
-      require: true,
-    },
   },
   setup(props) {
+    const store = useStore();
     const isVisible = ref(false);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
+    const totalIncome = computed(() => store.getters.getTotalIncome);
     const sliderAttrs = computed(() => {
       if (isMobile) {
         return {
@@ -72,7 +71,12 @@ export default {
       console.log("isVisible.value", isVisible.value);
     }
 
-    return { sliderAttrs, isVisible, handleUpdateIsVisibleLimitation };
+    return {
+      sliderAttrs,
+      isVisible,
+      handleUpdateIsVisibleLimitation,
+      totalIncome,
+    };
   },
 };
 </script>

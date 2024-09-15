@@ -22,7 +22,6 @@
           v-if="funds"
           class="mt-4"
           :funds="funds"
-          :totalIncome="totalIncome"
           @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
         />
         <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
@@ -31,14 +30,11 @@
           <MobileAppView
             :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
-            :dataIncome="dataIncome"
-            :totalIncome="totalIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :dataHandleIncome="dataHandleIncome"
             :dataEstimateNecessity="dataEstimateNecessity"
             :isDark="isDarkProps"
             :funds="funds"
-            @action:updateDataTotalIncome="handleUpdateTotalIncome"
           />
         </div>
 
@@ -50,14 +46,11 @@
           <DesktopAppView
             :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
-            :dataIncome="dataIncome"
-            :totalIncome="totalIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :dataEstimateNecessity="dataEstimateNecessity"
             :dataHandleIncome="dataHandleIncome"
             :isDark="isDarkProps"
             :funds="funds"
-            @action:updateDataTotalIncome="handleUpdateTotalIncome"
           />
         </div>
       </a-tab-pane>
@@ -90,6 +83,7 @@
 <script lang="ts">
 //#region import
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
@@ -118,7 +112,6 @@ import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 
 import detectDevice from "@/utils/device.util";
-import { calculateTotalIncome } from "@/utils/number.util";
 import { getCurrentTime, setCurrentChooseMonth } from "@/utils/time.util";
 //#endregion
 
@@ -144,6 +137,7 @@ export default {
     Debt,
   },
   setup() {
+    const store = useStore();
     const { isOpenLoadingModal } = handlePopup();
     const isOpenCreateNewMonthModal = ref(false);
     const newMonthCreated = ref<string>();
@@ -163,16 +157,12 @@ export default {
 
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
     const funds: any = ref([]);
-    const dataIncome: any = ref([]);
+    const dataIncome = computed(() => store.getters.getIncomes);
     const dataHandleIncome: any = ref([]);
     const dataEstimateNecessity: any = ref([]);
-    const totalIncome = ref(0);
+    const totalIncome = computed(() => store.getters.getTotalIncome);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
-
-    function handleUpdateTotalIncome(dataIncome: any) {
-      totalIncome.value = calculateTotalIncome(dataIncome);
-    }
 
     // Calculate Necessity Limitation
     const necessityItem = computed(() => {
@@ -196,20 +186,19 @@ export default {
       try {
         const [
           fundsResult,
-          incomeResult,
+          _,
           handleIncomeResult,
           estimateNecessityResult,
+          __,
         ] = await Promise.all([
           getFunds(currentYear, currentMonthYear, user),
           getIncomes(currentYear, currentMonthYear, user),
           getHandleIncomes(currentYear, currentMonthYear, user),
           getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
+          getDebt(),
         ]);
 
-        await getDebt();
-
         funds.value = fundsResult;
-        dataIncome.value = incomeResult;
         dataHandleIncome.value = handleIncomeResult;
         dataEstimateNecessity.value = estimateNecessityResult;
 
@@ -240,7 +229,7 @@ export default {
       isOpenLoadingModal.value = open();
 
       funds.value = await getFunds(year, monthYear, user);
-      dataIncome.value = await getIncomes(year, monthYear, user);
+      await getIncomes(year, monthYear, user);
       dataHandleIncome.value = await getHandleIncomes(year, monthYear, user);
       dataEstimateNecessity.value = await getEstimateNecessityExpenses(
         year,
@@ -259,12 +248,10 @@ export default {
     return {
       columnsIncome,
       dataIncome,
-      totalIncome,
       columnsHandleIncome,
       dataHandleIncome,
       dataEstimateNecessity,
       necessityLimitation,
-      handleUpdateTotalIncome,
       handleUpdateIsFundsEditable,
       funds,
       isFundsEditable,

@@ -1,9 +1,9 @@
-import { getters as countGetters } from "@/store/count/getters";
-import { getters as debtGetters } from "@/store/debt/getters";
-import { getters as handleIncomesGetters } from "@/store/handleIncomes/getters";
+import { getters as debt } from "@/store/debt/getters";
+import { getters as handleIncomes } from "@/store/handleIncomes/getters";
+import { getters as incomes } from "@/store/incomes/getters";
 
 export const getters = {
-  ...countGetters,
-  ...debtGetters,
-  ...handleIncomesGetters,
+  ...debt,
+  ...handleIncomes,
+  ...incomes,
 };
