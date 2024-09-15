@@ -12,11 +12,12 @@
 <script lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useRoute } from "vue-router"
+import { useRoute } from "vue-router";
 
 import Navigation from "@/components/Navigation.vue";
 
 export default {
+  name: "App",
   components: {
     Navigation,
   },
