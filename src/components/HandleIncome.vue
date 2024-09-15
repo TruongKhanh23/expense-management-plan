@@ -87,10 +87,6 @@ export default {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
     },
-    dataHandleIncome: {
-      type: Array as () => HandleIncomeType[],
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,

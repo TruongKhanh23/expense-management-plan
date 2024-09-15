@@ -18,7 +18,6 @@
     <HandleIncome
       :isDark="isDark"
       :columnsHandleIncome="columnsHandleIncome"
-      :dataHandleIncome="dataHandleIncome"
       :funds="funds"
       :totalIncome="totalIncome"
     />
@@ -32,11 +31,7 @@ import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
-import type {
-  EstimateNecessityType,
-  HandleIncomeType,
-  HandleIncomeItem,
-} from "@/types/types";
+import type { EstimateNecessityType, HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
@@ -57,10 +52,6 @@ export default {
     },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
-      default: () => [],
-    },
-    dataHandleIncome: {
-      type: Array as () => HandleIncomeType[],
       default: () => [],
     },
     dataEstimateNecessity: {
