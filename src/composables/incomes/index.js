@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from "@/store";
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import {
@@ -39,6 +40,7 @@ export async function getIncomes(year, monthYear, user = "admin") {
           incomes.value.push(income);
         });
         localStorage.setItem("incomes", JSON.stringify(incomes.value));
+        store.dispatch("setIncomes", incomes.value);
       },
     );
     return incomes.value;
