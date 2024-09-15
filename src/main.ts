@@ -54,8 +54,6 @@ const handleOnline = () => {
 };
 
 const checkInternetConnection = () => {
-  console.log("went check internet connection");
-
   if (!navigator.onLine) {
     toast.error(
       "Bạn đã mất kết nối internet. Vui lòng kiểm tra kết nối của bạn.",
