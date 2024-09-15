@@ -54,10 +54,6 @@ export default {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
     },
-    dataEstimateNecessity: {
-      type: Array as () => EstimateNecessityType[],
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
@@ -70,7 +66,10 @@ export default {
   setup() {
     const store = useStore();
     const totalIncome = computed(() => store.getters.getTotalIncome);
-    return { totalIncome };
+    const dataEstimateNecessity = computed(
+      () => store.getters.getEstimateNecessities,
+    );
+    return { totalIncome, dataEstimateNecessity };
   },
 };
 </script>

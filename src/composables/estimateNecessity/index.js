@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from "@/store";
 import { db } from "@/main";
 import {
   collection,
@@ -43,10 +44,7 @@ export async function getEstimateNecessityExpenses(
 
           estimateNecessityList.value.push(item);
         });
-        localStorage.setItem(
-          "estimateNecessityList",
-          JSON.stringify(estimateNecessityList.value),
-        );
+        store.dispatch("setEstimateNecessities", estimateNecessityList.value);
       },
     );
     return estimateNecessityList.value;

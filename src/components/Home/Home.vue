@@ -31,7 +31,6 @@
             :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
-            :dataEstimateNecessity="dataEstimateNecessity"
             :isDark="isDarkProps"
             :funds="funds"
           />
@@ -46,7 +45,6 @@
             :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
-            :dataEstimateNecessity="dataEstimateNecessity"
             :isDark="isDarkProps"
             :funds="funds"
           />
@@ -156,7 +154,6 @@ export default {
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
     const funds: any = ref([]);
     const dataIncome = computed(() => store.getters.getIncomes);
-    const dataEstimateNecessity: any = ref([]);
     const totalIncome = computed(() => store.getters.getTotalIncome);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
@@ -181,17 +178,15 @@ export default {
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
       try {
-        const [fundsResult, _, __, estimateNecessityResult, ___] =
-          await Promise.all([
-            getFunds(currentYear, currentMonthYear, user),
-            getIncomes(currentYear, currentMonthYear, user),
-            getHandleIncomes(currentYear, currentMonthYear, user),
-            getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
-            getDebt(),
-          ]);
+        const [fundsResult, _, __, ___, ____] = await Promise.all([
+          getFunds(currentYear, currentMonthYear, user),
+          getIncomes(currentYear, currentMonthYear, user),
+          getHandleIncomes(currentYear, currentMonthYear, user),
+          getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
+          getDebt(),
+        ]);
 
         funds.value = fundsResult;
-        dataEstimateNecessity.value = estimateNecessityResult;
 
         await getAllHandleIncomesIsDebt();
       } catch (error) {
@@ -222,10 +217,7 @@ export default {
       funds.value = await getFunds(year, monthYear, user);
       await getIncomes(year, monthYear, user);
       await getHandleIncomes(year, monthYear, user);
-      dataEstimateNecessity.value = await getEstimateNecessityExpenses(
-        year,
-        monthYear,
-      );
+      await getEstimateNecessityExpenses(year, monthYear);
 
       setTimeout(() => {
         isOpenLoadingModal.value = close();
@@ -240,7 +232,6 @@ export default {
       columnsIncome,
       dataIncome,
       columnsHandleIncome,
-      dataEstimateNecessity,
       necessityLimitation,
       handleUpdateIsFundsEditable,
       funds,

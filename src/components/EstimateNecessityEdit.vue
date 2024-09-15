@@ -124,13 +124,6 @@ export default {
       });
     };
     const onFinish = async () => {
-      const stringifyEstimateNecessity = JSON.stringify(
-        dynamicValidateForm.estimateNecessity,
-      );
-      window.localStorage.setItem(
-        "estimateNecessity",
-        stringifyEstimateNecessity,
-      );
       await setEstimateNecessityExpenses(
         formId.value,
         dynamicValidateForm.estimateNecessity,
