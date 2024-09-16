@@ -71,7 +71,7 @@ import { setHandleIncomes } from "@/composables/handleIncomes/index.js";
 import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-import type { HandleIncomeType, HandleIncomeItem } from "@/types/types";
+import type { HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
