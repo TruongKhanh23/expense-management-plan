@@ -91,21 +91,13 @@ export default {
   },
   setup(props) {
     const formRef = ref<FormInstance>();
-    const formId = computed(() => {
-      return props.data.id ?? null;
-    });
-    const estimateNecessityStorageString = computed(() => {
-      console.log("props.data", props.data);
-      return props.data.details ?? [];
-    });
-    const estimateNecessity = computed(() => {
-      return estimateNecessityStorageString.value;
-    });
+    const formId = computed(() => props.data.id ?? null);
+    const estimateNecessity = computed(() => props.data.details ?? []);
 
     const dynamicValidateForm = reactive<{
       estimateNecessity: EstimateNecessity[];
     }>({
-      estimateNecessity: estimateNecessityStorageString.value
+      estimateNecessity: estimateNecessity.value
         ? estimateNecessity
         : ([] as any),
     });
@@ -124,13 +116,6 @@ export default {
       });
     };
     const onFinish = async () => {
-      const stringifyEstimateNecessity = JSON.stringify(
-        dynamicValidateForm.estimateNecessity,
-      );
-      window.localStorage.setItem(
-        "estimateNecessity",
-        stringifyEstimateNecessity,
-      );
       await setEstimateNecessityExpenses(
         formId.value,
         dynamicValidateForm.estimateNecessity,

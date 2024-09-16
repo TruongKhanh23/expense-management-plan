@@ -18,7 +18,6 @@
       <HandleIncome
         :isDark="isDark"
         :columnsHandleIncome="columnsHandleIncome"
-        :dataHandleIncome="dataHandleIncome"
         :funds="funds"
         :totalIncome="totalIncome"
       />
@@ -34,11 +33,7 @@ import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-import type {
-  EstimateNecessityType,
-  HandleIncomeType,
-  HandleIncomeItem,
-} from "@/types/types";
+import type { HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
@@ -62,14 +57,6 @@ export default {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
     },
-    dataHandleIncome: {
-      type: Array as () => HandleIncomeType[],
-      default: () => [],
-    },
-    dataEstimateNecessity: {
-      type: Array as () => EstimateNecessityType[],
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
@@ -82,7 +69,10 @@ export default {
   setup() {
     const store = useStore();
     const totalIncome = computed(() => store.getters.getTotalIncome);
-    return { totalIncome };
+    const dataEstimateNecessity = computed(
+      () => store.getters.getEstimateNecessities,
+    );
+    return { totalIncome, dataEstimateNecessity };
   },
 };
 </script>

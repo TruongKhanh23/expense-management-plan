@@ -30,10 +30,8 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
         };
         list.value.push(item);
       });
-      store.dispatch("setHandleIncomes", list.value)
-      localStorage.setItem("handleIncomes", JSON.stringify(list.value));
+      store.dispatch("setHandleIncomes", list.value);
     });
-    return list.value;
   } catch (error) {
     alert("Get handleIncomes failed\n" + error);
   }

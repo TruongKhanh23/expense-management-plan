@@ -39,7 +39,6 @@ export async function getIncomes(year, monthYear, user = "admin") {
           };
           incomes.value.push(income);
         });
-        localStorage.setItem("incomes", JSON.stringify(incomes.value));
         store.dispatch("setIncomes", incomes.value);
       },
     );

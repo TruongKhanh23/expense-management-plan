@@ -202,10 +202,6 @@ export default {
     };
 
     const onFinish = async () => {
-      const stringifyIncomes = JSON.stringify(
-        dynamicValidateForm.handleIncomes,
-      );
-      localStorage.setItem("handleIncomes", stringifyIncomes);
       await setHandleIncomes(dynamicValidateForm.handleIncomes);
     };
 
