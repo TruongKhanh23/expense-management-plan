@@ -31,7 +31,7 @@ import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
-import type { EstimateNecessityType, HandleIncomeItem } from "@/types/types";
+import type { HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
