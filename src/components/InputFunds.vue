@@ -170,6 +170,7 @@
 
 <script lang="ts">
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
 import { SettingOutlined } from "@ant-design/icons-vue";
 import { getFundsPercentage, setFunds } from "@/composables/funds/index.js";
@@ -191,16 +192,12 @@ export default {
     SettingOutlined,
     ConfigProvider,
   },
-  props: {
-    funds: {
-      type: Object,
-      require: true,
-    },
-  },
-  setup(props) {
+  setup() {
+    const store = useStore();
+    const currentFunds = computed(() => store.getters.getFunds);
     const initialfunds = computed(
       () =>
-        getFundsPercentage(props.funds) ?? {
+        getFundsPercentage(currentFunds.value) ?? {
           necessity: 0,
           freedom: 0,
           education: 0,
@@ -209,7 +206,6 @@ export default {
           longTermSaving: 0,
         },
     );
-    const currentFunds = computed(() => props.funds ?? {});
 
     const onFinish = async (values: any) => {
       let totalPercent: number = 0;
@@ -229,7 +225,7 @@ export default {
           funds.value.find((item: FundItem) => item.id === field).percentage =
             parseFloat(values[field]);
         });
-        localStorage.setItem("funds", JSON.stringify(funds.value));
+        store.dispatch("setFunds", funds.value);
         await setFunds(values);
       }
     };

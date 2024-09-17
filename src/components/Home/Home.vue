@@ -24,7 +24,7 @@
           :funds="funds"
           @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
         />
-        <InputFunds v-if="isFundsEditable" class="mb-4" :funds="funds" />
+        <InputFunds v-if="isFundsEditable" class="mb-4" />
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
           <MobileAppView
@@ -152,7 +152,7 @@ export default {
     });
 
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
-    const funds: any = ref([]);
+    const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
     const totalIncome = computed(() => store.getters.getTotalIncome);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
@@ -178,17 +178,14 @@ export default {
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
       try {
-        const [fundsResult, _, __, ___, ____] = await Promise.all([
+        await Promise.all([
           getFunds(currentYear, currentMonthYear, user),
           getIncomes(currentYear, currentMonthYear, user),
           getHandleIncomes(currentYear, currentMonthYear, user),
           getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
           getDebt(),
+          getAllHandleIncomesIsDebt(),
         ]);
-
-        funds.value = fundsResult;
-
-        await getAllHandleIncomesIsDebt();
       } catch (error) {
         console.error("An error occurred:", error);
       }
@@ -214,7 +211,7 @@ export default {
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
 
-      funds.value = await getFunds(year, monthYear, user);
+      await getFunds(year, monthYear, user);
       await getIncomes(year, monthYear, user);
       await getHandleIncomes(year, monthYear, user);
       await getEstimateNecessityExpenses(year, monthYear);
