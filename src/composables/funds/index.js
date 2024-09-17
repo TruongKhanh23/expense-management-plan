@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import store from "@/store"
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import {
@@ -63,6 +64,7 @@ export async function getFunds(year, monthYear, user = "admin") {
           funds.value.push(fund);
         });
         localStorage.setItem("funds", JSON.stringify(funds.value));
+        store.dispatch("setFunds", funds.value);
       },
     );
     return funds.value;

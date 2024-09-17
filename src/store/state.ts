@@ -1,6 +1,5 @@
 import type { HandleIncomeType, HandleIncomeItem } from "@/types/types";
-import type { DebtItem } from "@/types/types";
-import type { DataIncomeType, EstimateNecessityType } from "@/types/types";
+import type { DataIncomeType, EstimateNecessityType, DebtItem, FundItem } from "@/types/types";
 
 export interface State {
   count: number;
@@ -9,6 +8,7 @@ export interface State {
   allHandleIncomesIsDebt: HandleIncomeItem[];
   incomes: DataIncomeType[];
   estimateNecessities: EstimateNecessityType[];
+  funds: FundItem[];
 }
 
 export const state: State = {
@@ -18,4 +18,5 @@ export const state: State = {
   allHandleIncomesIsDebt: [],
   incomes: [],
   estimateNecessities: [],
+  funds: [],
 };

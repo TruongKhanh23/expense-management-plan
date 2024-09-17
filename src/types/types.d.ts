@@ -51,3 +51,13 @@ export type DataIncomeType = {
   source: string;
   amount: number;
 };
+
+export type FundItem = {
+  classColor: string,
+  id: string,
+  name: string,
+  order: number,
+  percentage: number,
+  src: string,
+  wallet: string,
+}
