@@ -195,10 +195,12 @@ export async function createNewMonthByDuplicate(month, year, monthYear) {
         monthYear,
         subcolId,
       );
-
       const subcollectionDocs = await getDocs(subcollectionRef);
       for (const subDocSnap of subcollectionDocs.docs) {
         const subDocData = subDocSnap.data();
+        if (subcolId == "handleIncomes") {
+          subDocData.items.map((item) => (item.isSolved = false));
+        }
         await setDoc(doc(newSubcollectionRef, subDocSnap.id), subDocData);
       }
     }
