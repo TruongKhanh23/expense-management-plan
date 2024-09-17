@@ -4,6 +4,7 @@ import { actions as handleIncomes } from "@/store/handleIncomes/actions";
 import { actions as incomes } from "@/store/incomes/actions";
 import { actions as estimateNecessities } from "@/store/estimateNecessities/actions";
 import { actions as funds } from "@/store/funds/actions";
+import { actions as currentChooseMonth } from "@/store/currentChooseMonth/actions";
 
 export const actions = {
   ...count,
@@ -12,4 +13,5 @@ export const actions = {
   ...incomes,
   ...estimateNecessities,
   ...funds,
+  ...currentChooseMonth,
 };

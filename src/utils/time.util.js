@@ -1,3 +1,5 @@
+import store from "@/store";
+
 export function getCurrentTime() {
   const currentDate = new Date();
   const currentDateString = currentDate.toString();
@@ -17,16 +19,14 @@ export function getCurrentTime() {
 }
 
 export function setCurrentChooseMonth(year, monthYear) {
-  localStorage.setItem(
-    "currentChooseMonth",
-    JSON.stringify({ year, monthYear }),
-  );
+  store.dispatch("setCurrentChooseMonth", {
+    year,
+    monthYear,
+  });
 }
 
 export function getCurrentChooseMonth() {
-  const currentChooseMonth = JSON.parse(
-    localStorage.getItem("currentChooseMonth"),
-  );
+  const currentChooseMonth = store.getters.getCurrentChooseMonth;
   return {
     year: currentChooseMonth.year,
     monthYear: currentChooseMonth.monthYear,

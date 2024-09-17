@@ -53,11 +53,16 @@ export type DataIncomeType = {
 };
 
 export type FundItem = {
-  classColor: string,
-  id: string,
-  name: string,
-  order: number,
-  percentage: number,
-  src: string,
-  wallet: string,
-}
+  classColor: string;
+  id: string;
+  name: string;
+  order: number;
+  percentage: number;
+  src: string;
+  wallet: string;
+};
+
+export type CurrentChooseMonth = {
+  year: string;
+  monthYear: string;
+};
