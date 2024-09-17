@@ -4,6 +4,7 @@ import { mutations as handleIncomes } from "@/store/handleIncomes/mutations";
 import { mutations as incomes } from "@/store/incomes/mutations";
 import { mutations as estimateNecessities } from "@/store/estimateNecessities/mutations";
 import { mutations as funds } from "@/store/funds/mutations";
+import { mutations as currentChooseMonth } from "@/store/currentChooseMonth/mutations";
 
 export const mutations = {
   ...count,
@@ -12,4 +13,5 @@ export const mutations = {
   ...incomes,
   ...estimateNecessities,
   ...funds,
+  ...currentChooseMonth,
 };
