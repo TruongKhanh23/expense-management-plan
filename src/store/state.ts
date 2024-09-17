@@ -8,7 +8,6 @@ import type {
 } from "@/types/types";
 
 export interface State {
-  count: number;
   debts: DebtItem[];
   handleIncomes: HandleIncomeType[];
   allHandleIncomesIsDebt: HandleIncomeItem[];
@@ -19,7 +18,6 @@ export interface State {
 }
 
 export const state: State = {
-  count: 0,
   debts: [],
   handleIncomes: [],
   allHandleIncomesIsDebt: [],
