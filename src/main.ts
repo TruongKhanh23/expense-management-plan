@@ -7,8 +7,8 @@ import store from "./store/index";
 import router from "./router";
 
 import "./style.css";
-import "vue3-toastify/dist/index.css"; // Import the CSS for Toastify
-import { toast } from "vue3-toastify"; // Import toast and ToastContainer
+import "vue3-toastify/dist/index.css";
+import { toast } from "vue3-toastify";
 
 // Firebase configuration
 const firebaseConfig = {

@@ -11,6 +11,7 @@
   </div>
 </template>
 <script lang="ts">
+import { useStore } from "vuex"
 import { DatePicker } from "ant-design-vue";
 import { ref, watch, computed } from "vue";
 
@@ -26,39 +27,34 @@ export default {
     ADatePicker: DatePicker,
     ConfigProvider,
   },
-  emits: ["action:updateMonth"],
   props: {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    },
-    newMonthCreated: {
-      type: [String],
-      require: undefined,
-    },
+    }
   },
-  setup(props, { emit }) {
+  setup(props) {
+    const store = useStore();
     const isDarkMode = props.isDark;
-    const newMonthProps = computed(() => props.newMonthCreated);
+    const currentChooseMonth = computed(() => store.getters.getCurrentChooseMonth)
 
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
 
     const month = ref<string | Dayjs>(dayjs(currentMonthYear, monthFormat));
 
-    watch(newMonthProps, async () => {
+    watch(currentChooseMonth, () => {
       const newMonth = ref<string | Dayjs>(
-        dayjs(props.newMonthCreated, monthFormat),
+        dayjs(currentChooseMonth.value.monthYear, monthFormat),
       );
-      month.value = newMonth.value;
-    });
+      month.value = newMonth.value
+    })
 
     const handleChange = (value: string | Dayjs, dateString: string) => {
       month.value = value;
       const monthYear = dateString;
       const year = dateString.substring(dateString.length - 4);
       setCurrentChooseMonth(year, monthYear);
-      emit("action:updateMonth", year, monthYear);
     };
     return { month, handleChange, monthFormat, isDarkMode };
   },
