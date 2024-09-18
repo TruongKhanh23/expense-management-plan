@@ -71,7 +71,6 @@ export default {
   },
   emits: [
     "action:updateIsOpenCreateNewMonthModal",
-    "action:updateMonth",
     "action:updateNewMonthCreated",
   ],
   props: {
@@ -108,7 +107,6 @@ export default {
       await createNewMonthByDuplicate(month, year, monthYear);
 
       setCurrentChooseMonth(year, monthYear);
-      emit("action:updateMonth", year, monthYear);
       emit("action:updateNewMonthCreated", monthYear);
 
       isOpenLoadingModal.value = close();

@@ -26,7 +26,6 @@ export default {
     ADatePicker: DatePicker,
     ConfigProvider,
   },
-  emits: ["action:updateMonth"],
   props: {
     isDark: {
       type: [Boolean, Object],
@@ -37,7 +36,7 @@ export default {
       require: undefined,
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const isDarkMode = props.isDark;
     const newMonthProps = computed(() => props.newMonthCreated);
 
@@ -58,7 +57,6 @@ export default {
       const monthYear = dateString;
       const year = dateString.substring(dateString.length - 4);
       setCurrentChooseMonth(year, monthYear);
-      emit("action:updateMonth", year, monthYear);
     };
     return { month, handleChange, monthFormat, isDarkMode };
   },

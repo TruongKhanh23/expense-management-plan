@@ -3,7 +3,6 @@
   <CreateNewMonthModal
     :isOpen="isOpenCreateNewMonthModal"
     @action:updateNewMonthCreated="handleUpdateNewMonthCreated"
-    @action:updateMonth="handleUpdateMonth"
     @action:updateIsOpenCreateNewMonthModal="
       handleUpdateIsOpenCreateNewMonthModal
     "
@@ -15,7 +14,6 @@
           class="mt-4 mb-8"
           :isDark="isDarkProps"
           :newMonthCreated="newMonthCreated"
-          @action:updateMonth="handleUpdateMonth"
         />
 
         <Funds
@@ -156,6 +154,7 @@ export default {
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
     const totalIncome = computed(() => store.getters.getTotalIncome);
+    const currentChooseMonth = computed(() => store.getters.getCurrentChooseMonth)
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
@@ -201,10 +200,6 @@ export default {
       isOpenCreateNewMonthModal.value = open();
     }
 
-    async function handleUpdateMonth(year: any, monthYear: any) {
-      await getMasterData(year, monthYear);
-    }
-
     async function handleUpdateNewMonthCreated(value: any) {
       newMonthCreated.value = value;
     }
@@ -226,10 +221,12 @@ export default {
       isOpenCreateNewMonthModal.value = close();
     }
 
-    watch(dataIncome, () => {
-      const isExistMonth = dataIncome.value.length > 0;
+    watch(currentChooseMonth, async () => {
+      await getMasterData(currentChooseMonth.value.year, currentChooseMonth.value.monthYear);
+
+      const isExistMonth = computed(() => dataIncome.value.length > 0);
       
-      if (!isExistMonth) {
+      if (!isExistMonth.value) {
         toast.error(
           "Tháng này chưa có dữ liệu.",
         );
@@ -253,7 +250,6 @@ export default {
       toggleDark,
       isDarkProps,
       handleCreateNewMonth,
-      handleUpdateMonth,
       isOpenCreateNewMonthModal,
       handleUpdateIsOpenCreateNewMonthModal,
       handleUpdateNewMonthCreated,
