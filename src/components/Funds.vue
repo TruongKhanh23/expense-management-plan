@@ -3,7 +3,6 @@
     <Slider :list="funds" :attrs="sliderAttrs">
       <template #content="{ data }">
         <FundItem
-          @action:updateIsFundsEditable="$emit('action:updateIsFundsEditable')"
           :data="data"
           :totalIncome="totalIncome"
           :isVisible="isVisible"
@@ -26,7 +25,6 @@ export default {
     Slider,
     FundItem,
   },
-  emits: ["action:updateIsFundsEditable"],
   props: {
     funds: {
       type: Object,

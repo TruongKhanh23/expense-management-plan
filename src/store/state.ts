@@ -16,6 +16,7 @@ export interface State {
   funds: FundItem[];
   currentChooseMonth: CurrentChooseMonth;
   isOpenCreateNewMonthModal: boolean;
+  isFundsEditable: boolean;
 }
 
 export const state: State = {
@@ -27,4 +28,5 @@ export const state: State = {
   funds: [],
   currentChooseMonth: { year: "", monthYear: "" },
   isOpenCreateNewMonthModal: false,
+  isFundsEditable: false,
 };

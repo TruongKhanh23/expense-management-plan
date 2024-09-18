@@ -6,12 +6,7 @@
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
         <ChooseMonth class="mt-4 mb-8" :isDark="isDarkProps" />
 
-        <Funds
-          v-if="funds"
-          class="mt-4"
-          :funds="funds"
-          @action:updateIsFundsEditable="handleUpdateIsFundsEditable"
-        />
+        <Funds v-if="funds" class="mt-4" :funds="funds" />
         <InputFunds v-if="isFundsEditable" class="mb-4" />
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
@@ -66,7 +61,7 @@
 </template>
 <script lang="ts">
 //#region import
-import { ref, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
@@ -184,10 +179,7 @@ export default {
       }
     })();
 
-    const isFundsEditable = ref(false);
-    function handleUpdateIsFundsEditable() {
-      isFundsEditable.value = !isFundsEditable.value;
-    }
+    const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
 
     async function handleCreateNewMonth() {
       const newValue = open();
@@ -227,7 +219,6 @@ export default {
       dataIncome,
       columnsHandleIncome,
       necessityLimitation,
-      handleUpdateIsFundsEditable,
       funds,
       isFundsEditable,
       isMobile,
