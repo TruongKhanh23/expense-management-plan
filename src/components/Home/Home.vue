@@ -78,7 +78,7 @@
 </template>
 <script lang="ts">
 //#region import
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
@@ -106,6 +106,7 @@ import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
+import { toast } from "vue3-toastify";
 
 import detectDevice from "@/utils/device.util";
 import { getCurrentTime, setCurrentChooseMonth } from "@/utils/time.util";
@@ -224,6 +225,16 @@ export default {
     async function handleUpdateIsOpenCreateNewMonthModal() {
       isOpenCreateNewMonthModal.value = close();
     }
+
+    watch(dataIncome, () => {
+      const isExistMonth = dataIncome.value.length > 0;
+      
+      if (!isExistMonth) {
+        toast.error(
+          "Tháng này chưa có dữ liệu.",
+        );
+      }
+    })
 
     return {
       columnsIncome,
