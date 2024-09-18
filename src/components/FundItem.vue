@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import { Switch } from "ant-design-vue";
 import { calculateLimitation } from "@/composables/funds/index";
 import showEye from "@/assets/icons/showEye.png";
@@ -71,7 +72,7 @@ export default {
   components: {
     ASwitch: Switch,
   },
-  emits: ["action:updateIsFundsEditable", "action:updateIsVisibleLimitation"],
+  emits: ["action:updateIsVisibleLimitation"],
   props: {
     totalIncome: {
       type: Number,
@@ -87,6 +88,8 @@ export default {
     },
   },
   setup(props, { emit }) {
+    const store = useStore();
+    const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
     const checked = ref(false);
 
     function toggleVisibility() {
@@ -96,7 +99,7 @@ export default {
     }
 
     function updateIsFundsEditable() {
-      emit("action:updateIsFundsEditable");
+      store.dispatch("setIsFundsEditable", !isFundsEditable.value);
     }
 
     return {
