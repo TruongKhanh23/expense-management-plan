@@ -17,6 +17,7 @@ export interface State {
   currentChooseMonth: CurrentChooseMonth;
   isOpenCreateNewMonthModal: boolean;
   isFundsEditable: boolean;
+  isVisibleLimitation: boolean;
 }
 
 export const state: State = {
@@ -29,4 +30,5 @@ export const state: State = {
   currentChooseMonth: { year: "", monthYear: "" },
   isOpenCreateNewMonthModal: false,
   isFundsEditable: false,
+  isVisibleLimitation: false,
 };

@@ -4,4 +4,7 @@ export const mutations = {
   setIsFundsEditable(state: State, { isFundsEditable }) {
     state.isFundsEditable = isFundsEditable;
   },
+  setIsVisibleLimitation(state: State, { isVisibleLimitation }) {
+    state.isVisibleLimitation = isVisibleLimitation;
+  },
 };
