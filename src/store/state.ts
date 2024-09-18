@@ -15,6 +15,7 @@ export interface State {
   estimateNecessities: EstimateNecessityType[];
   funds: FundItem[];
   currentChooseMonth: CurrentChooseMonth;
+  isOpenCreateNewMonthModal: boolean;
 }
 
 export const state: State = {
@@ -25,4 +26,5 @@ export const state: State = {
   estimateNecessities: [],
   funds: [],
   currentChooseMonth: { year: "", monthYear: "" },
+  isOpenCreateNewMonthModal: false,
 };

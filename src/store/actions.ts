@@ -12,4 +12,12 @@ export const actions = {
   ...estimateNecessities,
   ...funds,
   ...currentChooseMonth,
+  setIsOpenCreateNewMonthModal(
+    context: { commit: Function },
+    isOpenCreateNewMonthModal,
+  ) {
+    context.commit("setIsOpenCreateNewMonthModal", {
+      isOpenCreateNewMonthModal,
+    });
+  },
 };
