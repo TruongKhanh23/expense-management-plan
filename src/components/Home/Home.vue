@@ -1,19 +1,10 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <CreateNewMonthModal
-    :isOpen="isOpenCreateNewMonthModal"
-    @action:updateIsOpenCreateNewMonthModal="
-      handleUpdateIsOpenCreateNewMonthModal
-    "
-  />
+  <CreateNewMonthModal :isOpen="isOpenCreateNewMonthModal" />
   <div class="xl:mx-[8rem] mx-4 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
-        <ChooseMonth
-          class="mt-4 mb-8"
-          :isDark="isDarkProps"
-          :newMonthCreated="newMonthCreated"
-        />
+        <ChooseMonth class="mt-4 mb-8" :isDark="isDarkProps" />
 
         <Funds
           v-if="funds"
@@ -133,8 +124,9 @@ export default {
   setup() {
     const store = useStore();
     const { isOpenLoadingModal } = handlePopup();
-    const isOpenCreateNewMonthModal = ref(false);
-    const newMonthCreated = ref<string>();
+    const isOpenCreateNewMonthModal = computed(
+      () => store.getters.getIsOpenCreateNewMonthModal,
+    );
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
@@ -198,7 +190,8 @@ export default {
     }
 
     async function handleCreateNewMonth() {
-      isOpenCreateNewMonthModal.value = open();
+      const newValue = open();
+      store.dispatch("setIsOpenCreateNewMonthModal", newValue);
     }
 
     async function getMasterData(year: any, monthYear: any) {
@@ -212,10 +205,6 @@ export default {
       setTimeout(() => {
         isOpenLoadingModal.value = close();
       }, 500);
-    }
-
-    async function handleUpdateIsOpenCreateNewMonthModal() {
-      isOpenCreateNewMonthModal.value = close();
     }
 
     watch(currentChooseMonth, async () => {
@@ -251,8 +240,6 @@ export default {
       isDarkProps,
       handleCreateNewMonth,
       isOpenCreateNewMonthModal,
-      handleUpdateIsOpenCreateNewMonthModal,
-      newMonthCreated,
     };
   },
 };

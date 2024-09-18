@@ -45,6 +45,7 @@
   </div>
 </template>
 <script lang="ts">
+import { useStore } from "vuex";
 import { ref, computed } from "vue";
 import { Button, DatePicker, Form, FormItem, Modal } from "ant-design-vue";
 import { reactive } from "vue";
@@ -69,21 +70,19 @@ export default {
     AButton: Button,
     LoadingModal,
   },
-  emits: [
-    "action:updateIsOpenCreateNewMonthModal",
-  ],
   props: {
     isOpen: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
+    const store = useStore();
     const isOpen = computed(() => <boolean>props.isOpen);
     const isOpenLoadingModal = ref(false);
     const monthFormat = "MM-YYYY";
     const handleClose = () => {
-      emit("action:updateIsOpenCreateNewMonthModal");
+      store.dispatch("setIsOpenCreateNewMonthModal", false);
     };
 
     const config = {
@@ -100,7 +99,7 @@ export default {
       const monthYear = values.month;
       const year = monthYear.substring(monthYear.length - 4);
       const month = monthYear.slice(0, 2);
-      emit("action:updateIsOpenCreateNewMonthModal");
+      store.dispatch("setIsOpenCreateNewMonthModal", false);
 
       isOpenLoadingModal.value = open();
       await createNewMonthByDuplicate(month, year, monthYear);
