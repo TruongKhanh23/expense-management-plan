@@ -4,4 +4,7 @@ export const getters = {
   getIsFundsEditable(state: State): boolean {
     return state.isFundsEditable;
   },
+  getIsVisibleLimitation(state: State): boolean {
+    return state.isVisibleLimitation;
+  },
 };

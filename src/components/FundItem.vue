@@ -19,7 +19,7 @@
       v-if="data.percentage"
       class="my-2 font-bold md:bg-[#FAFAFA] md:dark:bg-[#1D1D1D] leading-[2.5rem] left-0 w-full"
     >
-      <p v-if="isVisible">
+      <p v-if="isVisibleLimitation">
         {{ calculateLimitation(totalIncome, data.percentage).text }}
       </p>
       <p v-else>******</p>
@@ -42,7 +42,7 @@
       </div>
       <div class="flex sm:flex-col items-center justify-center my-2">
         <div class="px-2 sm:py-4 cursor-pointer" @click="toggleVisibility">
-          <img v-if="isVisible" :src="showEye" class="w-6 h-6" />
+          <img v-if="isVisibleLimitation" :src="showEye" class="w-6 h-6" />
           <img v-else :src="hideEye" class="w-6 h-6" />
         </div>
         <a-switch
@@ -72,7 +72,6 @@ export default {
   components: {
     ASwitch: Switch,
   },
-  emits: ["action:updateIsVisibleLimitation"],
   props: {
     totalIncome: {
       type: Number,
@@ -82,20 +81,17 @@ export default {
       type: Object,
       default: () => {},
     },
-    isVisible: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props, { emit }) {
     const store = useStore();
+    const isVisibleLimitation = computed(
+      () => store.getters.getIsVisibleLimitation,
+    );
     const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
     const checked = ref(false);
 
     function toggleVisibility() {
-      console.log("click toggleVisibility");
-
-      emit("action:updateIsVisibleLimitation");
+      store.dispatch("setIsVisibleLimitation", !isVisibleLimitation.value);
     }
 
     function updateIsFundsEditable() {
@@ -106,6 +102,7 @@ export default {
       checked,
       hideEye,
       showEye,
+      isVisibleLimitation,
       calculateLimitation,
       updateIsFundsEditable,
       toggleVisibility,

@@ -2,12 +2,7 @@
   <div class="min-h-[240px]">
     <Slider :list="funds" :attrs="sliderAttrs">
       <template #content="{ data }">
-        <FundItem
-          :data="data"
-          :totalIncome="totalIncome"
-          :isVisible="isVisible"
-          @action:updateIsVisibleLimitation="handleUpdateIsVisibleLimitation"
-        />
+        <FundItem :data="data" :totalIncome="totalIncome" />
       </template>
     </Slider>
   </div>
@@ -33,7 +28,6 @@ export default {
   },
   setup(props) {
     const store = useStore();
-    const isVisible = ref(false);
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
@@ -64,15 +58,8 @@ export default {
       }
     });
 
-    function handleUpdateIsVisibleLimitation() {
-      isVisible.value = !isVisible.value;
-      console.log("isVisible.value", isVisible.value);
-    }
-
     return {
       sliderAttrs,
-      isVisible,
-      handleUpdateIsVisibleLimitation,
       totalIncome,
     };
   },
