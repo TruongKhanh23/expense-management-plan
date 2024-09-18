@@ -2,7 +2,6 @@
   <LoadingModal :isOpen="isOpenLoadingModal" />
   <CreateNewMonthModal
     :isOpen="isOpenCreateNewMonthModal"
-    @action:updateNewMonthCreated="handleUpdateNewMonthCreated"
     @action:updateIsOpenCreateNewMonthModal="
       handleUpdateIsOpenCreateNewMonthModal
     "
@@ -200,10 +199,6 @@ export default {
       isOpenCreateNewMonthModal.value = open();
     }
 
-    async function handleUpdateNewMonthCreated(value: any) {
-      newMonthCreated.value = value;
-    }
-
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
 
@@ -223,10 +218,12 @@ export default {
 
     watch(currentChooseMonth, async () => {
       await getMasterData(currentChooseMonth.value.year, currentChooseMonth.value.monthYear);
+    })
 
-      const isExistMonth = computed(() => dataIncome.value.length > 0);
+    watch(dataIncome, () => {
+      const isExistMonth = dataIncome.value.length > 0;
       
-      if (!isExistMonth.value) {
+      if (!isExistMonth) {
         toast.error(
           "Tháng này chưa có dữ liệu.",
         );
@@ -252,7 +249,6 @@ export default {
       handleCreateNewMonth,
       isOpenCreateNewMonthModal,
       handleUpdateIsOpenCreateNewMonthModal,
-      handleUpdateNewMonthCreated,
       newMonthCreated,
     };
   },

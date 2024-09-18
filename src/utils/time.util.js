@@ -1,4 +1,3 @@
-import { computed } from "vue"
 import store from "@/store";
 
 export function getCurrentTime() {
@@ -27,9 +26,9 @@ export function setCurrentChooseMonth(year, monthYear) {
 }
 
 export function getCurrentChooseMonth() {
-  const currentChooseMonth = computed(() => store.getters.getCurrentChooseMonth);
+  const currentChooseMonth = store.getters.getCurrentChooseMonth;
   return {
-    year: currentChooseMonth.value.year,
-    monthYear: currentChooseMonth.value.monthYear,
+    year: currentChooseMonth.year,
+    monthYear: currentChooseMonth.monthYear,
   };
 }
