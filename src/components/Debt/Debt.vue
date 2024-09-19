@@ -51,7 +51,7 @@ import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import { columnsDebt } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-import DebtEdit from "@/components/DebtEdit.vue";
+import DebtEdit from "@/components/Debt/DebtEdit.vue";
 import dayjs from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
 import type { DebtItem } from "@/types/types";

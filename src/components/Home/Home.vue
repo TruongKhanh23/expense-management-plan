@@ -53,20 +53,20 @@ import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
-import Funds from "@/components/Funds.vue";
-import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
-import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import Funds from "@/components/Fund/Funds.vue";
+import IncomeDebt from "@/components/Income/IncomeDebt.vue";
+import HandleIncome from "@/components/HandleIncome/HandleIncome.vue";
+import EstimateNecessity from "@/components/EstimateNecessity/EstimateNecessity.vue";
 import InputFunds from "@/components/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
 import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
-import NecessaryThings from "@/components/NecessaryThings.vue";
-import Debt from "@/components/Debt.vue";
-import ChooseMonth from "@/components/ChooseMonth.vue";
+import NecessaryThings from "@/components/Necessity/NecessaryThings.vue";
+import Debt from "@/components/Debt/Debt.vue";
+import ChooseMonth from "@/components/Month/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
-import CreateNewMonth from "@/components/CreateNewMonth.vue";
+import CreateNewMonth from "@/components/Month/CreateNewMonth.vue";
 
 import { getDebt } from "@/composables/debt/index.js";
 import { getFunds } from "@/composables/funds/index.js";

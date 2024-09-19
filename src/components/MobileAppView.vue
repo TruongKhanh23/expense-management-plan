@@ -24,9 +24,9 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { Tabs, TabPane } from "ant-design-vue";
-import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
-import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import IncomeDebt from "@/components/Income/IncomeDebt.vue";
+import HandleIncome from "@/components/HandleIncome/HandleIncome.vue";
+import EstimateNecessity from "@/components/EstimateNecessity/EstimateNecessity.vue";
 import type { TableColumnType } from "ant-design-vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import type { HandleIncomeItem } from "@/types/types";

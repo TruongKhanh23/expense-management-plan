@@ -37,9 +37,9 @@
 <script>
 import { ref, computed } from "vue";
 import { useStore } from "vuex"
-import EstimateNecessityRow from "../components/EstimateNecessityRow.vue";
+import EstimateNecessityRow from "@/components/EstimateNecessity/EstimateNecessityRow.vue";
 import { Switch } from "ant-design-vue";
-import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue";
+import EstimateNecessityEdit from "@/components/EstimateNecessity/EstimateNecessityEdit.vue";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 
 export default {

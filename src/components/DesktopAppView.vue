@@ -23,9 +23,9 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { Col, Button } from "ant-design-vue";
-import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
-import EstimateNecessity from "@/components/EstimateNecessity.vue";
+import IncomeDebt from "@/components/Income/IncomeDebt.vue";
+import HandleIncome from "@/components/HandleIncome/HandleIncome.vue";
+import EstimateNecessity from "@/components/EstimateNecessity/EstimateNecessity.vue";
 
 export default {
   components: {
