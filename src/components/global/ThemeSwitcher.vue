@@ -31,7 +31,7 @@ export default {
 
     watch(isDark, () => {
       store.dispatch("setIsDark", isDark);
-    })
+    });
 
     onMounted(() => {
       feather.replace();

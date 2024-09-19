@@ -21,9 +21,9 @@
 
 <script setup>
 import { ref, defineEmits } from "vue";
-import LoginForm from "@/components/Login/LoginForm.vue";
-import SignInWithGoogle from "@/components/Login/SignInWithGoogle.vue";
-import ResetPasswordModal from "@/components/Login/ResetPasswordModal.vue";
+import LoginForm from "@/components/authentication/LoginForm.vue";
+import SignInWithGoogle from "@/components/authentication/SignInWithGoogle.vue";
+import ResetPasswordModal from "@/components/authentication/ResetPasswordModal.vue";
 
 const emit = defineEmits(["action:updateLoginType"])
 
