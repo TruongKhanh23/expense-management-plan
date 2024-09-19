@@ -18,6 +18,7 @@ export interface State {
   isOpenCreateNewMonthModal: boolean;
   isFundsEditable: boolean;
   isVisibleLimitation: boolean;
+  isDark: boolean;
 }
 
 export const state: State = {
@@ -31,4 +32,5 @@ export const state: State = {
   isOpenCreateNewMonthModal: false,
   isFundsEditable: false,
   isVisibleLimitation: false,
+  isDark: false,
 };

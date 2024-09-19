@@ -84,19 +84,15 @@ export default {
     ConfigProvider,
   },
   props: {
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
     totalIncome: {
       type: Number,
       require: true,
     },
   },
-  setup(props) {
+  setup() {
     const store = useStore();
     const funds = computed(() => store.getters.getFunds);
-    const isDarkMode = props.isDark;
+    const isDarkMode = computed(() => store.getters.getIsDark);
     const isEditable = ref(false);
     const tagTypeColor: Record<string, string> = {
       necessity: "pink",

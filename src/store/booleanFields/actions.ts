@@ -5,4 +5,7 @@ export const actions = {
   setIsVisibleLimitation(context: { commit: Function }, isVisibleLimitation) {
     context.commit("setIsVisibleLimitation", { isVisibleLimitation });
   },
+  setIsDark(context: { commit: Function }, isDark) {
+    context.commit("setIsDark", { isDark });
+  },
 };

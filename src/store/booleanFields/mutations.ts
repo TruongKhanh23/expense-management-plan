@@ -7,4 +7,7 @@ export const mutations = {
   setIsVisibleLimitation(state: State, { isVisibleLimitation }) {
     state.isVisibleLimitation = isVisibleLimitation;
   },
+  setIsDark(state: State, { isDark }) {
+    state.isDark = isDark;
+  },
 };

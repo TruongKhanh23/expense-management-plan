@@ -1,22 +1,14 @@
 <template>
   <a-col :md="{ span: 6 }">
-    <EstimateNecessity
-      :data="dataEstimateNecessity"
-    />
+    <EstimateNecessity :data="dataEstimateNecessity" />
   </a-col>
 
   <a-col :md="{ span: 8 }">
-    <IncomeDebt
-      :totalIncome="totalIncome"
-      :isDark="isDark"
-    />
+    <IncomeDebt :totalIncome="totalIncome" />
   </a-col>
 
   <a-col :md="{ span: 10 }">
-    <HandleIncome
-      :isDark="isDark"
-      :totalIncome="totalIncome"
-    />
+    <HandleIncome :totalIncome="totalIncome" />
   </a-col>
 </template>
 <script lang="ts">
@@ -35,19 +27,14 @@ export default {
     HandleIncome,
     EstimateNecessity,
   },
-  props: {
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
-  },
   setup() {
     const store = useStore();
+    const isDark = computed(() => store.getters.getIsDark);
     const totalIncome = computed(() => store.getters.getTotalIncome);
     const dataEstimateNecessity = computed(
       () => store.getters.getEstimateNecessities,
     );
-    return { totalIncome, dataEstimateNecessity };
+    return { totalIncome, dataEstimateNecessity, isDark };
   },
 };
 </script>

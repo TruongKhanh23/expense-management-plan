@@ -65,17 +65,11 @@ export default {
     DebtEdit,
     ASwitch: Switch,
   },
-  props: {
-    isDark: {
-      type: [Boolean, Object],
-      default: undefined,
-    },
-  },
-  setup(props) {
+  setup() {
     const store = useStore();
 
     const isEditable = ref(false);
-    const isDarkMode = props.isDark;
+    const isDarkMode = computed(() => store.getters.getIsDark);
 
     const debts = computed(() => store.getters.getDebts);
     const allHandleIncomesIsDebt = computed(

@@ -7,4 +7,7 @@ export const getters = {
   getIsVisibleLimitation(state: State): boolean {
     return state.isVisibleLimitation;
   },
+  getIsDark(state: State): boolean {
+    return state.isDark;
+  },
 };

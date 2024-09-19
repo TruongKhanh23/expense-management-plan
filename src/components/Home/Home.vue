@@ -3,13 +3,13 @@
   <div class="xl:mx-[8rem] mx-4 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
-        <ChooseMonth class="mt-4 mb-8" :isDark="isDarkProps" />
+        <ChooseMonth class="mt-4 mb-8" />
 
         <Funds v-if="funds" class="mt-4" :funds="funds" />
         <InputFunds v-if="isFundsEditable" class="mb-4" />
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
-          <MobileAppView :isDark="isDarkProps" />
+          <MobileAppView />
         </div>
 
         <!-- Desktop View-->
@@ -17,20 +17,20 @@
           v-if="(isDesktop || isTabletHorizontal) && dataIncome"
           class="flex flex-col md:flex-row my-4"
         >
-          <DesktopAppView :isDark="isDarkProps" />
+          <DesktopAppView />
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
         <div class="flex justify-center items-center">
           <a-col :md="{ span: 12 }">
-            <NecessaryThings :isDark="isDarkProps" />
+            <NecessaryThings />
           </a-col>
         </div>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Nợ" force-render>
         <div class="flex justify-center items-center">
           <a-col :md="{ span: 12 }">
-            <Debt :isDark="isDarkProps" />
+            <Debt />
           </a-col>
         </div>
       </a-tab-pane>
@@ -40,7 +40,7 @@
     class="flex flex-col md:flex-row my-12 gap-4 items-center justify-center"
   >
     <div class="flex items-center justify-center">
-      <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />
+      <ThemeSwitcher />
     </div>
     <Footer />
     <CreateNewMonth />
@@ -50,7 +50,6 @@
 //#region import
 import { computed, watch } from "vue";
 import { useStore } from "vuex";
-import { useDark, useToggle } from "@vueuse/core";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
 import Funds from "@/components/Funds.vue";
@@ -104,29 +103,19 @@ export default {
   },
   setup() {
     const store = useStore();
+
     const { isOpenLoadingModal } = handlePopup();
-    const isDark = useDark({
-      onChanged(isDark) {
-        if (isDark) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      },
-    });
-    const toggleDark = useToggle(isDark);
-    const isDarkProps = computed(() => {
-      return isDark;
-    });
+    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
+    detectDevice();
 
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
+
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
+    const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
     const currentChooseMonth = computed(
       () => store.getters.getCurrentChooseMonth,
-    );
-    const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
-      detectDevice();
+    ); 
 
     (async () => {
       const { currentYear, currentMonthYear } = getCurrentTime();
@@ -146,7 +135,6 @@ export default {
       }
     })();
 
-    const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
 
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
@@ -185,9 +173,6 @@ export default {
       isTabletHorizontal,
       isDesktop,
       isOpenLoadingModal,
-      isDark,
-      toggleDark,
-      isDarkProps,
     };
   },
 };

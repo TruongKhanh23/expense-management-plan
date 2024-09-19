@@ -51,14 +51,10 @@ export default {
       type: Number,
       require: true,
     },
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
   },
   setup(props, { emit }) {
     const store = useStore();
-    const isDarkMode = props.isDark;
+    const isDarkMode = computed(() => store.getters.getIsDark);
     const isEditable = ref(false);
     const dataIncomeStorage = ref(null);
     const dataIncome = computed(() => {
