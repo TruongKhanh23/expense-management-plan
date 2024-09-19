@@ -3,7 +3,6 @@
     <a-tab-pane key="1" tab="Dự chi thiết yếu">
       <EstimateNecessity
         :data="dataEstimateNecessity"
-        :necessityLimitation="necessityLimitation"
       />
     </a-tab-pane>
     <a-tab-pane key="2" tab="Thu nhập" force-render>
@@ -45,10 +44,6 @@ export default {
     ConfigProvider,
   },
   props: {
-    necessityLimitation: {
-      type: Number,
-      require: true,
-    },
     columnsIncome: {
       type: Object,
       require: true,

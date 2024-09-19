@@ -2,7 +2,6 @@
   <a-col :md="{ span: 6 }">
     <EstimateNecessity
       :data="dataEstimateNecessity"
-      :necessityLimitation="necessityLimitation"
     />
   </a-col>
 
@@ -42,10 +41,6 @@ export default {
     EstimateNecessity,
   },
   props: {
-    necessityLimitation: {
-      type: Number,
-      require: true,
-    },
     columnsIncome: {
       type: Object,
       require: true,

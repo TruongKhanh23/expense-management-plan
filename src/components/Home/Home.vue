@@ -11,7 +11,6 @@
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
           <MobileAppView
-            :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :isDark="isDarkProps"
@@ -25,7 +24,6 @@
           class="flex flex-col md:flex-row my-4"
         >
           <DesktopAppView
-            :necessityLimitation="necessityLimitation"
             :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :isDark="isDarkProps"
@@ -139,27 +137,11 @@ export default {
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
-    const totalIncome = computed(() => store.getters.getTotalIncome);
     const currentChooseMonth = computed(
       () => store.getters.getCurrentChooseMonth,
     );
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
-
-    // Calculate Necessity Limitation
-    const necessityItem = computed(() => {
-      return (
-        funds.value.find((item: any) => item.id === "necessity") ?? {
-          percentage: 0,
-        }
-      );
-    });
-    const necessityLimitation = computed(() => {
-      return typeof necessityItem.value.percentage === "number" &&
-        typeof totalIncome.value === "number"
-        ? (necessityItem.value.percentage * totalIncome.value) / 100
-        : 0;
-    });
 
     (async () => {
       const { currentYear, currentMonthYear } = getCurrentTime();
@@ -218,7 +200,6 @@ export default {
       columnsIncome,
       dataIncome,
       columnsHandleIncome,
-      necessityLimitation,
       funds,
       isFundsEditable,
       isMobile,
