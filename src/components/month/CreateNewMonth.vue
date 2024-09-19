@@ -7,7 +7,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { open, close } from "@/composables/loadingModal/index.js";
-import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
+import CreateNewMonthModal from "@/components/month/CreateNewMonthModal.vue";
 
 const store = useStore();
 
