@@ -8,7 +8,6 @@
     <a-tab-pane key="2" tab="Thu nhập" force-render>
       <IncomeDebt
         class="md:border-l md:border-r px-4"
-        :columns="columnsIncome"
         :totalIncome="totalIncome"
         :isDark="isDark"
       />
@@ -44,10 +43,6 @@ export default {
     ConfigProvider,
   },
   props: {
-    columnsIncome: {
-      type: Object,
-      require: true,
-    },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],

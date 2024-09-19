@@ -37,6 +37,8 @@ import { ref, computed } from "vue";
 import { Table, Switch } from "ant-design-vue";
 import InputIncome from "@/components/InputIncome.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+import { columnsIncome as columns } from "@/assets/data/sample";
+
 export default {
   components: {
     ATable: Table,
@@ -45,10 +47,6 @@ export default {
     ConfigProvider,
   },
   props: {
-    columns: {
-      type: Object,
-      require: true,
-    },
     totalIncome: {
       type: Number,
       require: true,
@@ -73,6 +71,7 @@ export default {
       dataIncomeStorage,
       dataIncome,
       isDarkMode,
+      columns,
     };
   },
 };

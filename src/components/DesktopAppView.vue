@@ -7,7 +7,6 @@
 
   <a-col :md="{ span: 8 }">
     <IncomeDebt
-      :columns="columnsIncome"
       :totalIncome="totalIncome"
       :isDark="isDark"
     />
@@ -41,10 +40,6 @@ export default {
     EstimateNecessity,
   },
   props: {
-    columnsIncome: {
-      type: Object,
-      require: true,
-    },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],

@@ -11,7 +11,6 @@
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
           <MobileAppView
-            :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :isDark="isDarkProps"
             :funds="funds"
@@ -24,7 +23,6 @@
           class="flex flex-col md:flex-row my-4"
         >
           <DesktopAppView
-            :columnsIncome="columnsIncome"
             :columnsHandleIncome="columnsHandleIncome"
             :isDark="isDarkProps"
             :funds="funds"
