@@ -10,11 +10,7 @@
         <InputFunds v-if="isFundsEditable" class="mb-4" />
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
-          <MobileAppView
-            :columnsHandleIncome="columnsHandleIncome"
-            :isDark="isDarkProps"
-            :funds="funds"
-          />
+          <MobileAppView :isDark="isDarkProps" />
         </div>
 
         <!-- Desktop View-->
@@ -22,11 +18,7 @@
           v-if="(isDesktop || isTabletHorizontal) && dataIncome"
           class="flex flex-col md:flex-row my-4"
         >
-          <DesktopAppView
-            :columnsHandleIncome="columnsHandleIncome"
-            :isDark="isDarkProps"
-            :funds="funds"
-          />
+          <DesktopAppView :isDark="isDarkProps" />
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
@@ -83,7 +75,6 @@ import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
-import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import { toast } from "vue3-toastify";
 
@@ -195,9 +186,7 @@ export default {
     });
 
     return {
-      columnsIncome,
       dataIncome,
-      columnsHandleIncome,
       funds,
       isFundsEditable,
       isMobile,

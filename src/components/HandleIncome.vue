@@ -72,6 +72,7 @@ import HandleIncomeEdit from "@/components/HandleIncomeEdit.vue";
 import Slider from "@/components/reusable/Slider.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import type { HandleIncomeItem } from "@/types/types";
+import { columnsHandleIncome } from "@/assets/data/sample";
 
 export default {
   components: {
@@ -83,17 +84,9 @@ export default {
     ConfigProvider,
   },
   props: {
-    columnsHandleIncome: {
-      type: Array as () => TableColumnType<HandleIncomeItem>[],
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    },
-    funds: {
-      type: Object,
-      require: true,
     },
     totalIncome: {
       type: Number,
@@ -102,6 +95,7 @@ export default {
   },
   setup(props) {
     const store = useStore();
+    const funds = computed(() => store.getters.getFunds);
     const isDarkMode = props.isDark;
     const isEditable = ref(false);
     const tagTypeColor: Record<string, string> = {
@@ -120,7 +114,7 @@ export default {
     }
 
     const columns: TableColumnType<HandleIncomeItem>[] =
-      props.columnsHandleIncome as TableColumnType<HandleIncomeItem>[];
+      columnsHandleIncome as TableColumnType<HandleIncomeItem>[];
 
     const data: any = computed(() => store.getters.getHandleIncomes);
 
@@ -183,6 +177,7 @@ export default {
     }
 
     return {
+      funds,
       tagColor,
       columns,
       data,

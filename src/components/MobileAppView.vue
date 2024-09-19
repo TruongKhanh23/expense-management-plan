@@ -15,8 +15,6 @@
     <a-tab-pane key="3" tab="Xử lý thu nhập">
       <HandleIncome
         :isDark="isDark"
-        :columnsHandleIncome="columnsHandleIncome"
-        :funds="funds"
         :totalIncome="totalIncome"
       />
     </a-tab-pane>
@@ -50,10 +48,6 @@ export default {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    },
-    funds: {
-      type: Object,
-      require: true,
     },
   },
   setup() {
