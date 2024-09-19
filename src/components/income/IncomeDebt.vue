@@ -35,7 +35,7 @@
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
 import { Table, Switch } from "ant-design-vue";
-import InputIncome from "@/components/InputIncome.vue";
+import InputIncome from "@/components/income/InputIncome.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import { columnsIncome as columns } from "@/assets/data/sample";
 
