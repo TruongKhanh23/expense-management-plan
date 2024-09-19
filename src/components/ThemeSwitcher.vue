@@ -10,24 +10,34 @@
 
 <script>
 import feather from "feather-icons";
-import { computed, defineProps, defineEmits, onMounted } from "vue";
+import { computed, defineProps, defineEmits, onMounted, watch } from "vue";
+import { useDark, useToggle } from "@vueuse/core";
+import { useStore } from "vuex";
 
 export default {
-  props: {
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
-  },
-  emits: ["action:toggleDark"],
   setup(props, { emit }) {
+    const store = useStore();
+
+    const isDark = useDark({
+      onChanged(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      },
+    });
+    const toggleDark = useToggle(isDark);
+
+    watch(isDark, () => {
+      store.dispatch("setIsDark", isDark);
+    })
+
     onMounted(() => {
       feather.replace();
     });
-    function toggleDark() {
-      emit("action:toggleDark");
-    }
-    return { toggleDark };
+
+    return { toggleDark, isDark };
   },
 };
 </script>

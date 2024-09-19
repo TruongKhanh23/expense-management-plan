@@ -34,6 +34,8 @@
   </ConfigProvider>
 </template>
 <script lang="ts">
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { Col, Table, Tag } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
@@ -50,14 +52,9 @@ export default {
     ACol: Col,
     ConfigProvider,
   },
-  props: {
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
-  },
-  setup(props) {
-    const isDarkMode = props.isDark;
+  setup() {
+    const store = useStore();
+    const isDarkMode = computed(() => store.getters.getIsDark);
     const tagTypeColor: Record<string, string> = {
       shampoo: "pink",
       skinCare: "blue",

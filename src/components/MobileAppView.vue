@@ -9,14 +9,10 @@
       <IncomeDebt
         class="md:border-l md:border-r px-4"
         :totalIncome="totalIncome"
-        :isDark="isDark"
       />
     </a-tab-pane>
     <a-tab-pane key="3" tab="Xử lý thu nhập">
-      <HandleIncome
-        :isDark="isDark"
-        :totalIncome="totalIncome"
-      />
+      <HandleIncome :totalIncome="totalIncome" />
     </a-tab-pane>
   </a-tabs>
 </template>
@@ -27,9 +23,7 @@ import { Tabs, TabPane } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
-import type { TableColumnType } from "ant-design-vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-import type { HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
@@ -40,23 +34,14 @@ export default {
     EstimateNecessity,
     ConfigProvider,
   },
-  props: {
-    columnsHandleIncome: {
-      type: Array as () => TableColumnType<HandleIncomeItem>[],
-      default: () => [],
-    },
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    },
-  },
   setup() {
     const store = useStore();
+    const isDark = computed(() => store.getters.getIsDark);
     const totalIncome = computed(() => store.getters.getTotalIncome);
     const dataEstimateNecessity = computed(
       () => store.getters.getEstimateNecessities,
     );
-    return { totalIncome, dataEstimateNecessity };
+    return { totalIncome, dataEstimateNecessity, isDark };
   },
 };
 </script>

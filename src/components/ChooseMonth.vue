@@ -27,15 +27,9 @@ export default {
     ADatePicker: DatePicker,
     ConfigProvider,
   },
-  props: {
-    isDark: {
-      type: [Boolean, Object],
-      require: undefined,
-    }
-  },
-  setup(props) {
+  setup() {
     const store = useStore();
-    const isDarkMode = props.isDark;
+    const isDarkMode = computed(() => store.getters.getIsDark);
     const currentChooseMonth = computed(() => store.getters.getCurrentChooseMonth)
 
     const monthFormat = "MM-YYYY";
