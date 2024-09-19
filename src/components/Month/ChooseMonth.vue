@@ -11,7 +11,7 @@
   </div>
 </template>
 <script lang="ts">
-import { useStore } from "vuex"
+import { useStore } from "vuex";
 import { DatePicker } from "ant-design-vue";
 import { ref, watch, computed } from "vue";
 
@@ -31,12 +31,14 @@ export default {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    }
+    },
   },
   setup(props) {
     const store = useStore();
     const isDarkMode = props.isDark;
-    const currentChooseMonth = computed(() => store.getters.getCurrentChooseMonth)
+    const currentChooseMonth = computed(
+      () => store.getters.getCurrentChooseMonth,
+    );
 
     const monthFormat = "MM-YYYY";
     const { currentMonthYear } = getCurrentTime();
@@ -47,8 +49,8 @@ export default {
       const newMonth = ref<string | Dayjs>(
         dayjs(currentChooseMonth.value.monthYear, monthFormat),
       );
-      month.value = newMonth.value
-    })
+      month.value = newMonth.value;
+    });
 
     const handleChange = (value: string | Dayjs, dateString: string) => {
       month.value = value;

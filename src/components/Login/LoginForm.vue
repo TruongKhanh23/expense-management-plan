@@ -28,10 +28,10 @@ import { ref, onMounted, defineEmits } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import { getPermissions, grantPermission } from "@/composables/permissions/index.js";
-import EmailInput from '@/components/Login/EmailInput.vue';
-import PasswordInput from '@/components/Login/PasswordInput.vue';
-import RememberMeCheckbox from '@/components/Login/RememberMeCheckbox.vue';
-import ForgotPasswordLink from '@/components/Login/ForgotPasswordLink.vue';
+import EmailInput from '@/components/login/EmailInput.vue';
+import PasswordInput from '@/components/login/PasswordInput.vue';
+import RememberMeCheckbox from '@/components/login/RememberMeCheckbox.vue';
+import ForgotPasswordLink from '@/components/login/ForgotPasswordLink.vue';
 
 const emit = defineEmits(["action:openResetPasswordModal"])
 
