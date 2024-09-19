@@ -52,17 +52,17 @@ import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
-import Funds from "@/components/Funds.vue";
+import Funds from "@/components/fund/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/estimateNecessity/EstimateNecessity.vue";
-import InputFunds from "@/components/InputFunds.vue";
+import InputFunds from "@/components/fund/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
 import DesktopAppView from "@/components/DesktopAppView.vue";
 import MobileAppView from "@/components/MobileAppView.vue";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 import NecessaryThings from "@/components/NecessaryThings.vue";
-import Debt from "@/components/Debt.vue";
+import Debt from "@/components/debt/Debt.vue";
 import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
 import CreateNewMonth from "@/components/CreateNewMonth.vue";
@@ -106,7 +106,7 @@ export default {
 
     const { isOpenLoadingModal } = handlePopup();
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
-    detectDevice();
+      detectDevice();
 
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
 
@@ -115,7 +115,7 @@ export default {
     const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
     const currentChooseMonth = computed(
       () => store.getters.getCurrentChooseMonth,
-    ); 
+    );
 
     (async () => {
       const { currentYear, currentMonthYear } = getCurrentTime();
@@ -134,7 +134,6 @@ export default {
         console.error("An error occurred:", error);
       }
     })();
-
 
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
