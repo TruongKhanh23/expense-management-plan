@@ -82,7 +82,8 @@ export default {
     const isOpenLoadingModal = ref(false);
     const monthFormat = "MM-YYYY";
     const handleClose = () => {
-      store.dispatch("setIsOpenCreateNewMonthModal", false);
+      const newValue = close();
+      store.dispatch("setIsOpenCreateNewMonthModal", newValue);
     };
 
     const config = {
