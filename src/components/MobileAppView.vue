@@ -21,7 +21,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { Tabs, TabPane } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
+import HandleIncome from "@/components/handleIncome/HandleIncome.vue";
 import EstimateNecessity from "@/components/estimateNecessity/EstimateNecessity.vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 

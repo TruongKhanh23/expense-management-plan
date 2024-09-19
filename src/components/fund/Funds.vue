@@ -11,7 +11,7 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import FundItem from "@/components/fund/FundItem.vue";
-import Slider from "../components/reusable/Slider.vue";
+import Slider from "@/components/reusable/Slider.vue";
 import detectDevice from "@/utils/device.util";
 import "@splidejs/vue-splide/css";
 

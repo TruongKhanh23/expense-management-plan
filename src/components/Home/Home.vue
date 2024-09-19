@@ -54,7 +54,7 @@ import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
 import Funds from "@/components/fund/Funds.vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
-import HandleIncome from "@/components/HandleIncome.vue";
+import HandleIncome from "@/components/handleIncome/HandleIncome.vue";
 import EstimateNecessity from "@/components/estimateNecessity/EstimateNecessity.vue";
 import InputFunds from "@/components/fund/InputFunds.vue";
 import Footer from "@/components/Footer.vue";
