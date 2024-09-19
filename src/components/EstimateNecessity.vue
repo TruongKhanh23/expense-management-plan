@@ -35,7 +35,8 @@
   </div>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex"
 import EstimateNecessityRow from "../components/EstimateNecessityRow.vue";
 import { Switch } from "ant-design-vue";
 import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue";
@@ -48,18 +49,27 @@ export default {
     EstimateNecessityEdit,
   },
   props: {
-    necessityLimitation: {
-      type: Number,
-      require: true,
-    },
     data: {
       type: Array,
       default: () => [],
     },
   },
   setup() {
+    const store = useStore();
     const isEditable = ref(false);
     const dropDownOpen = ref([]);
+
+    const necessityLimitation = computed(() => {
+      const funds = store.getters.getFunds;
+      const totalIncome = store.getters.getTotalIncome;
+      const necessityItem = funds.find((item) => item.id === "necessity") ?? {
+          percentage: 0,
+        }
+      return typeof necessityItem.percentage === "number" &&
+        typeof totalIncome === "number"
+        ? (necessityItem.percentage * totalIncome) / 100
+        : 0;
+    });
 
     function sumOfDetails(item) {
       if (Object.hasOwn(item, "details")) {
@@ -98,6 +108,7 @@ export default {
       toggleDropDown,
       isDropDownOpen,
       isEditable,
+      necessityLimitation,
     };
   },
 };

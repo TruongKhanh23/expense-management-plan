@@ -1,6 +1,5 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <CreateNewMonthModal :isOpen="isOpenCreateNewMonthModal" />
   <div class="xl:mx-[8rem] mx-4 min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
@@ -10,13 +9,7 @@
         <InputFunds v-if="isFundsEditable" class="mb-4" />
         <!-- Mobile View -->
         <div v-if="(isMobile || isTabletVertical) && dataIncome">
-          <MobileAppView
-            :necessityLimitation="necessityLimitation"
-            :columnsIncome="columnsIncome"
-            :columnsHandleIncome="columnsHandleIncome"
-            :isDark="isDarkProps"
-            :funds="funds"
-          />
+          <MobileAppView :isDark="isDarkProps" />
         </div>
 
         <!-- Desktop View-->
@@ -24,13 +17,7 @@
           v-if="(isDesktop || isTabletHorizontal) && dataIncome"
           class="flex flex-col md:flex-row my-4"
         >
-          <DesktopAppView
-            :necessityLimitation="necessityLimitation"
-            :columnsIncome="columnsIncome"
-            :columnsHandleIncome="columnsHandleIncome"
-            :isDark="isDarkProps"
-            :funds="funds"
-          />
+          <DesktopAppView :isDark="isDarkProps" />
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
@@ -56,7 +43,7 @@
       <ThemeSwitcher :isDark="isDarkProps" @action:toggleDark="toggleDark" />
     </div>
     <Footer />
-    <button @click="handleCreateNewMonth">Create new month</button>
+    <CreateNewMonth />
   </div>
 </template>
 <script lang="ts">
@@ -79,7 +66,7 @@ import NecessaryThings from "@/components/NecessaryThings.vue";
 import Debt from "@/components/Debt.vue";
 import ChooseMonth from "@/components/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
-import CreateNewMonthModal from "@/components/CreateNewMonthModal.vue";
+import CreateNewMonth from "@/components/CreateNewMonth.vue";
 
 import { getDebt } from "@/composables/debt/index.js";
 import { getFunds } from "@/composables/funds/index.js";
@@ -87,7 +74,6 @@ import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
-import { columnsIncome, columnsHandleIncome } from "@/assets/data/sample";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import { toast } from "vue3-toastify";
 
@@ -113,15 +99,12 @@ export default {
     ThemeSwitcher,
     NecessaryThings,
     ChooseMonth,
-    CreateNewMonthModal,
+    CreateNewMonth,
     Debt,
   },
   setup() {
     const store = useStore();
     const { isOpenLoadingModal } = handlePopup();
-    const isOpenCreateNewMonthModal = computed(
-      () => store.getters.getIsOpenCreateNewMonthModal,
-    );
     const isDark = useDark({
       onChanged(isDark) {
         if (isDark) {
@@ -139,27 +122,11 @@ export default {
     const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
-    const totalIncome = computed(() => store.getters.getTotalIncome);
     const currentChooseMonth = computed(
       () => store.getters.getCurrentChooseMonth,
     );
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
-
-    // Calculate Necessity Limitation
-    const necessityItem = computed(() => {
-      return (
-        funds.value.find((item: any) => item.id === "necessity") ?? {
-          percentage: 0,
-        }
-      );
-    });
-    const necessityLimitation = computed(() => {
-      return typeof necessityItem.value.percentage === "number" &&
-        typeof totalIncome.value === "number"
-        ? (necessityItem.value.percentage * totalIncome.value) / 100
-        : 0;
-    });
 
     (async () => {
       const { currentYear, currentMonthYear } = getCurrentTime();
@@ -180,11 +147,6 @@ export default {
     })();
 
     const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
-
-    async function handleCreateNewMonth() {
-      const newValue = open();
-      store.dispatch("setIsOpenCreateNewMonthModal", newValue);
-    }
 
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
@@ -215,10 +177,7 @@ export default {
     });
 
     return {
-      columnsIncome,
       dataIncome,
-      columnsHandleIncome,
-      necessityLimitation,
       funds,
       isFundsEditable,
       isMobile,
@@ -229,8 +188,6 @@ export default {
       isDark,
       toggleDark,
       isDarkProps,
-      handleCreateNewMonth,
-      isOpenCreateNewMonthModal,
     };
   },
 };

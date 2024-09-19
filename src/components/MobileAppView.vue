@@ -3,13 +3,11 @@
     <a-tab-pane key="1" tab="Dự chi thiết yếu">
       <EstimateNecessity
         :data="dataEstimateNecessity"
-        :necessityLimitation="necessityLimitation"
       />
     </a-tab-pane>
     <a-tab-pane key="2" tab="Thu nhập" force-render>
       <IncomeDebt
         class="md:border-l md:border-r px-4"
-        :columns="columnsIncome"
         :totalIncome="totalIncome"
         :isDark="isDark"
       />
@@ -17,8 +15,6 @@
     <a-tab-pane key="3" tab="Xử lý thu nhập">
       <HandleIncome
         :isDark="isDark"
-        :columnsHandleIncome="columnsHandleIncome"
-        :funds="funds"
         :totalIncome="totalIncome"
       />
     </a-tab-pane>
@@ -45,14 +41,6 @@ export default {
     ConfigProvider,
   },
   props: {
-    necessityLimitation: {
-      type: Number,
-      require: true,
-    },
-    columnsIncome: {
-      type: Object,
-      require: true,
-    },
     columnsHandleIncome: {
       type: Array as () => TableColumnType<HandleIncomeItem>[],
       default: () => [],
@@ -60,10 +48,6 @@ export default {
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    },
-    funds: {
-      type: Object,
-      require: true,
     },
   },
   setup() {

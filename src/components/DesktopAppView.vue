@@ -2,13 +2,11 @@
   <a-col :md="{ span: 6 }">
     <EstimateNecessity
       :data="dataEstimateNecessity"
-      :necessityLimitation="necessityLimitation"
     />
   </a-col>
 
   <a-col :md="{ span: 8 }">
     <IncomeDebt
-      :columns="columnsIncome"
       :totalIncome="totalIncome"
       :isDark="isDark"
     />
@@ -17,8 +15,6 @@
   <a-col :md="{ span: 10 }">
     <HandleIncome
       :isDark="isDark"
-      :columnsHandleIncome="columnsHandleIncome"
-      :funds="funds"
       :totalIncome="totalIncome"
     />
   </a-col>
@@ -30,8 +26,6 @@ import { Col, Button } from "ant-design-vue";
 import IncomeDebt from "@/components/IncomeDebt.vue";
 import HandleIncome from "@/components/HandleIncome.vue";
 import EstimateNecessity from "@/components/EstimateNecessity.vue";
-import type { TableColumnType } from "ant-design-vue";
-import type { HandleIncomeItem } from "@/types/types";
 
 export default {
   components: {
@@ -42,25 +36,9 @@ export default {
     EstimateNecessity,
   },
   props: {
-    necessityLimitation: {
-      type: Number,
-      require: true,
-    },
-    columnsIncome: {
-      type: Object,
-      require: true,
-    },
-    columnsHandleIncome: {
-      type: Array as () => TableColumnType<HandleIncomeItem>[],
-      default: () => [],
-    },
     isDark: {
       type: [Boolean, Object],
       require: undefined,
-    },
-    funds: {
-      type: Object,
-      require: true,
     },
   },
   setup() {
