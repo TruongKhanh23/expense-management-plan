@@ -36,10 +36,10 @@
 </template>
 <script>
 import { ref, computed } from "vue";
-import { useStore } from "vuex"
-import EstimateNecessityRow from "../components/EstimateNecessityRow.vue";
+import { useStore } from "vuex";
+import EstimateNecessityRow from "@/components/estimateNecessity/EstimateNecessityRow.vue";
 import { Switch } from "ant-design-vue";
-import EstimateNecessityEdit from "@/components/EstimateNecessityEdit.vue";
+import EstimateNecessityEdit from "@/components/estimateNecessity/EstimateNecessityEdit.vue";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 
 export default {
@@ -63,8 +63,8 @@ export default {
       const funds = store.getters.getFunds;
       const totalIncome = store.getters.getTotalIncome;
       const necessityItem = funds.find((item) => item.id === "necessity") ?? {
-          percentage: 0,
-        }
+        percentage: 0,
+      };
       return typeof necessityItem.percentage === "number" &&
         typeof totalIncome === "number"
         ? (necessityItem.percentage * totalIncome) / 100
