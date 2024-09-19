@@ -31,8 +31,8 @@
 
 <script setup>
 import { ref } from "vue";
-import SignIn from "@/components/Login/SignIn.vue";
-import Register from "@/components/Login/Register.vue";
+import SignIn from "@/components/authentication/SignIn.vue";
+import Register from "@/components/authentication/Register.vue";
 
 const loginType = ref("signIn");
 const handleUpdateLoginType = (newType) => {
