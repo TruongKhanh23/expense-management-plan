@@ -14,7 +14,7 @@ import { ref, onMounted, computed } from "vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRoute } from "vue-router";
 
-import Navigation from "@/components/Navigation.vue";
+import Navigation from "@/components/layoutElements/Navigation.vue";
 
 export default {
   name: "App",

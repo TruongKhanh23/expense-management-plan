@@ -36,7 +36,7 @@
 </template>
 <script>
 import { ref, computed } from "vue";
-import { useStore } from "vuex"
+import { useStore } from "vuex";
 import EstimateNecessityRow from "@/components/EstimateNecessity/EstimateNecessityRow.vue";
 import { Switch } from "ant-design-vue";
 import EstimateNecessityEdit from "@/components/EstimateNecessity/EstimateNecessityEdit.vue";
@@ -63,8 +63,8 @@ export default {
       const funds = store.getters.getFunds;
       const totalIncome = store.getters.getTotalIncome;
       const necessityItem = funds.find((item) => item.id === "necessity") ?? {
-          percentage: 0,
-        }
+        percentage: 0,
+      };
       return typeof necessityItem.percentage === "number" &&
         typeof totalIncome === "number"
         ? (necessityItem.percentage * totalIncome) / 100
