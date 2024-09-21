@@ -7,6 +7,7 @@ import { getters as funds } from "@/store/funds/getters";
 import { getters as currentChooseMonth } from "@/store/currentChooseMonth/getters";
 import { getters as booleanFields } from "@/store/booleanFields/getters";
 import { getters as user } from "@/store/user/getters";
+import { getters as permissions } from "@/store/permissions/getters";
 
 export const getters = {
   ...debt,
@@ -17,6 +18,7 @@ export const getters = {
   ...currentChooseMonth,
   ...booleanFields,
   ...user,
+  ...permissions,
   getIsOpenCreateNewMonthModal(state: State): boolean {
     return state.isOpenCreateNewMonthModal;
   },

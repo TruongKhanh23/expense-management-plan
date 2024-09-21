@@ -10,4 +10,7 @@ export const getters = {
   getIsDark(state: State): boolean {
     return state.isDark;
   },
+  getIsAllowEditing(state: State): boolean {
+    return state.isAllowEditing;
+  },
 };

@@ -10,4 +10,7 @@ export const mutations = {
   setIsDark(state: State, { isDark }) {
     state.isDark = isDark;
   },
+  setIsAllowEditing(state: State, { isAllowEditing }) {
+    state.isAllowEditing = isAllowEditing;
+  },
 };

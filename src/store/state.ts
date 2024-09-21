@@ -5,6 +5,7 @@ import type {
   DebtItem,
   FundItem,
   CurrentChooseMonth,
+  Permission,
 } from "@/types/types";
 
 export interface State {
@@ -20,6 +21,7 @@ export interface State {
   isVisibleLimitation: boolean;
   isDark: boolean;
   user: object;
+  permissions: Permission[];
 }
 
 export const state: State = {
@@ -35,4 +37,5 @@ export const state: State = {
   isVisibleLimitation: false,
   isDark: true,
   user: {},
+  permissions: [],
 };

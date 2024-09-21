@@ -66,3 +66,9 @@ export type CurrentChooseMonth = {
   year: string;
   monthYear: string;
 };
+
+export type Permission = {
+  email: string;
+  key: string;
+  permission: string;
+}
