@@ -6,6 +6,7 @@ import type {
   FundItem,
   CurrentChooseMonth,
   Permission,
+  NecessaryThingsItem,
 } from "@/types/types";
 
 export interface State {
@@ -21,9 +22,9 @@ export interface State {
   isVisibleLimitation: boolean;
   isAllowEditing: boolean;
   isDark: boolean;
-  
   user: object;
   permissions: Permission[];
+  necessaryThings: NecessaryThingsItem[];
 }
 
 export const state: State = {
@@ -41,4 +42,5 @@ export const state: State = {
   isAllowEditing: false,
   user: {},
   permissions: [],
+  necessaryThings: [],
 };

@@ -1,6 +1,16 @@
 <template>
+  <div class="flex items-center justify-between">
+    <p class="my-2 font-bold">
+      Tổng số vật dụng:
+    </p>
+    <div class="flex flex-row my-2">
+      <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
+      <a-switch class="my-ant-switch" v-model:checked="isEditable" />
+    </div>
+  </div>
   <ConfigProvider :isDark="isDarkMode">
     <a-table
+      v-if="!isEditable"
       :columns="columns"
       :data-source="data"
       :pagination="{ hideOnSinglePage: true }"
@@ -31,12 +41,13 @@
         </template>
       </template>
     </a-table>
+    <NecessaryThingsEdit v-else />
   </ConfigProvider>
 </template>
 <script lang="ts">
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { Col, Table, Tag } from "ant-design-vue";
+import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
 import {
@@ -44,16 +55,21 @@ import {
   dataNecessaryThings,
 } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
+import NecessaryThingsEdit from "@/components/necessity/NecessaryThingsEdit.vue";
 
 export default {
   components: {
     ATag: Tag,
     ATable: Table,
     ACol: Col,
+    ASwitch: Switch,
     ConfigProvider,
+    NecessaryThingsEdit,
   },
   setup() {
     const store = useStore();
+
+    const isEditable = ref(false);
     const isDarkMode = computed(() => store.getters.getIsDark);
     const tagTypeColor: Record<string, string> = {
       shampoo: "pink",
@@ -71,14 +87,14 @@ export default {
     const columns: TableColumnType<NecessaryThingsItem>[] =
       columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
 
-    const data: any = dataNecessaryThings;
+    const data: any = computed(() => store.getters.getNecessaryThings);
 
     function roundDecimals(value: number, decimals: number): number {
       if (isNaN(value)) return 0;
       return parseFloat(value.toFixed(decimals));
     }
 
-    return { isDarkMode, data, columns, roundDecimals, tagColor };
+    return { isEditable, isDarkMode, data, columns, roundDecimals, tagColor };
   },
 };
 </script>

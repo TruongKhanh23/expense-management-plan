@@ -16,15 +16,6 @@ export type HandleIncomeItem = {
   isSolved: boolean;
 };
 
-export type NecessaryThingsItem = {
-  id: number;
-  name: string;
-  timespan: number;
-  savePerMonth: number;
-  limitation: number;
-  type: string;
-};
-
 export type DebtItem = {
   key: string;
   name: string;
@@ -71,4 +62,13 @@ export type Permission = {
   email: string;
   key: string;
   permission: string;
+}
+
+export type NecessaryThingsItem = {
+  id: string,
+  name: string,
+  timespan: number,
+  savePerMonth: number,
+  limitation: number,
+  type: string,
 }
