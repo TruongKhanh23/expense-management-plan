@@ -2,7 +2,9 @@
   <form class="space-y-6" @submit.prevent="login">
     <div class="flex flex-col items-center justify-center">
       <img src="/logo-transparent.png" alt="logo" class="h-16" />
-      <h5 class="text-xl font-medium text-gray-900 dark:text-white !text-center">
+      <h5
+        class="text-xl font-medium text-gray-900 dark:text-white !text-center"
+      >
         Sign in <br />
         Expense Management Plan
       </h5>
@@ -12,7 +14,9 @@
     <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
     <div class="flex items-start">
       <RememberMeCheckbox v-model="rememberMe" />
-      <ForgotPasswordLink @click="$emit('action:openResetPasswordModal', true)" />
+      <ForgotPasswordLink
+        @click="$emit('action:openResetPasswordModal', true)"
+      />
     </div>
     <button
       type="submit"
@@ -24,21 +28,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineEmits } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'vue-router';
-import { getPermissions, grantPermission } from "@/composables/permissions/index.js";
-import EmailInput from '@/components/authentication/EmailInput.vue';
-import PasswordInput from '@/components/authentication/PasswordInput.vue';
-import RememberMeCheckbox from '@/components/authentication/RememberMeCheckbox.vue';
-import ForgotPasswordLink from '@/components/authentication/ForgotPasswordLink.vue';
+import { ref, onMounted, defineEmits } from "vue";
+import { useStore } from "vuex";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "vue-router";
+import {
+  getPermissions,
+  grantPermission,
+} from "@/composables/permissions/index.js";
+import EmailInput from "@/components/authentication/EmailInput.vue";
+import PasswordInput from "@/components/authentication/PasswordInput.vue";
+import RememberMeCheckbox from "@/components/authentication/RememberMeCheckbox.vue";
+import ForgotPasswordLink from "@/components/authentication/ForgotPasswordLink.vue";
 
-const emit = defineEmits(["action:openResetPasswordModal"])
+const store = useStore();
+const emit = defineEmits(["action:openResetPasswordModal"]);
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const rememberMe = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
 const router = useRouter();
 
 onMounted(async () => {
@@ -58,13 +67,22 @@ onMounted(async () => {
 
 const login = async () => {
   const auth = getAuth();
+  console.log("went 1");
+
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
-    localStorage.setItem("user", JSON.stringify(auth.currentUser));
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value,
+    );
+    console.log("went 2");
+    store.dispatch("setUser", auth.currentUser);
+    console.log("went 3");
     if (auth.currentUser.email === "truongnguyenkhanh230800@gmail.com") {
       auth.currentUser.email = "admin";
-      localStorage.setItem("user", JSON.stringify(auth.currentUser));
+      store.dispatch("setUser", auth.currentUser);
     }
+    console.log("went 4");
 
     if (rememberMe.value) {
       localStorage.setItem("email", email.value);
@@ -75,12 +93,15 @@ const login = async () => {
       localStorage.removeItem("password");
       localStorage.removeItem("rememberMe");
     }
+    console.log("went 5");
 
     grantPermission();
+    console.log("went 6");
 
     console.log("Redirecting to home page...");
-
+    console.log("went 7");
     router.push("/home");
+    console.log("went 8");
   } catch (error) {
     console.log("error code", error.code);
     switch (error.code) {

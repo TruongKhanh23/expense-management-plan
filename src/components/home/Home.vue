@@ -108,7 +108,10 @@ export default {
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
-    const { email: user } = JSON.parse(localStorage.getItem("user") ?? "");
+    const user = computed(() => {
+      const currentUser = store.getters.getUser;
+      return currentUser.email;
+    });
 
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
@@ -123,10 +126,14 @@ export default {
 
       try {
         await Promise.all([
-          getFunds(currentYear, currentMonthYear, user),
-          getIncomes(currentYear, currentMonthYear, user),
-          getHandleIncomes(currentYear, currentMonthYear, user),
-          getEstimateNecessityExpenses(currentYear, currentMonthYear, user),
+          getFunds(currentYear, currentMonthYear, user.value),
+          getIncomes(currentYear, currentMonthYear, user.value),
+          getHandleIncomes(currentYear, currentMonthYear, user.value),
+          getEstimateNecessityExpenses(
+            currentYear,
+            currentMonthYear,
+            user.value,
+          ),
           getDebt(),
           getAllHandleIncomesIsDebt(),
         ]);
@@ -138,9 +145,9 @@ export default {
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
 
-      await getFunds(year, monthYear, user);
-      await getIncomes(year, monthYear, user);
-      await getHandleIncomes(year, monthYear, user);
+      await getFunds(year, monthYear, user.value);
+      await getIncomes(year, monthYear, user.value);
+      await getHandleIncomes(year, monthYear, user.value);
       await getEstimateNecessityExpenses(year, monthYear);
 
       setTimeout(() => {

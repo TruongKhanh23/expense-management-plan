@@ -49,7 +49,7 @@ export async function getIncomes(year, monthYear, user = "admin") {
 }
 
 export async function setIncomes(values) {
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
       const pathSegments = buildPathSegments(
@@ -85,7 +85,7 @@ export async function setIncomes(values) {
 }
 
 export const deleteIncome = async (id) => {
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser.email;
   const year = getCurrentChooseMonth().year;
   const monthYear = getCurrentChooseMonth().monthYear;
   const pathSegments = buildPathSegments("incomes", year, monthYear, user);

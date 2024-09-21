@@ -5,6 +5,7 @@ import { actions as estimateNecessities } from "@/store/estimateNecessities/acti
 import { actions as funds } from "@/store/funds/actions";
 import { actions as currentChooseMonth } from "@/store/currentChooseMonth/actions";
 import { actions as booleanFields } from "@/store/booleanFields/actions";
+import { actions as user } from "@/store/user/actions";
 
 export const actions = {
   ...debt,
@@ -14,6 +15,7 @@ export const actions = {
   ...funds,
   ...currentChooseMonth,
   ...booleanFields,
+  ...user,
   setIsOpenCreateNewMonthModal(
     context: { commit: Function },
     isOpenCreateNewMonthModal,

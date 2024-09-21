@@ -19,6 +19,7 @@ export interface State {
   isFundsEditable: boolean;
   isVisibleLimitation: boolean;
   isDark: boolean;
+  user: object;
 }
 
 export const state: State = {
@@ -33,4 +34,5 @@ export const state: State = {
   isFundsEditable: false,
   isVisibleLimitation: false,
   isDark: true,
+  user: {},
 };

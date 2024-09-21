@@ -38,8 +38,9 @@ export async function getPermissions() {
 
 export const grantPermission = () => {
   // Lấy thông tin người dùng từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser;
   const userEmail = user?.email;
+  console.log("userEmail", userEmail);
 
   // Lấy danh sách permissions từ localStorage
   const permissions = JSON.parse(localStorage.getItem("permissions"));
@@ -49,7 +50,10 @@ export const grantPermission = () => {
     (permission) => permission.email === userEmail,
   );
 
-  if (userPermission && userPermission.permission === "admin" || userEmail === "admin") {
+  if (
+    (userPermission && userPermission.permission === "admin") ||
+    userEmail === "admin"
+  ) {
     localStorage.setItem("isAllowEditing", true);
   } else {
     localStorage.setItem("isAllowEditing", false);

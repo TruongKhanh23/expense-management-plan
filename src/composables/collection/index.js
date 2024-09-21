@@ -16,7 +16,7 @@ import {
 import { checkDocumentExists } from "@/utils/document.util";
 
 export async function createNewMonth(month, year, monthYear) {
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser.email;
   const isYearExist = await checkDocumentExists(["users", user, "years"], year);
   const pathSegmentsCreateYear = ["users", user, "years"];
   const pathSegmentsCreateMonth = ["users", user, "years", year, "months"];
@@ -158,7 +158,7 @@ export async function createNewMonthByDuplicate(month, year, monthYear) {
   const { currentYear } = getCurrentTime();
   const { docIds: listMonthsByYear } = await getListMonthsByYear(currentYear);
   const lastMonth = listMonthsByYear[listMonthsByYear.length - 1];
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser.email;
   const pathSegmentsCreateMonth = ["users", user, "years", year, "months"];
 
   // Lấy document hiện tại
@@ -221,15 +221,8 @@ export async function getListMonthsByYear(year) {
 }
 
 export async function getHandleIncomesByMonth(year, month) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const originPathSegments = [
-    "users",
-    user.email,
-    "years",
-    year,
-    "months",
-    month,
-  ];
+  const user = store.getters.getUser.email;
+  const originPathSegments = ["users", user, "years", year, "months", month];
   const handleIncomesPathSegments = [...originPathSegments, "handleIncomes"];
 
   const handleIncomesByType = await getListDocsByCollection(
