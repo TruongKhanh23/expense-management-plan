@@ -31,10 +31,6 @@ export async function createNewMonth(month, year, monthYear) {
     // Create document month-year (Ex: 02-2023)
     let dataObject = { name: `Tháng ${month}, năm ${year}` };
     await setDoc(doc(db, ...pathSegmentsCreateMonth, monthYear), dataObject);
-    console.log(`Set month ${dataObject.name} successfully`);
-    console.log(
-      "--------------------------------------------------------------------------------------",
-    );
   } catch (error) {
     console.log("Failed to set month");
   }
@@ -62,15 +58,9 @@ export async function createNewMonth(month, year, monthYear) {
           const dataObject = data.find((item) => item.id === documentId);
           try {
             await setDoc(doc(db, ...newPathSegments, documentId), dataObject);
-            console.log(`Set data document ${dataObject.id} successfully`);
           } catch (error) {
-            console.log("Failed to set data document ${dataObject.id}");
           }
         });
-        console.log("Set estimateNecessityExpenses successfully");
-        console.log(
-          "--------------------------------------------------------------------------------------",
-        );
 
         break;
       }
@@ -90,15 +80,10 @@ export async function createNewMonth(month, year, monthYear) {
           const dataObject = data.find((item) => item.id === documentId);
           try {
             await setDoc(doc(db, ...newPathSegments, documentId), dataObject);
-            console.log(`Set data document ${dataObject.id} successfully`);
           } catch (error) {
             console.log(`Failed to set data document ${dataObject.id}`);
           }
         });
-        console.log("Set funds successfully");
-        console.log(
-          "--------------------------------------------------------------------------------------",
-        );
         break;
       }
       case "handleIncomes": {
@@ -117,15 +102,10 @@ export async function createNewMonth(month, year, monthYear) {
           const dataObject = data.find((item) => item.id === documentId);
           try {
             await setDoc(doc(db, ...newPathSegments, documentId), dataObject);
-            console.log(`Set data document ${dataObject.id} successfully`);
           } catch (error) {
             console.log(`Failed to set data document ${dataObject.id}`);
           }
         });
-        console.log("Set handleIncomes successfully");
-        console.log(
-          "--------------------------------------------------------------------------------------",
-        );
         break;
       }
       case "incomes": {
@@ -137,15 +117,10 @@ export async function createNewMonth(month, year, monthYear) {
           const dataObject = data.find((item) => item.key === documentId);
           try {
             await setDoc(doc(db, ...newPathSegments, documentId), dataObject);
-            console.log(`Set data document ${dataObject.key} successfully`);
           } catch (error) {
             console.log(`Failed to set data document ${dataObject.key}`);
           }
         });
-        console.log("Set incomes successfully");
-        console.log(
-          "--------------------------------------------------------------------------------------",
-        );
         break;
       }
       default:
@@ -204,7 +179,6 @@ export async function createNewMonthByDuplicate(month, year, monthYear) {
         await setDoc(doc(newSubcollectionRef, subDocSnap.id), subDocData);
       }
     }
-    console.log("Duplicate new month successfully");
   } else {
     await createNewMonth(month, year, monthYear);
   }

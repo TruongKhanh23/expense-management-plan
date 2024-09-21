@@ -92,11 +92,9 @@ const password = ref("");
 const router = useRouter();
 
 const register = () => {
-  console.log("went register");
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
-      console.log("Successfully registered!");
       console.log(auth.currentUser);
       router.push("/home");
     })
@@ -111,7 +109,6 @@ const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
     .then((result) => {
-      console.log("Successfully signed in with Google!");
       console.log(result.user);
       router.push("/home");
     })

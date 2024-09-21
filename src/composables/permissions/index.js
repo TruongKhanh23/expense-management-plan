@@ -1,3 +1,4 @@
+import store from "@/store"
 import { ref } from "vue";
 import { db } from "@/main";
 import dayjs from "dayjs";
@@ -40,7 +41,6 @@ export const grantPermission = () => {
   // Lấy thông tin người dùng từ localStorage
   const user = store.getters.getUser;
   const userEmail = user?.email;
-  console.log("userEmail", userEmail);
 
   // Lấy danh sách permissions từ localStorage
   const permissions = JSON.parse(localStorage.getItem("permissions"));

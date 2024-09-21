@@ -17,7 +17,6 @@ import { toastWithPromise } from "@/utils/toast.util";
 export async function getDebt() {
   try {
     const user = store.getters.getUser.email;
-    console.log("getDebt user", user);
 
     const count = ref(0);
     const list = ref([]);

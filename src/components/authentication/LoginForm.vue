@@ -62,12 +62,10 @@ onMounted(async () => {
   }
 
   const permissions = await getPermissions();
-  console.log("Permissions:", permissions);
 });
 
 const login = async () => {
   const auth = getAuth();
-  console.log("went 1");
 
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -75,14 +73,12 @@ const login = async () => {
       email.value,
       password.value,
     );
-    console.log("went 2");
     store.dispatch("setUser", auth.currentUser);
-    console.log("went 3");
+
     if (auth.currentUser.email === "truongnguyenkhanh230800@gmail.com") {
       auth.currentUser.email = "admin";
       store.dispatch("setUser", auth.currentUser);
     }
-    console.log("went 4");
 
     if (rememberMe.value) {
       localStorage.setItem("email", email.value);
@@ -93,15 +89,10 @@ const login = async () => {
       localStorage.removeItem("password");
       localStorage.removeItem("rememberMe");
     }
-    console.log("went 5");
 
     grantPermission();
-    console.log("went 6");
 
-    console.log("Redirecting to home page...");
-    console.log("went 7");
     router.push("/home");
-    console.log("went 8");
   } catch (error) {
     console.log("error code", error.code);
     switch (error.code) {
