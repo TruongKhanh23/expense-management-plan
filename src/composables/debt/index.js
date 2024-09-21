@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import store from '@/store'
+import store from "@/store";
 import { db } from "@/main";
 import { buildPathSegments } from "@/composables/segment/index.js";
 import {
@@ -12,12 +12,12 @@ import {
 } from "firebase/firestore";
 import dayjs from "dayjs";
 
-
 import { toastWithPromise } from "@/utils/toast.util";
 
 export async function getDebt() {
   try {
-    const { email: user } = JSON.parse(localStorage.getItem("user"));
+    const user = store.getters.getUser.email;
+
     const count = ref(0);
     const list = ref([]);
     const pathSegments = ["users", user, "debt"];
@@ -41,8 +41,8 @@ export async function getDebt() {
   }
 }
 
-export async function setDebt(values) {  
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+export async function setDebt(values) {
+  const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
       const pathSegments = ["users", user, "debt"];
@@ -61,7 +61,7 @@ export async function setDebt(values) {
       resolve("Set debts successfully");
     } catch (error) {
       console.log("error", error);
-      
+
       reject(`Set debts failed`, error);
     }
   });

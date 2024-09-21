@@ -16,11 +16,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { grantPermission } from "@/composables/permissions/index.js";
 
@@ -32,9 +28,9 @@ const signInWithGoogle = () => {
     .then((result) => {
       if (result.user.email === "truongnguyenkhanh230800@gmail.com") {
         result.user.email = "admin";
-        localStorage.setItem("user", JSON.stringify(result.user));
+        store.dispatch("setUser", result.user);
       }
-      localStorage.setItem("user", JSON.stringify(result.user));
+      store.dispatch("setUser", result.user);
       grantPermission();
       router.push("/home");
     })

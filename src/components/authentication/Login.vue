@@ -36,7 +36,6 @@ import Register from "@/components/authentication/Register.vue";
 
 const loginType = ref("signIn");
 const handleUpdateLoginType = (newType) => {
-  console.log("newType", newType);
   loginType.value = newType;
 };
 </script>

@@ -156,7 +156,6 @@ export default {
 
       const isSolved = target.checked;
       record.isSolved = isSolved;
-      console.log("record", record);
 
       const handleIncome = data.value.find(
         (item: any) => item.id === record.type,

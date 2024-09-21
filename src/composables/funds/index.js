@@ -91,7 +91,7 @@ export function getFundsPercentage(funds) {
 }
 
 export async function setFunds(values) {
-  const { email: user } = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
       const year = getCurrentChooseMonth().year;

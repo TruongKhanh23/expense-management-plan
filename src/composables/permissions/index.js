@@ -1,3 +1,4 @@
+import store from "@/store"
 import { ref } from "vue";
 import { db } from "@/main";
 import dayjs from "dayjs";
@@ -38,7 +39,7 @@ export async function getPermissions() {
 
 export const grantPermission = () => {
   // Lấy thông tin người dùng từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = store.getters.getUser;
   const userEmail = user?.email;
 
   // Lấy danh sách permissions từ localStorage
@@ -49,7 +50,10 @@ export const grantPermission = () => {
     (permission) => permission.email === userEmail,
   );
 
-  if (userPermission && userPermission.permission === "admin" || userEmail === "admin") {
+  if (
+    (userPermission && userPermission.permission === "admin") ||
+    userEmail === "admin"
+  ) {
     localStorage.setItem("isAllowEditing", true);
   } else {
     localStorage.setItem("isAllowEditing", false);
