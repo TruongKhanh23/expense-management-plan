@@ -29,7 +29,7 @@ export async function getPermissions() {
         };
         list.value.push(item);
       });
-      localStorage.setItem("permissions", JSON.stringify(list.value));
+      store.dispatch("setPermissions", list.value);
     });
     return list.value;
   } catch (error) {
@@ -43,7 +43,7 @@ export const grantPermission = () => {
   const userEmail = user?.email;
 
   // Lấy danh sách permissions từ localStorage
-  const permissions = JSON.parse(localStorage.getItem("permissions"));
+  const permissions = store.getters.getPermissions;
 
   // Kiểm tra quyền hạn của người dùng và lưu vào localStorage
   const userPermission = permissions.find(
@@ -54,8 +54,8 @@ export const grantPermission = () => {
     (userPermission && userPermission.permission === "admin") ||
     userEmail === "admin"
   ) {
-    localStorage.setItem("isAllowEditing", true);
+    store.dispatch("setIsAllowEditing", true);
   } else {
-    localStorage.setItem("isAllowEditing", false);
+    store.dispatch("setIsAllowEditing", false);
   }
 };

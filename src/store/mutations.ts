@@ -7,6 +7,7 @@ import { mutations as funds } from "@/store/funds/mutations";
 import { mutations as currentChooseMonth } from "@/store/currentChooseMonth/mutations";
 import { mutations as booleanFields } from "@/store/booleanFields/mutations";
 import { mutations as user } from "@/store/user/mutations";
+import { mutations as permissions } from "@/store/permissions/mutations";
 
 export const mutations = {
   ...debt,
@@ -17,6 +18,7 @@ export const mutations = {
   ...currentChooseMonth,
   ...booleanFields,
   ...user,
+  ...permissions,
   setIsOpenCreateNewMonthModal(state: State, { isOpenCreateNewMonthModal }) {
     state.isOpenCreateNewMonthModal = isOpenCreateNewMonthModal;
   },

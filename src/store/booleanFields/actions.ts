@@ -8,4 +8,7 @@ export const actions = {
   setIsDark(context: { commit: Function }, isDark) {
     context.commit("setIsDark", { isDark });
   },
+  setIsAllowEditing(context: { commit: Function }, isAllowEditing) {
+    context.commit("setIsAllowEditing", { isAllowEditing });
+  },
 };
