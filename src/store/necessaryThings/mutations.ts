@@ -25,5 +25,25 @@ export const mutations = {
     }
   
     state.necessaryThings = currentNecessaryThings;
-  },  
+  },
+  setNecessaryThingsType(state: State, { necessaryThingsType }) {
+    state.necessaryThingsType = necessaryThingsType;
+  },
+  addNecessaryThingType(state: State) {
+    const newNecessaryThingType = {
+      id: "",
+      name: "",
+    };
+    state.necessaryThingsType.push(newNecessaryThingType);
+  },
+  removeNecessaryThingType(state: State, { id }) {
+    const currentNecessaryThingsType = state.necessaryThingsType;
+    const indexToRemove = currentNecessaryThingsType.findIndex(item => item.id === id);
+
+    if (indexToRemove !== -1) {
+      currentNecessaryThingsType.splice(indexToRemove, 1);
+    }
+
+    state.necessaryThingsType = currentNecessaryThingsType;
+  },
 };

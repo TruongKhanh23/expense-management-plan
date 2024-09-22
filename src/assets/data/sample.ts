@@ -1,5 +1,5 @@
 import { TableColumnType } from "ant-design-vue";
-import type { HandleIncomeItem } from "@/types/types";
+import type { HandleIncomeItem, NecessaryThingsType } from "@/types/types";
 import type { NecessaryThingsItem } from "@/types/types";
 import type { DebtItem } from "@/types/types";
 
@@ -234,6 +234,10 @@ export const columnsNecessaryThings: TableColumnType<NecessaryThingsItem>[] = [
   {
     title: "Tên sản phẩm",
     dataIndex: "name",
+  },
+  {
+    title: "Loại",
+    dataIndex: "type",
     filters: [
       { text: "shampoo", value: "shampoo" },
       { text: "skinCare", value: "skinCare" },
@@ -418,6 +422,14 @@ export const dataNecessaryThings: NecessaryThingsItem[] =
     limitation: 200000,
     type: "furniture",
   },
+];
+
+export const dataNecessaryThingsType: NecessaryThingsType[] = [
+  { id: 'shampoo', name: 'Dầu gội' },
+  { id: 'skinCare', name: 'Chăm sóc da' },
+  { id: 'oralHealth', name: 'Sức khỏe răng miệng' },
+  { id: 'bodyCare', name: 'Chăm sóc cơ thể' },
+  { id: 'furniture', name: 'Nội thất' }
 ];
 
 export const columnsDebt: TableColumnType<DebtItem>[] = [

@@ -7,6 +7,7 @@ import type {
   CurrentChooseMonth,
   Permission,
   NecessaryThingsItem,
+  NecessaryThingsType
 } from "@/types/types";
 
 export interface State {
@@ -25,6 +26,7 @@ export interface State {
   user: object;
   permissions: Permission[];
   necessaryThings: NecessaryThingsItem[];
+  necessaryThingsType: NecessaryThingsType[];
 }
 
 export const state: State = {
@@ -43,4 +45,5 @@ export const state: State = {
   user: {},
   permissions: [],
   necessaryThings: [],
+  necessaryThingsType: [],
 };

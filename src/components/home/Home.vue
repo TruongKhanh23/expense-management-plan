@@ -22,7 +22,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
         <div class="flex justify-center items-center">
-          <a-col :md="{ span: 16 }">
+          <a-col :md="{ span: 30 }">
             <NecessaryThings />
           </a-col>
         </div>
@@ -74,6 +74,7 @@ import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
 import { getNecessaryThings } from "@/composables/necessaryThings/index.js";
+import { getNecessaryThingsType } from "@/composables/necessaryThings/index.js";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import { toast } from "vue3-toastify";
 
@@ -138,6 +139,7 @@ export default {
           getDebt(),
           getAllHandleIncomesIsDebt(),
           getNecessaryThings(),
+          getNecessaryThingsType(),
         ]);
       } catch (error) {
         console.error("An error occurred:", error);

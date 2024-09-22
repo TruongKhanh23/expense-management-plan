@@ -72,3 +72,8 @@ export type NecessaryThingsItem = {
   limitation: number,
   type: string,
 }
+
+export type NecessaryThingsType = {
+  id: string,
+  name: string,
+}

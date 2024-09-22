@@ -5,15 +5,13 @@
     :model="dynamicValidateForm"
     @finish="onFinish"
   >
-    <a-space style="display: flex; flex-direction: column; margin-bottom: 16px">
-      <a-row style="gap: 40px">
-        <a-col><strong>Name</strong></a-col>
-        <a-col><strong>Timespan (months)</strong></a-col>
-        <a-col><strong>Save Per Month</strong></a-col>
-        <a-col><strong>Limitation</strong></a-col>
-        <a-col><strong>Type</strong></a-col>
-      </a-row>
-    </a-space>
+    <div class="flex flex-row mb-4">
+      <strong class="flex-1">Name</strong>
+      <strong class="flex-1">Timespan (months)</strong>
+      <strong class="flex-1">Save Per Month</strong>
+      <strong class="flex-1">Limitation</strong>
+      <strong class="flex-1">Type</strong>
+    </div>
 
     <a-space
       v-for="(item, index) in dynamicValidateForm"
@@ -68,7 +66,7 @@
           <a-select
             v-model:value="item.type"
             placeholder="Select Type"
-            style="width: 100%; min-width: 200px;"
+            style="width: 100%; min-width: 200px"
           >
             <a-select-option
               v-for="(option, idx) in typeOptions"
@@ -101,8 +99,21 @@
 import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import { setNecessaryThings, deleteNecessaryThing } from "@/composables/necessaryThings/index.js";
-import { Form, Space, FormItem, Input, InputNumber, Select, Button, Row, Col } from "ant-design-vue";
+import {
+  setNecessaryThings,
+  deleteNecessaryThing,
+} from "@/composables/necessaryThings/index.js";
+import {
+  Form,
+  Space,
+  FormItem,
+  Input,
+  InputNumber,
+  Select,
+  Button,
+  Row,
+  Col,
+} from "ant-design-vue";
 import { useStore } from "vuex";
 import type { NecessaryThingsItem } from "@/types/types";
 
@@ -126,11 +137,15 @@ export default {
     const store = useStore();
 
     // Lấy danh sách cần thiết từ Vuex store
-    const dynamicValidateForm = computed(() => store.getters.getNecessaryThings);
+    const dynamicValidateForm = computed(
+      () => store.getters.getNecessaryThings,
+    );
 
     // Lấy danh sách các loại vật dụng không trùng và dịch tên
     const typeOptions = computed(() => {
-      const uniqueTypes = [...new Set(dynamicValidateForm.value.map((item) => item.type))];
+      const uniqueTypes = [
+        ...new Set(dynamicValidateForm.value.map((item) => item.type)),
+      ];
       const typeTranslations: Record<string, string> = {
         shampoo: "Dầu gội",
         skinCare: "Chăm sóc da",
@@ -155,9 +170,11 @@ export default {
     };
 
     const onFinish = async () => {
-      const formattedNecessaryThings = dynamicValidateForm.value.map((thing) => ({
-        ...thing,
-      }));
+      const formattedNecessaryThings = dynamicValidateForm.value.map(
+        (thing) => ({
+          ...thing,
+        }),
+      );
 
       store.dispatch("setNecessaryThings", formattedNecessaryThings);
       await setNecessaryThings(formattedNecessaryThings);

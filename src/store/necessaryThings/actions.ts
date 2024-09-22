@@ -7,5 +7,14 @@ export const actions = {
   },
   addNecessaryThing(context: { commit: Function }) {
     context.commit("addNecessaryThing");
-  },  
+  },
+  setNecessaryThingsType(context: { commit: Function }, necessaryThingsType) {
+    context.commit("setNecessaryThingsType", { necessaryThingsType });
+  },
+  removeNecessaryThingType(context: { commit: Function }, id) {
+    context.commit("removeNecessaryThingType", { id });
+  },
+  addNecessaryThingType(context: { commit: Function }) {
+    context.commit("addNecessaryThingType");
+  },
 };
