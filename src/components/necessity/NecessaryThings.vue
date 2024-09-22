@@ -1,19 +1,17 @@
 <template>
   <div class="flex items-center justify-between mb-2 gap-4">
-    <a-input
-      v-model:value="searchQuery"
-      placeholder="Search by name or type"
-      style="
-        width: 250px;
-        display: flex;
-        align-items: center;
-        height: 40px;
-      "
-    >
-      <template #prefix>
-        <SearchOutlined style="padding-right: 5px" />
-      </template>
-    </a-input>
+    <div class="w-[250px]">
+      <a-input
+        v-if="!isEditable"
+        v-model:value="searchQuery"
+        placeholder="Search by name or type"
+        style="width: 250px; display: flex; align-items: center; height: 40px"
+      >
+        <template #prefix>
+          <SearchOutlined style="padding-right: 5px" />
+        </template>
+      </a-input>
+    </div>
     <div class="flex flex-row my-2">
       <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
       <a-switch class="my-ant-switch" v-model:checked="isEditable" />
