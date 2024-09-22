@@ -143,20 +143,11 @@ export default {
 
     // Lấy danh sách các loại vật dụng không trùng và dịch tên
     const typeOptions = computed(() => {
-      const uniqueTypes = [
-        ...new Set(dynamicValidateForm.value.map((item) => item.type)),
-      ];
-      const typeTranslations: Record<string, string> = {
-        shampoo: "Dầu gội",
-        skinCare: "Chăm sóc da",
-        oralHealth: "Chăm sóc răng miệng",
-        bodyCare: "Chăm sóc cơ thể",
-        furniture: "Nội thất",
-      };
+      const types = store.getters.getNecessaryThingsType;
 
-      return uniqueTypes.map((type: any) => ({
-        value: type,
-        label: typeTranslations[type] || type,
+      return types.map((type: any) => ({
+        value: type.id,
+        label: type.name,
       }));
     });
 

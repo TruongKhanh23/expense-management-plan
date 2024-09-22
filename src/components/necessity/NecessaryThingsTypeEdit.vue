@@ -53,8 +53,8 @@ import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
 import {
-  setNecessaryThings,
-  deleteNecessaryThing,
+  setNecessaryThingsType,
+  deleteNecessaryThingType,
 } from "@/composables/necessaryThings/index.js";
 import { Form, Space, FormItem, Input, Button } from "ant-design-vue";
 import { useStore } from "vuex";
@@ -80,7 +80,7 @@ export default {
 
     const removeItem = async (item: NecessaryThingsType) => {
       store.dispatch("removeNecessaryThingType", item.id);
-      await deleteNecessaryThing(item.id);
+      await deleteNecessaryThingType(item.id);
     };
 
     const addItem = () => {
@@ -95,7 +95,7 @@ export default {
       );
 
       store.dispatch("setNecessaryThingsType", formattedNecessaryThings);
-      await setNecessaryThings(formattedNecessaryThings);
+      await setNecessaryThingsType(formattedNecessaryThings);
     };
 
     return {

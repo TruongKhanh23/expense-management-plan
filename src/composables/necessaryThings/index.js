@@ -213,7 +213,7 @@ export async function setNecessaryThingsType(values) {
 }
 
 // Hàm xóa necessaryThingsType
-export const deleteNecessaryThingsType = async (id) => {
+export const deleteNecessaryThingType = async (id) => {
   const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
