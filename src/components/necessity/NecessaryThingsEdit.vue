@@ -5,9 +5,7 @@
     :model="dynamicValidateForm"
     @finish="onFinish"
   >
-    <a-space
-      style="display: flex; flex-direction: column; margin-bottom: 16px;"
-    >
+    <a-space style="display: flex; flex-direction: column; margin-bottom: 16px">
       <a-row style="gap: 40px">
         <a-col><strong>Name</strong></a-col>
         <a-col><strong>Timespan (months)</strong></a-col>
@@ -24,40 +22,48 @@
     >
       <a-form-item
         :name="[index, 'name']"
-        :rules="[{ required: true, message: 'Missing name' }]">
-        <a-input v-model:value="item.name" placeholder="NecessaryThing name" />
+        :rules="[{ required: true, message: 'Missing name' }]"
+      >
+        <a-input v-model:value="item.name" placeholder="Name" />
       </a-form-item>
 
       <a-form-item
         :name="[index, 'timespan']"
-        :rules="[{ required: true, message: 'Missing timespan' }]">
+        :rules="[{ required: true, message: 'Missing timespan' }]"
+      >
         <a-input-number
           v-model:value="item.timespan"
           placeholder="Timespan"
-          style="width: 100%" />
+          style="width: 100%"
+        />
       </a-form-item>
 
       <a-form-item
         :name="[index, 'savePerMonth']"
-        :rules="[{ required: true, message: 'Missing save per month' }]">
+        :rules="[{ required: true, message: 'Missing save per month' }]"
+      >
         <a-input-number
           v-model:value="item.savePerMonth"
           placeholder="Save Per Month"
-          style="width: 100%" />
+          style="width: 100%"
+        />
       </a-form-item>
 
       <a-form-item
         :name="[index, 'limitation']"
-        :rules="[{ required: true, message: 'Missing limitation' }]">
+        :rules="[{ required: true, message: 'Missing limitation' }]"
+      >
         <a-input-number
           v-model:value="item.limitation"
           placeholder="Limitation"
-          style="width: 100%" />
+          style="width: 100%"
+        />
       </a-form-item>
 
       <a-form-item
         :name="[index, 'type']"
-        :rules="[{ required: true, message: 'Missing type' }]">
+        :rules="[{ required: true, message: 'Missing type' }]"
+      >
         <a-input v-model:value="item.type" placeholder="Type" />
       </a-form-item>
 
@@ -83,7 +89,10 @@
 import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import { setNecessaryThings, deleteNecessaryThing } from "@/composables/necessaryThings/index.js";
+import {
+  setNecessaryThings,
+  deleteNecessaryThing,
+} from "@/composables/necessaryThings/index.js";
 import {
   Form,
   Space,
@@ -115,7 +124,9 @@ export default {
     const store = useStore();
 
     // Computed property to get necessaryThings from Vuex store
-    const dynamicValidateForm = computed(() => store.getters.getNecessaryThings);
+    const dynamicValidateForm = computed(
+      () => store.getters.getNecessaryThings,
+    );
 
     const removeItem = async (item: NecessaryThingsItem) => {
       store.dispatch("removeNecessaryThing", item.id);
@@ -127,9 +138,11 @@ export default {
     };
 
     const onFinish = async () => {
-      const formattedNecessaryThings = dynamicValidateForm.value.map((thing) => ({
-        ...thing,
-      }));
+      const formattedNecessaryThings = dynamicValidateForm.value.map(
+        (thing) => ({
+          ...thing,
+        }),
+      );
 
       store.dispatch("setNecessaryThings", formattedNecessaryThings);
       await setNecessaryThings(formattedNecessaryThings);
