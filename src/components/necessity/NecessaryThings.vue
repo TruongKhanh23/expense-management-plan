@@ -4,7 +4,7 @@
       v-model:value="searchQuery"
       placeholder="Search by name or type"
       style="
-        width: 300px;
+        width: 250px;
         display: flex;
         align-items: center;
         height: 40px;
