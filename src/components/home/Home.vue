@@ -105,15 +105,12 @@ export default {
   },
   setup() {
     const store = useStore();
-    const spanNecessary = ref(30);
 
     const { isOpenLoadingModal } = handlePopup();
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
-    watch(isMobile, () => {
-      spanNecessary.value = isMobile ? 16 : 30;
-    })
+    const spanNecessary = isMobile ? 16 : 30;
 
     const user = computed(() => {
       const currentUser = store.getters.getUser;
