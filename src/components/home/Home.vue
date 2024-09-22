@@ -22,7 +22,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
         <div class="flex justify-center items-center">
-          <a-col :md="{ span: 30 }">
+          <a-col :sm="{ span: spanNecessary }">
             <NecessaryThings />
           </a-col>
         </div>
@@ -110,6 +110,8 @@ export default {
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
 
+    const spanNecessary = isMobile ? 16 : 30;
+
     const user = computed(() => {
       const currentUser = store.getters.getUser;
       return currentUser.email;
@@ -183,6 +185,7 @@ export default {
       isTabletHorizontal,
       isDesktop,
       isOpenLoadingModal,
+      spanNecessary,
     };
   },
 };
