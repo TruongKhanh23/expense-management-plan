@@ -73,7 +73,6 @@ import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
 import {
   columnsNecessaryThings,
-  dataNecessaryThings,
 } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import NecessaryThingsEdit from "@/components/necessity/NecessaryThingsEdit.vue";

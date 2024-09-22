@@ -154,7 +154,7 @@ export default {
         furniture: "Nội thất",
       };
 
-      return uniqueTypes.map((type) => ({
+      return uniqueTypes.map((type: any) => ({
         value: type,
         label: typeTranslations[type] || type,
       }));

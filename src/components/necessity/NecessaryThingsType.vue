@@ -23,7 +23,6 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { Table, Switch } from "ant-design-vue";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
-import type { NecessaryThingsType } from "@/types/types";
 
 export default {
   components: {
@@ -37,7 +36,7 @@ export default {
 
     const isDarkMode = computed(() => store.getters.getIsDark);
 
-    const necessaryThingsTypeData: NecessaryThingsType[] = computed(
+    const necessaryThingsTypeData = computed(
       () => store.getters.getNecessaryThingsType,
     );
 
