@@ -60,14 +60,26 @@
         />
       </a-form-item>
 
-      <a-form-item
-        :name="[index, 'type']"
-        :rules="[{ required: true, message: 'Missing type' }]"
-      >
-        <a-input v-model:value="item.type" placeholder="Type" />
-      </a-form-item>
-
       <a-space align="baseline">
+        <a-form-item
+          :name="[index, 'type']"
+          :rules="[{ required: true, message: 'Missing type' }]"
+        >
+          <a-select
+            v-model:value="item.type"
+            placeholder="Select Type"
+            style="width: 100%"
+          >
+            <a-select-option
+              v-for="(option, idx) in typeOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
         <MinusCircleOutlined @click="removeItem(item)" />
       </a-space>
     </a-space>
@@ -89,20 +101,8 @@
 import { ref, computed } from "vue";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import type { FormInstance } from "ant-design-vue";
-import {
-  setNecessaryThings,
-  deleteNecessaryThing,
-} from "@/composables/necessaryThings/index.js";
-import {
-  Form,
-  Space,
-  FormItem,
-  Input,
-  Button,
-  InputNumber,
-  Row,
-  Col,
-} from "ant-design-vue";
+import { setNecessaryThings, deleteNecessaryThing } from "@/composables/necessaryThings/index.js";
+import { Form, Space, FormItem, Input, InputNumber, Select, Button, Row, Col } from "ant-design-vue";
 import { useStore } from "vuex";
 import type { NecessaryThingsItem } from "@/types/types";
 
@@ -113,6 +113,8 @@ export default {
     AFormItem: FormItem,
     AInput: Input,
     AInputNumber: InputNumber,
+    ASelect: Select,
+    ASelectOption: Select.Option,
     AButton: Button,
     MinusCircleOutlined,
     PlusOutlined,
@@ -123,10 +125,25 @@ export default {
     const formRef = ref<FormInstance>();
     const store = useStore();
 
-    // Computed property to get necessaryThings from Vuex store
-    const dynamicValidateForm = computed(
-      () => store.getters.getNecessaryThings,
-    );
+    // Lấy danh sách cần thiết từ Vuex store
+    const dynamicValidateForm = computed(() => store.getters.getNecessaryThings);
+
+    // Lấy danh sách các loại vật dụng không trùng và dịch tên
+    const typeOptions = computed(() => {
+      const uniqueTypes = [...new Set(dynamicValidateForm.value.map((item) => item.type))];
+      const typeTranslations: Record<string, string> = {
+        shampoo: "Dầu gội",
+        skinCare: "Chăm sóc da",
+        oralHealth: "Chăm sóc răng miệng",
+        bodyCare: "Chăm sóc cơ thể",
+        furniture: "Nội thất",
+      };
+
+      return uniqueTypes.map((type) => ({
+        value: type,
+        label: typeTranslations[type] || type,
+      }));
+    });
 
     const removeItem = async (item: NecessaryThingsItem) => {
       store.dispatch("removeNecessaryThing", item.id);
@@ -138,11 +155,9 @@ export default {
     };
 
     const onFinish = async () => {
-      const formattedNecessaryThings = dynamicValidateForm.value.map(
-        (thing) => ({
-          ...thing,
-        }),
-      );
+      const formattedNecessaryThings = dynamicValidateForm.value.map((thing) => ({
+        ...thing,
+      }));
 
       store.dispatch("setNecessaryThings", formattedNecessaryThings);
       await setNecessaryThings(formattedNecessaryThings);
@@ -154,6 +169,7 @@ export default {
       dynamicValidateForm,
       addItem,
       onFinish,
+      typeOptions, // Truyền mảng option cho dropdown
     };
   },
 };

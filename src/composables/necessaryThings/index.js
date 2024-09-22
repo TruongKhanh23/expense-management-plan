@@ -104,7 +104,8 @@ export async function setNecessaryThings(values) {
 }
 
 // Hàm xóa necessaryThing
-export const deleteNecessaryThing = async (id, user = "admin") => {
+export const deleteNecessaryThing = async (id) => {
+  const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
       const pathSegments = ["users", user, "necessaryThings"];

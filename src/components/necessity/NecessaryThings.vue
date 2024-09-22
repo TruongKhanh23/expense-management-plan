@@ -35,7 +35,7 @@
           </a-tag>
         </template>
         <template v-if="column.dataIndex === 'timespan'">
-          <p>{{ roundDecimals(record.timespan, 2) }}</p>
+          <p><span class="font-bold">{{ roundDecimals(record.timespan, 2) }}</span> tháng</p>
         </template>
         <template v-if="column.dataIndex === 'savePerMonth'">
           <p>
