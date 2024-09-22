@@ -1,26 +1,40 @@
 <template>
-  <div class="flex items-center justify-between">
-    <p class="my-2 font-bold">
-      Tổng số vật dụng:
-    </p>
+  <div class="flex items-center justify-between mb-2 gap-4">
+    <a-input
+      v-model:value="searchQuery"
+      placeholder="Search by name or type"
+      style="
+        width: 300px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+      "
+    >
+      <template #prefix>
+        <SearchOutlined style="padding-right: 5px" />
+      </template>
+    </a-input>
     <div class="flex flex-row my-2">
       <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
       <a-switch class="my-ant-switch" v-model:checked="isEditable" />
     </div>
   </div>
+
+  <!-- Input for combined search by name and type -->
+
   <ConfigProvider :isDark="isDarkMode">
     <a-table
       v-if="!isEditable"
       :columns="columns"
-      :data-source="data"
+      :data-source="filteredData"
       :pagination="{ hideOnSinglePage: true }"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'name'">
           <p>{{ record.name }}</p>
-          <a-tag :color="tagColor(record.type)" class="text-center">{{
-            record.type
-          }}</a-tag>
+          <a-tag :color="tagColor(record.type)" class="text-center">
+            {{ record.type }}
+          </a-tag>
         </template>
         <template v-if="column.dataIndex === 'timespan'">
           <p>{{ roundDecimals(record.timespan, 2) }}</p>
@@ -35,19 +49,19 @@
           </p>
         </template>
         <template v-if="column.dataIndex === 'limitation'">
-          <p>
-            {{ new Intl.NumberFormat().format(record.limitation) }}
-          </p>
+          <p>{{ new Intl.NumberFormat().format(record.limitation) }}</p>
         </template>
       </template>
     </a-table>
     <NecessaryThingsEdit v-else />
   </ConfigProvider>
 </template>
+
 <script lang="ts">
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { Col, Table, Tag, Switch } from "ant-design-vue";
+import { Col, Table, Tag, Switch, Input } from "ant-design-vue";
+import { SearchOutlined } from "@ant-design/icons-vue";
 import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
 import {
@@ -63,11 +77,16 @@ export default {
     ATable: Table,
     ACol: Col,
     ASwitch: Switch,
+    AInput: Input,
     ConfigProvider,
     NecessaryThingsEdit,
+    SearchOutlined,
   },
   setup() {
     const store = useStore();
+
+    // State for search input
+    const searchQuery = ref("");
 
     const isEditable = ref(false);
     const isDarkMode = computed(() => store.getters.getIsDark);
@@ -78,6 +97,7 @@ export default {
       bodyCare: "purple",
       furniture: "default",
     };
+
     function tagColor(type: string) {
       if (type in tagTypeColor) {
         return tagTypeColor[type];
@@ -87,14 +107,39 @@ export default {
     const columns: TableColumnType<NecessaryThingsItem>[] =
       columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
 
-    const data: any = computed(() => store.getters.getNecessaryThings);
+    const data = computed(() => store.getters.getNecessaryThings);
+
+    // Computed property for filtered data
+    const filteredData = computed(() => {
+      if (!searchQuery.value) {
+        return data.value;
+      }
+      return data.value.filter((item: NecessaryThingsItem) => {
+        const nameMatch = item.name
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase());
+        const typeMatch = item.type
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase());
+        return nameMatch || typeMatch;
+      });
+    });
 
     function roundDecimals(value: number, decimals: number): number {
       if (isNaN(value)) return 0;
       return parseFloat(value.toFixed(decimals));
     }
 
-    return { isEditable, isDarkMode, data, columns, roundDecimals, tagColor };
+    return {
+      isEditable,
+      isDarkMode,
+      data,
+      filteredData,
+      columns,
+      roundDecimals,
+      tagColor,
+      searchQuery,
+    };
   },
 };
 </script>
