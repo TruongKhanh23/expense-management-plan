@@ -26,6 +26,7 @@
       :columns="columns"
       :data-source="filteredData"
       :pagination="{ hideOnSinglePage: true }"
+      :class="necessaryThingsClass"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'name'">
@@ -51,7 +52,7 @@
         </template>
       </template>
     </a-table>
-    <NecessaryThingsEdit v-else />
+    <NecessaryThingsEdit :class="necessaryThingsEditClass" />
   </ConfigProvider>
 </template>
 
@@ -85,6 +86,8 @@ export default {
 
     // State for search input
     const searchQuery = ref("");
+    const necessaryThingsClass = computed(() => isEditable.value ? "hidden" : "");
+    const necessaryThingsEditClass = computed(() => isEditable.value ? "" : "hidden");
 
     const isEditable = ref(false);
     const isDarkMode = computed(() => store.getters.getIsDark);
@@ -137,6 +140,8 @@ export default {
       roundDecimals,
       tagColor,
       searchQuery,
+      necessaryThingsClass,
+      necessaryThingsEditClass,
     };
   },
 };

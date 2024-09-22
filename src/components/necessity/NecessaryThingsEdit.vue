@@ -68,7 +68,7 @@
           <a-select
             v-model:value="item.type"
             placeholder="Select Type"
-            style="width: 100%"
+            style="width: 100%; min-width: 200px;"
           >
             <a-select-option
               v-for="(option, idx) in typeOptions"
