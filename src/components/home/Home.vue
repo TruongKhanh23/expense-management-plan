@@ -22,7 +22,7 @@
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
         <div class="flex justify-center items-center">
-          <a-col :md="{ span: 30 }">
+          <a-col :sm="{ span: spanNecessary }">
             <NecessaryThings />
           </a-col>
         </div>
@@ -48,7 +48,7 @@
 </template>
 <script lang="ts">
 //#region import
-import { computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
@@ -105,10 +105,15 @@ export default {
   },
   setup() {
     const store = useStore();
+    const spanNecessary = ref(30);
 
     const { isOpenLoadingModal } = handlePopup();
     const { isMobile, isTabletVertical, isTabletHorizontal, isDesktop } =
       detectDevice();
+
+    watch(isMobile, () => {
+      spanNecessary.value = isMobile ? 16 : 30;
+    })
 
     const user = computed(() => {
       const currentUser = store.getters.getUser;
@@ -183,6 +188,7 @@ export default {
       isTabletHorizontal,
       isDesktop,
       isOpenLoadingModal,
+      spanNecessary,
     };
   },
 };
