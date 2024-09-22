@@ -48,7 +48,7 @@
 </template>
 <script lang="ts">
 //#region import
-import { ref, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
