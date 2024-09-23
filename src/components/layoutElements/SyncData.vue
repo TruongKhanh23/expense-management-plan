@@ -4,7 +4,7 @@
     @click="reload()"
   >
     <SyncOutlined />
-    <p>Đồng bộ dữ liệu</p>
+    <p class="hidden md:flex">Đồng bộ dữ liệu</p>
   </div>
 </template>
 <script>

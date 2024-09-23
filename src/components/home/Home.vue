@@ -1,6 +1,6 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <div class="xl:mx-[8rem] mx-4 min-h-[750px]">
+  <div class="xl:mx-[8rem] mx-4 min-h-[900px] md:min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
         <ChooseMonth class="mt-4 mb-8" />
@@ -83,14 +83,11 @@ export default {
     EstimateNecessity,
     InputFunds,
     HandleIncome,
-    SyncData,
     DesktopAppView,
     MobileAppView,
     LoadingModal,
-    ThemeSwitcher,
     NecessaryThings,
     ChooseMonth,
-    CreateNewMonth,
     Debt,
     Footer,
   },
