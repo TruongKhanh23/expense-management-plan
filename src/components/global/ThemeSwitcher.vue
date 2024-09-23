@@ -4,7 +4,7 @@
     @click="toggleDark()"
   >
     <i data-feather="moon" class="w-5"></i>
-    <p>Toggle Dark Mode</p>
+    <p class="hidden md:flex">Toggle Dark Mode</p>
   </div>
 </template>
 

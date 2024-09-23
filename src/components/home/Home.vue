@@ -1,6 +1,6 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <div class="xl:mx-[8rem] mx-4 min-h-[750px]">
+  <div class="xl:mx-[8rem] mx-4 min-h-[900px] md:min-h-[750px]">
     <a-tabs centered class="dark:text-[#ffffff]">
       <a-tab-pane key="1" tab="Quản lý chi tiêu">
         <ChooseMonth class="mt-4 mb-8" />
@@ -36,15 +36,7 @@
       </a-tab-pane>
     </a-tabs>
   </div>
-  <div
-    class="flex flex-col md:flex-row my-12 gap-4 items-center justify-center"
-  >
-    <div class="flex items-center justify-center">
-      <ThemeSwitcher />
-    </div>
-    <Footer />
-    <CreateNewMonth />
-  </div>
+  <Footer />
 </template>
 <script lang="ts">
 //#region import
@@ -57,15 +49,13 @@ import IncomeDebt from "@/components/income/IncomeDebt.vue";
 import HandleIncome from "@/components/handleIncome/HandleIncome.vue";
 import EstimateNecessity from "@/components/estimateNecessity/EstimateNecessity.vue";
 import InputFunds from "@/components/fund/InputFunds.vue";
-import Footer from "@/components/layoutElements/Footer.vue";
 import DesktopAppView from "@/components/global/DesktopAppView.vue";
 import MobileAppView from "@/components/global/MobileAppView.vue";
-import ThemeSwitcher from "@/components/global/ThemeSwitcher.vue";
 import NecessaryThings from "@/components/necessity/NecessaryThings.vue";
 import Debt from "@/components/debt/Debt.vue";
 import ChooseMonth from "@/components/month/ChooseMonth.vue";
 import LoadingModal from "@/components/reusable/LoadingModal.vue";
-import CreateNewMonth from "@/components/month/CreateNewMonth.vue";
+import Footer from "@/components/layoutElements/Footer.vue";
 
 import { getDebt } from "@/composables/debt/index.js";
 import { getFunds } from "@/composables/funds/index.js";
@@ -93,15 +83,13 @@ export default {
     EstimateNecessity,
     InputFunds,
     HandleIncome,
-    Footer,
     DesktopAppView,
     MobileAppView,
     LoadingModal,
-    ThemeSwitcher,
     NecessaryThings,
     ChooseMonth,
-    CreateNewMonth,
     Debt,
+    Footer,
   },
   setup() {
     const store = useStore();
