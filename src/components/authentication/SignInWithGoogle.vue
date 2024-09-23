@@ -14,12 +14,14 @@
 </template>
 
 <script setup>
+import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { grantPermission } from "@/composables/permissions/index.js";
 
+const store = useStore();
 const router = useRouter();
 const signInWithGoogle = () => {
   const auth = getAuth();
