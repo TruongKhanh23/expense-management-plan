@@ -2,19 +2,19 @@
   <!-- Input for combined search by name and type -->
   <ConfigProvider :isDark="isDarkMode">
     <div class="flex items-center justify-between mb-2 gap-4">
-      <div class="w-[250px]">
+      <div :class="isMobile ? 'w-full' : 'w-[250px]'">
         <a-input
           v-if="!isEditable"
           v-model:value="searchQuery"
           placeholder="Search by name or type"
-          style="width: 250px; display: flex; align-items: center; height: 40px"
+          style="display: flex; align-items: center; height: 40px"
         >
           <template #prefix>
             <SearchOutlined style="padding-right: 5px" />
           </template>
         </a-input>
       </div>
-      <div class="flex flex-row my-2">
+      <div v-if="!isMobile" class="flex flex-row my-2">
         <p class="font-bold mr-2 hidden md:flex">Chỉnh sửa:</p>
         <a-switch class="my-ant-switch" v-model:checked="isEditable" />
       </div>
@@ -78,7 +78,7 @@ import { Col, Table, Tag, Switch, Input } from "ant-design-vue";
 import { SearchOutlined } from "@ant-design/icons-vue";
 import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
-import { columnsNecessaryThings } from "@/assets/data/sample";
+import { columnsNecessaryThings, columnsNecessaryThingsMobile } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import NecessaryThingsEdit from "@/components/necessity/NecessaryThingsEdit.vue";
 import NecessaryThingsType from "@/components/necessity/NecessaryThingsType.vue";
@@ -127,8 +127,7 @@ export default {
       }
     }
 
-    const columns: TableColumnType<NecessaryThingsItem>[] =
-      columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
+    const columns: TableColumnType<NecessaryThingsItem>[] = isMobile ? columnsNecessaryThingsMobile : columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
 
     const data = computed(() => store.getters.getNecessaryThings);
 
