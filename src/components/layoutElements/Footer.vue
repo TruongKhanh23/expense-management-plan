@@ -1,24 +1,27 @@
 <template>
   <div
-    class="flex items-center justify-center gap-2 hover:font-bold cursor-pointer"
-    @click="reload()"
+    class="flex flex-col md:flex-row my-12 gap-4 items-center justify-center"
   >
-    <SyncOutlined />
-    <p>Đồng bộ dữ liệu</p>
+    <div class="flex items-center justify-center">
+      <ThemeSwitcher />
+    </div>
+    <SyncData />
+    <CreateNewMonth />
   </div>
 </template>
 <script>
-import { SyncOutlined } from "@ant-design/icons-vue";
+import ThemeSwitcher from "@/components/global/ThemeSwitcher.vue";
+import SyncData from "@/components/layoutElements/SyncData.vue";
+import CreateNewMonth from "@/components/month/CreateNewMonth.vue";
 
 export default {
   components: {
-    SyncOutlined,
+    ThemeSwitcher,
+    SyncData,
+    CreateNewMonth,
   },
   setup() {
-    function reload() {
-      location.reload();
-    }
-    return { reload };
+    return { };
   },
 };
 </script>
