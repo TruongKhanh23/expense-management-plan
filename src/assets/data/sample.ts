@@ -230,6 +230,24 @@ export const dataHandleIncome: HandleIncomeItem[] = [
   },
 ];
 
+export const columnsNecessaryThingsMobile: TableColumnType<NecessaryThingsItem>[] = [
+  {
+    title: "Tên sản phẩm",
+    dataIndex: "name",
+    filters: [
+      { text: "shampoo", value: "shampoo" },
+      { text: "skinCare", value: "skinCare" },
+      { text: "oralHealth", value: "oralHealth" },
+      { text: "bodyCare", value: "bodyCare" },
+      { text: "furniture", value: "furniture" },
+    ],
+    onFilter: (value, record) => record.type.startsWith(value as string)
+  },
+  { title: "Thời gian sử dụng (tháng)", dataIndex: "timespan", align: "right" },
+  { title: "Tiết kiệm mỗi tháng", dataIndex: "savePerMonth", align: "right" },
+  { title: "Hạn mức", dataIndex: "limitation", align: "right" },
+];
+
 export const columnsNecessaryThings: TableColumnType<NecessaryThingsItem>[] = [
   {
     title: "Tên sản phẩm",
