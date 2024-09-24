@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex items-center justify-center gap-2 hover:font-bold cursor-pointer"
+    class="flex flex-col md:flex-row items-center justify-center gap-2 hover:font-bold cursor-pointer"
     @click="reload()"
   >
-    <SyncOutlined />
-    <p class="hidden md:flex">Đồng bộ dữ liệu</p>
+    <SyncOutlined  />
+    <p class="text-xs md:text-normal">Sync Data</p>
   </div>
 </template>
 <script>

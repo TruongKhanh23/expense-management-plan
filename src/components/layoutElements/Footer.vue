@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row gap-2 items-center justify-center md:static fixed bottom-0 left-0 right-0 md:bg-transparent md:shadow-none shadow-lg py-4 dark:bg-[#070808] bg-white border-t rounded-lg"
+    class="flex flex-row gap-2 items-center justify-center md:static fixed bottom-0 left-0 right-0 md:bg-transparent md:shadow-none shadow-lg pt-4 pb-8 dark:bg-[#181A1B] bg-white"
   >
     <div class="flex-1 flex items-center justify-center">
       <ThemeSwitcher />
