@@ -19,7 +19,7 @@
         <a-switch class="my-ant-switch" v-model:checked="isEditable" />
       </div>
     </div>
-    <div class="flex flex-row gap-2">
+    <div class="flex flex-row gap-2 mb-24">
       <div class="hidden md:flex">
         <NecessaryThingsType :class="necessaryThingsClass" />
         <NecessaryThingsTypeEdit
