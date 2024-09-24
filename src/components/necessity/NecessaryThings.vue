@@ -1,6 +1,11 @@
 <template>
   <!-- Input for combined search by name and type -->
   <ConfigProvider :isDark="isDarkMode">
+    <p class="font-bold mr-2 mb-2">
+      Tổng mỗi tháng:
+      {{ totalNecessaryThingsPerMonth }}
+      đồng
+    </p>
     <div class="flex items-center justify-between mb-2 gap-4">
       <div :class="isMobile ? 'w-full' : 'w-[250px]'">
         <a-input
@@ -78,7 +83,10 @@ import { Col, Table, Tag, Switch, Input } from "ant-design-vue";
 import { SearchOutlined } from "@ant-design/icons-vue";
 import type { TableColumnType } from "ant-design-vue";
 import type { NecessaryThingsItem } from "@/types/types";
-import { columnsNecessaryThings, columnsNecessaryThingsMobile } from "@/assets/data/sample";
+import {
+  columnsNecessaryThings,
+  columnsNecessaryThingsMobile,
+} from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import NecessaryThingsEdit from "@/components/necessity/NecessaryThingsEdit.vue";
 import NecessaryThingsType from "@/components/necessity/NecessaryThingsType.vue";
@@ -104,6 +112,10 @@ export default {
 
     // State for search input
     const searchQuery = ref("");
+    4;
+    const totalNecessaryThingsPerMonth = computed(
+      () => store.getters.getTotalMonthNecessaryThings,
+    );
     const necessaryThingsClass = computed(() =>
       isEditable.value ? "hidden" : "",
     );
@@ -127,7 +139,9 @@ export default {
       }
     }
 
-    const columns: TableColumnType<NecessaryThingsItem>[] = isMobile ? columnsNecessaryThingsMobile : columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[];
+    const columns: TableColumnType<NecessaryThingsItem>[] = isMobile
+      ? columnsNecessaryThingsMobile
+      : (columnsNecessaryThings as TableColumnType<NecessaryThingsItem>[]);
 
     const data = computed(() => store.getters.getNecessaryThings);
 
@@ -164,6 +178,7 @@ export default {
       searchQuery,
       necessaryThingsClass,
       necessaryThingsEditClass,
+      totalNecessaryThingsPerMonth,
     };
   },
 };
