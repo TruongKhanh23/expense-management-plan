@@ -1,10 +1,11 @@
 <template>
   <CreateNewMonthModal :isOpen="isOpenCreateNewMonthModal" />
   <div
-    class="flex items-center justify-center gap-2 hover:font-bold cursor-pointer"
+    class="flex flex-col md:flex-row items-center justify-center gap-2 hover:font-bold hover:scale-125 cursor-pointer"
+    @click="handleCreateNewMonth" 
   >
     <PlusOutlined />
-    <button @click="handleCreateNewMonth" class="hidden md:flex">Create new month</button>
+    <button class="text-xs md:text-normal">New month</button>
   </div>
 </template>
 
