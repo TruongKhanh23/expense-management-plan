@@ -1,6 +1,11 @@
 <template>
   <div
-    class="flex flex-row gap-2 items-center justify-center md:static fixed bottom-0 left-0 right-0 md:bg-transparent md:shadow-none shadow-lg pt-4 pb-8 dark:bg-[#181A1B] bg-white"
+    :class="[
+      'transition-transform duration-300 ease-in-out',
+      isHidden ? 'hidden md:flex' : '',
+      isMobile ? 'fixed bottom-0 left-0 right-0 z-50' : 'relative'
+    ]"
+    class="flex flex-row gap-2 items-center justify-center bg-white dark:bg-[#181A1B] p-4"
   >
     <div class="flex-1 flex items-center justify-center">
       <ThemeSwitcher />
@@ -15,20 +20,40 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useStore } from "vuex";
 import ThemeSwitcher from "@/components/global/ThemeSwitcher.vue";
 import SyncData from "@/components/layoutElements/SyncData.vue";
 import CreateNewMonth from "@/components/month/CreateNewMonth.vue";
 
 const store = useStore();
-const isDarkMode = computed(() => store.getters.getIsDark);
-</script>
+const isHidden = ref(false);
+let lastScrollTop = 0;
 
-<style scoped>
-@media (max-width: 768px) {
-  .fixed {
-    z-index: 1000; /* Đảm bảo footer nằm trên các nội dung khác khi ở mobile */
+// Kiểm tra kích thước màn hình để xác định mobile hay không
+const isMobile = computed(() => window.innerWidth < 768);
+
+const handleScroll = () => {
+  const currentScrollTop = window.scrollY;
+
+  if (currentScrollTop > lastScrollTop) {
+    isHidden.value = true; // Scroll down
+  } else {
+    isHidden.value = false; // Scroll up
   }
-}
-</style>
+  
+  lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // Đảm bảo không có giá trị âm
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', () => {
+    // Cập nhật khi kích thước cửa sổ thay đổi
+    isHidden.value = window.innerWidth < 768 ? isHidden.value : false;
+  });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+</script>
