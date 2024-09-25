@@ -40,7 +40,7 @@ export const state: State = {
   isOpenCreateNewMonthModal: false,
   isFundsEditable: false,
   isVisibleLimitation: false,
-  isDark: false,
+  isDark: true,
   isAllowEditing: false,
   user: {},
   permissions: [],
