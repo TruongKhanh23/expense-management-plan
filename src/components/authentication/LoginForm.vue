@@ -40,6 +40,7 @@ import EmailInput from "@/components/authentication/EmailInput.vue";
 import PasswordInput from "@/components/authentication/PasswordInput.vue";
 import RememberMeCheckbox from "@/components/authentication/RememberMeCheckbox.vue";
 import ForgotPasswordLink from "@/components/authentication/ForgotPasswordLink.vue";
+import { updateThemeColor } from "@/composables/theme/index.js"
 
 const store = useStore();
 const emit = defineEmits(["action:openResetPasswordModal"]);
@@ -91,6 +92,8 @@ const login = async () => {
     }
 
     grantPermission();
+
+    updateThemeColor();
 
     router.push("/home");
   } catch (error) {

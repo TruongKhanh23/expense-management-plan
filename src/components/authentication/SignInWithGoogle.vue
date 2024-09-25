@@ -18,7 +18,7 @@ import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import { updateThemeColor } from "@/composables/theme/index.js"
 import { grantPermission } from "@/composables/permissions/index.js";
 
 const store = useStore();
@@ -34,6 +34,9 @@ const signInWithGoogle = () => {
       }
       store.dispatch("setUser", result.user);
       grantPermission();
+
+      updateThemeColor();
+
       router.push("/home");
     })
     .catch((error) => {
