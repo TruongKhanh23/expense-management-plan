@@ -84,6 +84,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { updateThemeColor } from "@/composables/theme/index.js"
 
 const emit = defineEmits(["action:updateLoginType"])
 
@@ -110,6 +111,9 @@ const signInWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result.user);
+
+      updateThemeColor();
+
       router.push("/home");
     })
     .catch((error) => {
