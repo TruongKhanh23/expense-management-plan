@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+import { useStore } from "vuex";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRoute } from "vue-router";
 
@@ -23,11 +24,26 @@ export default {
   },
   setup() {
     let auth;
+    const store = useStore();
     const route = useRoute();
     const routeName = computed(() => {
       return route.name;
     });
     const isLoggedIn = ref(false);
+
+    const isDarkMode = computed(() => store.getters.getIsDark);
+
+    watch(isDarkMode, () => {
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        if (isDarkMode.value) {
+          metaThemeColor.setAttribute("content", "#181A1B");
+        } else {
+          metaThemeColor.setAttribute("content", "#ffffff");
+        }
+      }
+    });
+
     onMounted(() => {
       auth = getAuth();
       onAuthStateChanged(auth, (user) => {
