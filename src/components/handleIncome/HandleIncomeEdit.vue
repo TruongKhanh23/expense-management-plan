@@ -20,6 +20,7 @@
           v-model:value="item.isDebt"
           placeholder="isDebt?"
           :options="isDebtOptions"
+          style="min-width: 90px"
         />
       </a-form-item>
       <a-form-item
@@ -31,6 +32,7 @@
           v-model:value="item.debtId"
           placeholder="Income from (debtId)"
           :options="debtOptions"
+          style="width: 80px"
         />
       </a-form-item>
       <a-form-item
