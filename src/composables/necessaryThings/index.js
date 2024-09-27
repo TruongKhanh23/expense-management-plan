@@ -29,8 +29,7 @@ export async function getNecessaryThings() {
         
         // Nếu không có dữ liệu (snapshot trống) thì gọi hàm setNecessaryThings
         if (snap.empty) {
-          setNecessaryThings(dataNecessaryThings);
-          store.dispatch("setNecessaryThings", dataNecessaryThings);
+          console.log("went snap.empty");
         } else {
           // Nếu có dữ liệu, reset list và thêm dữ liệu từ snapshot
           list.value = [];
@@ -83,6 +82,7 @@ export async function setNecessaryThings(values) {
           { merge: true },
         );
       }
+      store.dispatch("setNecessaryThings", list.value);
       resolve("Set necessary things successfully");
     } catch (error) {
       console.log("Error:", error);
@@ -147,8 +147,7 @@ export async function getNecessaryThingsType() {
       query(collection(db, ...pathSegments)), 
       (snap) => {
         if (snap.empty) {
-          setNecessaryThingsType(dataNecessaryThingsType);
-          store.dispatch("setNecessaryThingsType", dataNecessaryThingsType);
+          console.log("went snap.empty");
         } else {
           list.value = [];
           snap.forEach((doc) => {
