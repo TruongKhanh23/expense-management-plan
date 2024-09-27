@@ -65,7 +65,12 @@ import { getIncomes } from "@/composables/incomes/index.js";
 import { getHandleIncomes } from "@/composables/handleIncomes/index.js";
 import { getAllHandleIncomesIsDebt } from "@/composables/collection/index.js";
 import { getEstimateNecessityExpenses } from "@/composables/estimateNecessity/index.js";
-import { getNecessaryThings, setNecessaryThings, setNecessaryThingsType, getNecessaryThingsType } from "@/composables/necessaryThings/index.js";
+import {
+  getNecessaryThings,
+  setNecessaryThings,
+  setNecessaryThingsType,
+  getNecessaryThingsType,
+} from "@/composables/necessaryThings/index.js";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
 import { toast } from "vue3-toastify";
 
@@ -114,6 +119,8 @@ export default {
     );
 
     (async () => {
+      console.log("went async");
+
       const { currentYear, currentMonthYear } = getCurrentTime();
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
@@ -134,16 +141,10 @@ export default {
         ]);
 
         const necessaryThings = store.getters.getNecessaryThings;
-        if(!necessaryThings.length){
+        if (!necessaryThings.length) {
           console.log("went home setNecessaryThings");
-          await Promise.all([
-            setNecessaryThings(),
-            setNecessaryThingsType(),
-          ])
-          await Promise.all([
-            setNecessaryThings(),
-            setNecessaryThingsType(),
-          ])
+          await Promise.all([setNecessaryThings(), setNecessaryThingsType()]);
+          await Promise.all([setNecessaryThings(), setNecessaryThingsType()]);
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -152,11 +153,12 @@ export default {
 
     async function getMasterData(year: any, monthYear: any) {
       isOpenLoadingModal.value = open();
-      
+
       await getFunds(year, monthYear, user.value);
       await getIncomes(year, monthYear, user.value);
       await getHandleIncomes(year, monthYear, user.value);
       await getEstimateNecessityExpenses(year, monthYear);
+      await getAllHandleIncomesIsDebt();
 
       setTimeout(() => {
         isOpenLoadingModal.value = close();
