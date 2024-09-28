@@ -3,7 +3,7 @@
     :class="[
       'transition-transform duration-300 ease-in-out',
       isHidden ? 'hidden md:flex' : '',
-      isMobile ? 'fixed bottom-0 left-0 right-0 z-50' : 'relative'
+      isMobile ? 'fixed bottom-0 left-0 right-0 z-50' : 'relative',
     ]"
     class="flex flex-row gap-2 items-center justify-center bg-white dark:bg-[#181A1B] p-4"
   >
@@ -41,19 +41,19 @@ const handleScroll = () => {
   } else {
     isHidden.value = false; // Scroll up
   }
-  
+
   lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // Đảm bảo không có giá trị âm
 };
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('resize', () => {
+  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", () => {
     // Cập nhật khi kích thước cửa sổ thay đổi
     isHidden.value = window.innerWidth < 768 ? isHidden.value : false;
   });
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
