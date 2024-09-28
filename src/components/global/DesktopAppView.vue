@@ -8,7 +8,7 @@
   </a-col>
 
   <a-col :md="{ span: 10 }">
-    <HandleIncome :totalIncome="totalIncome" />
+    <HandleIncome />
   </a-col>
 </template>
 <script lang="ts">

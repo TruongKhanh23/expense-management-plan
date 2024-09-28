@@ -65,6 +65,7 @@ import {
   InputNumber,
 } from "ant-design-vue";
 import { setIncomes, deleteIncome } from "@/composables/incomes/index.js";
+import { setAllHandleIncomes } from "@/composables/handleIncomes";
 import { uuid } from "vue-uuid";
 
 interface Income {
@@ -119,6 +120,8 @@ export default {
     const onFinish = async () => {
       store.dispatch("setIncomes", dynamicValidateForm.incomes);
       await setIncomes(dynamicValidateForm.incomes);
+      const handleIncomes = store.getters.getHandleIncomes;
+      await setAllHandleIncomes(handleIncomes);
     };
 
     return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };

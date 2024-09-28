@@ -36,26 +36,71 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
     alert("Get handleIncomes failed\n" + error);
   }
 }
-export async function setHandleIncomes(values) {
+export async function setHandleIncomes(values, isUsingToast = true) {
+  const user = store.getters.getUser.email;
+  const id = values[0].type;
+  const year = getCurrentChooseMonth().year;
+  const monthYear = getCurrentChooseMonth().monthYear;
+  const pathSegments = buildPathSegments(
+    "handleIncomes",
+    year,
+    monthYear,
+    user,
+  );
+
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      await setDoc(
+        doc(db, ...pathSegments, id),
+        { items: values },
+        { merge: true },
+      );
+      resolve("Set handle incomes successfully");
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+  if (isUsingToast) {
+    toastWithPromise(
+      promise,
+      "Setting handle incomes...",
+      "Set handle incomes successfully",
+      "Set handle incomes failed",
+    );
+  } else {
+    try {
+      await promise; // Chờ promise hoàn thành để xử lý thêm nếu cần
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export async function setAllHandleIncomes(values) {
   const user = store.getters.getUser.email;
   const promise = new Promise(async (resolve, reject) => {
     try {
-      const id = values[0].type;
-      const year = getCurrentChooseMonth().year;
-      const monthYear = getCurrentChooseMonth().monthYear;
-      const pathSegments = buildPathSegments(
-        "handleIncomes",
-        year,
-        monthYear,
-        user,
-      );
-      await setDoc(
-        doc(db, ...pathSegments, id),
-        {
-          items: values,
-        },
-        { merge: true },
-      );
+      for (const type of values) {
+        const data = type.items;
+        const id = data[0].type;
+        const year = getCurrentChooseMonth().year;
+        const monthYear = getCurrentChooseMonth().monthYear;
+        const pathSegments = buildPathSegments(
+          "handleIncomes",
+          year,
+          monthYear,
+          user,
+        );
+        await setDoc(
+          doc(db, ...pathSegments, id),
+          {
+            items: data,
+          },
+          { merge: true },
+        );
+      }
+
       resolve("Set handle incomes successfully");
     } catch (error) {
       reject(error);
@@ -75,6 +120,7 @@ export async function setHandleIncomes(values) {
     console.error(error); // Xử lý lỗi nếu cần
   }
 }
+
 export function mergeItems(data) {
   // Kiểm tra nếu data là mảng, nếu không, trả về mảng rỗng
   if (!Array.isArray(data)) {

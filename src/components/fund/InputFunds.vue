@@ -175,6 +175,7 @@ import { Col, Form, Row, FormItem, Input, Button } from "ant-design-vue";
 import { SettingOutlined } from "@ant-design/icons-vue";
 import { getFundsPercentage, setFunds } from "@/composables/funds/index.js";
 import { ConfigProvider } from "ant-design-vue";
+import { setAllHandleIncomes } from "@/composables/handleIncomes";
 
 interface FundItem {
   id: string;
@@ -227,6 +228,8 @@ export default {
         });
         store.dispatch("setFunds", funds.value);
         await setFunds(values);
+        const handleIncomes = store.getters.getHandleIncomes;
+        await setAllHandleIncomes(handleIncomes);
       }
     };
 

@@ -3,7 +3,7 @@
     ref="formRef"
     name="dynamic_form_nest_item"
     :model="dynamicValidateForm"
-    @finish="onFinish"
+    @finish="onFinish(true)"
   >
     <!-- Form Fields -->
 
@@ -133,22 +133,14 @@ export default {
       type: Object,
       default: () => ({ handleIncomes: [] }),
     },
-    funds: {
-      type: Object,
-      default: [],
-      require: true,
-    },
-    totalIncome: {
-      type: Number,
-      default: 0, // Giá trị mặc định là 0
-      require: true,
-    },
   },
   setup(props) {
     const store = useStore();
     const formRef = ref<FormInstance>();
 
     const debts = computed(() => store.getters.getDebts);
+    const totalIncome = computed(() => store.getters.getTotalIncome);
+    const funds = computed(() => store.getters.getFunds);
 
     const debtOptions = computed(() =>
       debts.value.map((item) => ({
@@ -203,8 +195,8 @@ export default {
       });
     };
 
-    const onFinish = async () => {
-      await setHandleIncomes(dynamicValidateForm.handleIncomes);
+    const onFinish = async (isUsingToast: boolean) => {
+      await setHandleIncomes(dynamicValidateForm.handleIncomes, isUsingToast);
     };
 
     const restrictedFunds = [
@@ -232,28 +224,28 @@ export default {
     const recalculateDisabledAmounts = () => {
       const fundLimits: any = {
         necessity: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "necessity").percentage,
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "necessity").percentage,
         ).number,
         freedom: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "freedom").percentage,
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "freedom").percentage,
         ).number,
         education: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "education").percentage,
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "education").percentage,
         ).number,
         enjoy: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "enjoy").percentage,
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "enjoy").percentage,
         ).number,
         giving: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "giving").percentage,
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "giving").percentage,
         ).number,
         longTermSaving: calculateLimitation(
-          props.totalIncome,
-          props.funds.find((item: any) => item.id === "longTermSaving")
+          totalIncome.value,
+          funds.value.find((item: any) => item.id === "longTermSaving")
             .percentage,
         ).number,
       };
@@ -269,9 +261,16 @@ export default {
       });
     };
 
-    watch(() => dynamicValidateForm.handleIncomes, recalculateDisabledAmounts, {
-      deep: true,
-    });
+    watch(
+      () => [dynamicValidateForm.handleIncomes, funds, totalIncome],
+      () => {
+        recalculateDisabledAmounts();
+        onFinish(false);
+      },
+      {
+        deep: true,
+      },
+    );
 
     return {
       formRef,
