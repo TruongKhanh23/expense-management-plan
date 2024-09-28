@@ -1,4 +1,5 @@
 <template>
+  <LoadingModal :isOpen="isOpenLoadingModal" />
   <div class="mt-4 space-y-2">
     <p class="text-center">hoặc đăng nhập nhanh bằng</p>
     <button
@@ -18,12 +19,18 @@ import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { updateThemeColor } from "@/composables/theme/index.js"
+import { updateThemeColor } from "@/composables/theme/index.js";
 import { grantPermission } from "@/composables/permissions/index.js";
+import { open, close } from "@/composables/loadingModal/index.js";
+
+import LoadingModal from "@/components/reusable/LoadingModal.vue";
 
 const store = useStore();
 const router = useRouter();
+const isOpenLoadingModal = ref(false);
+
 const signInWithGoogle = () => {
+  isOpenLoadingModal.value = open();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
@@ -43,5 +50,6 @@ const signInWithGoogle = () => {
       console.error("Error during Google sign-in:", error);
       alert(error.message);
     });
+  isOpenLoadingModal.value = close();
 };
 </script>

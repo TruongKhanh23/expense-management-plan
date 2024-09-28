@@ -1,4 +1,5 @@
 <template>
+  <LoadingModal :isOpen="isOpenLoadingModal" />
   <form class="space-y-6" @submit.prevent="login">
     <div class="flex flex-col items-center justify-center">
       <img src="/logo-transparent.png" alt="logo" class="h-16" />
@@ -36,13 +37,17 @@ import {
   getPermissions,
   grantPermission,
 } from "@/composables/permissions/index.js";
+import { updateThemeColor } from "@/composables/theme/index.js";
+import { open, close } from "@/composables/loadingModal/index.js";
+
 import EmailInput from "@/components/authentication/EmailInput.vue";
 import PasswordInput from "@/components/authentication/PasswordInput.vue";
 import RememberMeCheckbox from "@/components/authentication/RememberMeCheckbox.vue";
 import ForgotPasswordLink from "@/components/authentication/ForgotPasswordLink.vue";
-import { updateThemeColor } from "@/composables/theme/index.js"
+import LoadingModal from "@/components/reusable/LoadingModal.vue";
 
 const store = useStore();
+const isOpenLoadingModal = ref(false);
 const emit = defineEmits(["action:openResetPasswordModal"]);
 
 const email = ref("");
@@ -66,6 +71,7 @@ onMounted(async () => {
 });
 
 const login = async () => {
+  isOpenLoadingModal.value = open();
   const auth = getAuth();
 
   try {
@@ -112,6 +118,8 @@ const login = async () => {
         errorMessage.value = "Email or password was incorrect";
         break;
     }
+  } finally {
+    isOpenLoadingModal.value = close();
   }
 };
 </script>
