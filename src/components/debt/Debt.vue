@@ -15,6 +15,7 @@
       :columns="columns"
       :data-source="data"
       :pagination="{ hideOnSinglePage: true }"
+      class="md:min-h-screen"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'name'">
@@ -49,12 +50,13 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { Col, Table, Tag, Switch } from "ant-design-vue";
 import type { TableColumnType } from "ant-design-vue";
-import { columnsDebt } from "@/assets/data/sample";
+import { columnsDebt, columnsDebtMobile } from "@/assets/data/sample";
 import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import DebtEdit from "@/components/debt/DebtEdit.vue";
 import dayjs from "dayjs";
 import { calculateTotalAmountByDebtId } from "@/composables/handleIncomes/index";
 import type { DebtItem } from "@/types/types";
+import detectDevice from "@/utils/device.util";
 
 export default {
   components: {
@@ -67,7 +69,7 @@ export default {
   },
   setup() {
     const store = useStore();
-
+    const { isMobile } = detectDevice();
     const isEditable = ref(false);
     const isDarkMode = computed(() => store.getters.getIsDark);
 
@@ -80,8 +82,9 @@ export default {
       calculateTotalAmountByDebtId(allHandleIncomesIsDebt.value),
     );
 
-    const columns: TableColumnType<DebtItem>[] =
-      columnsDebt as TableColumnType<DebtItem>[];
+    const columns: TableColumnType<DebtItem>[] = isMobile
+      ? columnsDebtMobile
+      : (columnsDebt as TableColumnType<DebtItem>[]);
 
     const data: any = computed(() => {
       const filteredData = debts.value.filter(

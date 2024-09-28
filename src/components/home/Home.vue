@@ -23,14 +23,14 @@
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center mb-32">
           <a-col :sm="{ span: spanNecessary }">
             <NecessaryThings />
           </a-col>
         </div>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Nợ" force-render>
-        <div class="flex justify-center items-start min-h-[150vh]">
+        <div class="flex justify-center items-start mb-32">
           <a-col :md="{ span: 12 }">
             <Debt />
           </a-col>

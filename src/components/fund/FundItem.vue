@@ -6,7 +6,7 @@
     <h3 class="font-bold my-2">{{ data.wallet }}</h3>
     <div
       class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0"
-      :class="data.id && 'bg-[#E6F4FF] dark:bg-[#1D1D1D]'"
+      :class="data.id && 'bg-[#E6F4FF] md:dark:bg-[#1D1D1D] dark:bg-[#141414]'"
     >
       {{ data.name }}
     </div>
@@ -27,15 +27,17 @@
     <div v-else class="absolute bottom-0 left-0 w-full">
       <div class="md:hidden">
         <div class="flex justify-center items-center">
-          <p
-            class="w-16 h-16 rounded-lg border-2 border-[#000000] flex justify-center items-center"
-          >
-            Logo
+          <p class="w-16 h-16 flex justify-center items-center">
+            <img
+              src="/favicons/android-chrome-512x512.png"
+              alt="logo"
+              class="rounded-lg"
+            />
           </p>
         </div>
         <h3 class="font-bold my-2">Tên ví</h3>
         <div
-          class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0 bg-[#E6F4FF] dark:bg-[#1D1D1D] my-2"
+          class="font-bold h-12 flex justify-center items-center rounded-lg lg:mx-0 bg-[#E6F4FF] md:dark:bg-[#1D1D1D] dark:bg-[#141414] my-2"
         >
           Tên quỹ
         </div>
@@ -52,7 +54,7 @@
         />
       </div>
       <p
-        class="my-2 font-bold bg-[#FAFAFA] dark:bg-[#1D1D1D] rounded-l-full leading-[2.5rem] dark:border-[#303030] mx-4 md:mx-0"
+        class="my-2 font-bold bg-[#FAFAFA] md:dark:bg-[#1D1D1D] dark:bg-[#181A1B] rounded-l-full leading-[2.5rem] mx-4 md:mx-0"
       >
         Limitation
       </p>

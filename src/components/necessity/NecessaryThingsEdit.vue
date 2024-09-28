@@ -2,6 +2,7 @@
   <a-form
     ref="formRef"
     name="dynamic_form_nest_item"
+    class="min-h-screen"
     :model="dynamicValidateForm"
     @finish="onFinish"
   >
