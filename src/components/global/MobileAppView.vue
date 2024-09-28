@@ -1,9 +1,7 @@
 <template>
   <a-tabs centered class="dark:text-[#ffffff]">
     <a-tab-pane key="1" tab="Dự chi thiết yếu">
-      <EstimateNecessity
-        :data="dataEstimateNecessity"
-      />
+      <EstimateNecessity :data="dataEstimateNecessity" />
     </a-tab-pane>
     <a-tab-pane key="2" tab="Thu nhập" force-render>
       <IncomeDebt
@@ -12,7 +10,7 @@
       />
     </a-tab-pane>
     <a-tab-pane key="3" tab="Xử lý thu nhập">
-      <HandleIncome :totalIncome="totalIncome" />
+      <HandleIncome />
     </a-tab-pane>
   </a-tabs>
 </template>

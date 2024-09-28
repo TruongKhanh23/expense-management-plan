@@ -28,6 +28,7 @@
             :key="index"
             @change="onChange"
             :pagination="{ hideOnSinglePage: true }"
+            :class="handleIncomeClass"
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'isSolved'">
@@ -51,12 +52,7 @@
               </template>
             </template>
           </a-table>
-          <HandleIncomeEdit
-            v-else
-            :data="data.items"
-            :funds="funds"
-            :totalIncome="totalIncome"
-          />
+          <HandleIncomeEdit :class="handleIncomeEditClass" :data="data.items" />
         </ConfigProvider>
       </template>
     </Slider>
@@ -83,15 +79,8 @@ export default {
     Slider,
     ConfigProvider,
   },
-  props: {
-    totalIncome: {
-      type: Number,
-      require: true,
-    },
-  },
   setup() {
     const store = useStore();
-    const funds = computed(() => store.getters.getFunds);
     const isDarkMode = computed(() => store.getters.getIsDark);
     const isEditable = ref(false);
     const tagTypeColor: Record<string, string> = {
@@ -102,6 +91,12 @@ export default {
       giving: "default",
       longTermSaving: "orange",
     };
+    const handleIncomeClass = computed(() =>
+      isEditable.value ? "hidden" : "",
+    );
+    const handleIncomeEditClass = computed(() =>
+      isEditable.value ? "" : "hidden",
+    );
 
     function tagColor(type: string) {
       if (type in tagTypeColor) {
@@ -172,7 +167,6 @@ export default {
     }
 
     return {
-      funds,
       tagColor,
       columns,
       data,
@@ -182,6 +176,8 @@ export default {
       isDarkMode,
       reorderedData,
       onCheckboxChange, // Thêm phương thức vào return
+      handleIncomeClass,
+      handleIncomeEditClass,
     };
   },
 };
