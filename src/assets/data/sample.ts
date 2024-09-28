@@ -230,28 +230,33 @@ export const dataHandleIncome: HandleIncomeItem[] = [
   },
 ];
 
-export const columnsNecessaryThingsMobile: TableColumnType<NecessaryThingsItem>[] = [
-  {
-    title: "Tên sản phẩm",
-    dataIndex: "name",
-    filters: [
-      { text: "shampoo", value: "shampoo" },
-      { text: "skinCare", value: "skinCare" },
-      { text: "oralHealth", value: "oralHealth" },
-      { text: "bodyCare", value: "bodyCare" },
-      { text: "furniture", value: "furniture" },
-    ],
-    onFilter: (value, record) => record.type.startsWith(value as string)
-  },
-  { title: "Thời gian sử dụng (tháng)", dataIndex: "timespan", align: "right" },
-  { title: "Tiết kiệm mỗi tháng", dataIndex: "savePerMonth", align: "right" },
-  { title: "Hạn mức", dataIndex: "limitation", align: "right" },
-];
+export const columnsNecessaryThingsMobile: TableColumnType<NecessaryThingsItem>[] =
+  [
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "name",
+      filters: [
+        { text: "shampoo", value: "shampoo" },
+        { text: "skinCare", value: "skinCare" },
+        { text: "oralHealth", value: "oralHealth" },
+        { text: "bodyCare", value: "bodyCare" },
+        { text: "furniture", value: "furniture" },
+      ],
+      onFilter: (value, record) => record.type.startsWith(value as string),
+    },
+    {
+      title: "Thời gian sử dụng (tháng)",
+      dataIndex: "timespan",
+      align: "right",
+    },
+    { title: "Hạn mức", dataIndex: "limitation", align: "right" },
+  ];
 
 export const columnsNecessaryThings: TableColumnType<NecessaryThingsItem>[] = [
   {
     title: "Tên sản phẩm",
     dataIndex: "name",
+    width: "20%",
   },
   {
     title: "Loại",
@@ -264,14 +269,25 @@ export const columnsNecessaryThings: TableColumnType<NecessaryThingsItem>[] = [
       { text: "furniture", value: "furniture" },
     ],
     onFilter: (value, record) => record.type.startsWith(value as string),
+    width: "20%",
   },
-  { title: "Thời gian sử dụng (tháng)", dataIndex: "timespan", align: "right" },
-  { title: "Tiết kiệm mỗi tháng", dataIndex: "savePerMonth", align: "right" },
-  { title: "Hạn mức", dataIndex: "limitation", align: "right" },
+  {
+    title: "Thời gian sử dụng (tháng)",
+    dataIndex: "timespan",
+    align: "right",
+    width: "20%",
+  },
+
+  {
+    title: "Tiết kiệm mỗi tháng",
+    dataIndex: "savePerMonth",
+    align: "right",
+    width: "20%",
+  },
+  { title: "Hạn mức", dataIndex: "limitation", align: "right", width: "20%" },
 ];
 
-export const dataNecessaryThings: NecessaryThingsItem[] = 
-[
+export const dataNecessaryThings: NecessaryThingsItem[] = [
   {
     id: "0",
     name: "Sunsilk",
@@ -443,11 +459,11 @@ export const dataNecessaryThings: NecessaryThingsItem[] =
 ];
 
 export const dataNecessaryThingsType: NecessaryThingsType[] = [
-  { id: 'shampoo', name: 'Dầu gội' },
-  { id: 'skinCare', name: 'Chăm sóc da' },
-  { id: 'oralHealth', name: 'Sức khỏe răng miệng' },
-  { id: 'bodyCare', name: 'Chăm sóc cơ thể' },
-  { id: 'furniture', name: 'Nội thất' }
+  { id: "shampoo", name: "Dầu gội" },
+  { id: "skinCare", name: "Chăm sóc da" },
+  { id: "oralHealth", name: "Sức khỏe răng miệng" },
+  { id: "bodyCare", name: "Chăm sóc cơ thể" },
+  { id: "furniture", name: "Nội thất" },
 ];
 
 export const columnsDebt: TableColumnType<DebtItem>[] = [
@@ -457,5 +473,14 @@ export const columnsDebt: TableColumnType<DebtItem>[] = [
   },
   { title: "Số tiền", dataIndex: "amount", align: "right" },
   { title: "Ngày nợ", dataIndex: "startDate", align: "center" },
+  { title: "Còn lại", dataIndex: "remaining", align: "right" },
+];
+
+export const columnsDebtMobile: TableColumnType<DebtItem>[] = [
+  {
+    title: "Tên",
+    dataIndex: "name",
+  },
+  { title: "Số tiền", dataIndex: "amount", align: "right" },
   { title: "Còn lại", dataIndex: "remaining", align: "right" },
 ];

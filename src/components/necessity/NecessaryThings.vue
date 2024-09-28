@@ -24,7 +24,7 @@
         <a-switch class="my-ant-switch" v-model:checked="isEditable" />
       </div>
     </div>
-    <div class="flex flex-row gap-2 mb-24">
+    <div class="flex flex-row gap-2">
       <div class="hidden md:flex">
         <NecessaryThingsType :class="necessaryThingsClass" />
         <NecessaryThingsTypeEdit
@@ -37,6 +37,7 @@
         :data-source="filteredData"
         :pagination="{ hideOnSinglePage: true }"
         :class="necessaryThingsClass"
+        class="min-h-screen"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'name'">

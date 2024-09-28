@@ -1,8 +1,8 @@
 <template>
   <CreateNewMonthModal :isOpen="isOpenCreateNewMonthModal" />
   <div
-    class="flex flex-col md:flex-row items-center justify-center gap-2 hover:font-bold hover:scale-125 cursor-pointer"
-    @click="handleCreateNewMonth" 
+    class="flex flex-col md:flex-row items-center justify-center gap-2 hover:font-bold cursor-pointer"
+    @click="handleCreateNewMonth"
   >
     <PlusOutlined />
     <button class="text-xs md:text-normal">New month</button>

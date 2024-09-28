@@ -1,44 +1,46 @@
 <template>
   <LoadingModal :isOpen="isOpenLoadingModal" />
-  <div class="xl:mx-[8rem] mx-4 min-h-[900px] md:min-h-[750px]">
-    <a-tabs centered class="dark:text-[#ffffff]">
-      <a-tab-pane key="1" tab="Quản lý chi tiêu">
-        <div class="mb-32">
-          <ChooseMonth class="mt-4 mb-8" />
+  <ConfigProvider :isDark="isDarkMode">
+    <div class="xl:mx-[8rem] mx-4 min-h-[900px] md:min-h-[750px]">
+      <a-tabs centered class="dark:text-[#ffffff]">
+        <a-tab-pane key="1" tab="Quản lý chi tiêu">
+          <div class="mb-32">
+            <ChooseMonth class="mt-4 mb-8" />
 
-          <Funds v-if="funds" class="mt-4" :funds="funds" />
-          <InputFunds v-if="isFundsEditable" class="mb-4" />
-          <!-- Mobile View -->
-          <div v-if="(isMobile || isTabletVertical) && dataIncome">
-            <MobileAppView />
-          </div>
+            <Funds v-if="funds" class="mt-4" :funds="funds" />
+            <InputFunds v-if="isFundsEditable" class="mb-4" />
+            <!-- Mobile View -->
+            <div v-if="(isMobile || isTabletVertical) && dataIncome">
+              <MobileAppView />
+            </div>
 
-          <!-- Desktop View-->
-          <div
-            v-if="(isDesktop || isTabletHorizontal) && dataIncome"
-            class="flex flex-col md:flex-row my-4"
-          >
-            <DesktopAppView />
+            <!-- Desktop View-->
+            <div
+              v-if="(isDesktop || isTabletHorizontal) && dataIncome"
+              class="flex flex-col md:flex-row my-4"
+            >
+              <DesktopAppView />
+            </div>
           </div>
-        </div>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
-        <div class="flex justify-center items-center">
-          <a-col :sm="{ span: spanNecessary }">
-            <NecessaryThings />
-          </a-col>
-        </div>
-      </a-tab-pane>
-      <a-tab-pane key="3" tab="Nợ" force-render>
-        <div class="flex justify-center items-start min-h-[150vh]">
-          <a-col :md="{ span: 12 }">
-            <Debt />
-          </a-col>
-        </div>
-      </a-tab-pane>
-    </a-tabs>
-  </div>
-  <Footer />
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Danh sách vật dụng" force-render>
+          <div class="flex justify-center items-center mb-32">
+            <a-col :sm="{ span: spanNecessary }">
+              <NecessaryThings />
+            </a-col>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key="3" tab="Nợ" force-render>
+          <div class="flex justify-center items-start mb-32">
+            <a-col :sm="{ span: 16 }">
+              <Debt />
+            </a-col>
+          </div>
+        </a-tab-pane>
+      </a-tabs>
+    </div>
+    <Footer />
+  </ConfigProvider>
 </template>
 <script lang="ts">
 //#region import
@@ -46,6 +48,7 @@ import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
+import ConfigProvider from "@/components/reusable/ConfigProvider.vue";
 import Funds from "@/components/fund/Funds.vue";
 import IncomeDebt from "@/components/income/IncomeDebt.vue";
 import HandleIncome from "@/components/handleIncome/HandleIncome.vue";
@@ -96,6 +99,7 @@ export default {
     ChooseMonth,
     Debt,
     Footer,
+    ConfigProvider,
   },
   setup() {
     const store = useStore();
@@ -110,7 +114,7 @@ export default {
       const currentUser = store.getters.getUser;
       return currentUser.email;
     });
-
+    const isDarkMode = computed(() => store.getters.getIsDark);
     const funds = computed(() => store.getters.getFunds);
     const dataIncome = computed(() => store.getters.getIncomes);
     const isFundsEditable = computed(() => store.getters.getIsFundsEditable);
@@ -181,6 +185,7 @@ export default {
     });
 
     return {
+      isDarkMode,
       dataIncome,
       funds,
       isFundsEditable,
