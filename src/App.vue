@@ -32,9 +32,9 @@ export default {
     const isLoggedIn = ref(false);
 
     const isDarkMode = computed(() => store.getters.getIsDark);
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
 
     watch(isDarkMode, () => {
-      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
         if (isDarkMode.value) {
           metaThemeColor.setAttribute("content", "#181A1B");
@@ -45,11 +45,19 @@ export default {
     });
 
     onMounted(() => {
+      if (metaThemeColor) {
+        if (isDarkMode.value) {
+          metaThemeColor.setAttribute("content", "#181A1B");
+        } else {
+          metaThemeColor.setAttribute("content", "#ffffff");
+        }
+      }
       auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         isLoggedIn.value = !!user;
       });
     });
+
     return { isLoggedIn, routeName };
   },
 };
