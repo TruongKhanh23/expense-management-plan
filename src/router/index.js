@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"; // Import the necessary functions and objects
 import Home from "@/components/home/Home.vue";
 import Login from "@/components/authentication/Login.vue";
-import Register from "@/components/authentication/Register.vue";
 import SplashScreen from "@/components/global/SplashScreen.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -20,7 +19,6 @@ const routes = [
     },
   },
   { path: "/login", name: "Login", component: Login },
-  { path: "/register", name: "Register", component: Register },
 ];
 
 const router = createRouter({
@@ -44,6 +42,14 @@ const getCurrentUser = () => {
 router.beforeEach(async (to, from, next) => {
   const user = await getCurrentUser();
 
+  // Kiểm tra nếu đường dẫn không nằm trong danh sách đã định sẵn
+  const validPaths = routes.map((route) => route.path);
+  if (!validPaths.includes(to.path) && to.path !== "/login") {
+    next("/login");
+    return;
+  }
+
+  // Kiểm tra xác thực
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (user) {
       next();
@@ -51,7 +57,7 @@ router.beforeEach(async (to, from, next) => {
       next("/login");
     }
   } else {
-    if ((to.path === "/login" || to.path === "/register") && user) {
+    if (to.path === "/login" && user) {
       next("/home");
     } else {
       next();
