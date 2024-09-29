@@ -50,7 +50,7 @@
 import { ref, onMounted } from "vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import router from "@/router";
-import SignOut from "@/components/SignOut.vue"; // Import component
+import SignOut from "@/components/layoutElements/SignOut.vue"; // Import component
 
 const isLoggedIn = ref(false);
 const isMenuOpen = ref(false);
