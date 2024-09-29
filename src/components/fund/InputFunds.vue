@@ -207,6 +207,7 @@ export default {
           longTermSaving: 0,
         },
     );
+    const handleIncomes = computed(() => store.getters.getHandleIncomes);
 
     const onFinish = async (values: any) => {
       let totalPercent: number = 0;
@@ -228,8 +229,7 @@ export default {
         });
         store.dispatch("setFunds", funds.value);
         await setFunds(values);
-        const handleIncomes = store.getters.getHandleIncomes;
-        await setAllHandleIncomes(handleIncomes);
+        await setAllHandleIncomes(handleIncomes.value);
       }
     };
 

@@ -95,6 +95,7 @@ export default {
     const store = useStore();
     const formRef = ref<FormInstance>();
 
+    const handleIncomes = computed(() => store.getters.getHandleIncomes);
     const incomes = computed(() => {
       const data = props.incomes ?? [];
       return data;
@@ -120,8 +121,7 @@ export default {
     const onFinish = async () => {
       store.dispatch("setIncomes", dynamicValidateForm.incomes);
       await setIncomes(dynamicValidateForm.incomes);
-      const handleIncomes = store.getters.getHandleIncomes;
-      await setAllHandleIncomes(handleIncomes);
+      await setAllHandleIncomes(handleIncomes.value);
     };
 
     return { formRef, removeItem, dynamicValidateForm, addItem, onFinish };
