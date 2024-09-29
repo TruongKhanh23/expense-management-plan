@@ -23,19 +23,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { getAuth, signOut } from "firebase/auth";
+import { ref, onMounted } from "vue";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import router from "@/router";
 
-const props = defineProps({
-  isLoggedIn: Boolean,
-  user: Object,
+const isLoggedIn = ref(false);
+const user = ref({
+  displayName: "",
+  photoUrl: "",
+});
+const isPopupVisible = ref(false);
+const auth = getAuth();
+
+onMounted(() => {
+  onAuthStateChanged(auth, (userData) => {
+    isLoggedIn.value = !!userData;
+    if (userData) {
+      user.value = {
+        displayName: userData.displayName || userData.email || "",
+        photoUrl: userData.photoURL || "/default-avatar.webp",
+      };
+    }
+  });
 });
 
-const isPopupVisible = ref(false);
-
 const handleSignOut = () => {
-  const auth = getAuth();
   signOut(auth).then(() => {
     document.documentElement.classList.remove("dark");
     router.push("/login");
