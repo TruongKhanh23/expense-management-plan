@@ -222,34 +222,28 @@ export default {
     };
 
     const recalculateDisabledAmounts = () => {
-      const fundLimits: any = {
-        necessity: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "necessity").percentage,
-        ).number,
-        freedom: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "freedom").percentage,
-        ).number,
-        education: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "education").percentage,
-        ).number,
-        enjoy: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "enjoy").percentage,
-        ).number,
-        giving: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "giving").percentage,
-        ).number,
-        longTermSaving: calculateLimitation(
-          totalIncome.value,
-          funds.value.find((item: any) => item.id === "longTermSaving")
-            .percentage,
-        ).number,
-      };
+      const fundTypes = [
+        "necessity",
+        "freedom",
+        "education",
+        "enjoy",
+        "giving",
+        "longTermSaving",
+      ];
 
+      // Tạo một đối tượng chứa các giới hạn quỹ
+      const fundLimits = fundTypes.reduce((limits, type) => {
+        const fund = funds.value.find((item) => item.id === type);
+        if (fund) {
+          limits[type] = calculateLimitation(
+            totalIncome.value,
+            fund.percentage,
+          ).number;
+        }
+        return limits;
+      }, {});
+
+      // Cập nhật số tiền cho từng nguồn thu nhập
       dynamicValidateForm.handleIncomes.forEach((item) => {
         const fundType = item.type;
         if (fundType && isFundRestricted(item.fund)) {
@@ -259,13 +253,26 @@ export default {
           item.amount = fundLimits[fundType] - totalOtherAmounts;
         }
       });
+
+      const currentHandleIncomes = store.getters.getHandleIncomes;
+      if (currentHandleIncomes) {
+        const firstIncomeType = dynamicValidateForm.handleIncomes[0]?.type;
+        if (firstIncomeType) {
+          const type = currentHandleIncomes.find(
+            (type) => type.key === firstIncomeType,
+          );
+          if (type) {
+            type.items = dynamicValidateForm.handleIncomes;
+            store.dispatch("setHandleIncomes", currentHandleIncomes);
+          }
+        }
+      }
     };
 
     watch(
       () => [dynamicValidateForm.handleIncomes, funds, totalIncome],
       () => {
         recalculateDisabledAmounts();
-        onFinish(false);
       },
       {
         deep: true,
