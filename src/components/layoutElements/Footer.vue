@@ -16,6 +16,9 @@
     <div class="flex-1 flex items-center justify-center">
       <CreateNewMonth />
     </div>
+    <div class="flex-1 flex items-center justify-center">
+      <ChatIcon />
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import { useStore } from "vuex";
 import ThemeSwitcher from "@/components/global/ThemeSwitcher.vue";
 import SyncData from "@/components/layoutElements/SyncData.vue";
 import CreateNewMonth from "@/components/month/CreateNewMonth.vue";
+import ChatIcon from "@/components/ChatIcon.vue";
 
 const store = useStore();
 const isHidden = ref(false);
