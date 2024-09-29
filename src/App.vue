@@ -46,6 +46,15 @@ export default {
 
     onMounted(() => {
       auth = getAuth();
+
+      if (metaThemeColor) {
+        if (isDarkMode.value) {
+          metaThemeColor.setAttribute("content", "#181A1B");
+        } else {
+          metaThemeColor.setAttribute("content", "#ffffff");
+        }
+      }
+
       onAuthStateChanged(auth, (user) => {
         isLoggedIn.value = !!user;
       });
