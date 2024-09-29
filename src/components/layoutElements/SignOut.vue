@@ -50,6 +50,12 @@ onMounted(() => {
 const handleSignOut = () => {
   signOut(auth).then(() => {
     document.documentElement.classList.remove("dark");
+
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute("content", "#ffffff");
+    }
+
     router.push("/login");
   });
 };
