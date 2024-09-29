@@ -44,7 +44,7 @@
 </template>
 <script lang="ts">
 //#region import
-import { computed, watch } from "vue";
+import { computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import { Col, Tabs, TabPane, Table } from "ant-design-vue";
 
@@ -75,6 +75,7 @@ import {
   getNecessaryThingsType,
 } from "@/composables/necessaryThings/index.js";
 import { handlePopup, open, close } from "@/composables/loadingModal/index.js";
+import { updateThemeColor } from "@/composables/theme/index.js";
 import { toast } from "vue3-toastify";
 
 import detectDevice from "@/utils/device.util";
@@ -184,7 +185,11 @@ export default {
       }
     });
 
-    return {
+    onMounted(() => {
+      updateThemeColor();
+    });
+
+    return { 
       isDarkMode,
       dataIncome,
       funds,
