@@ -52,7 +52,7 @@
               </template>
             </template>
           </a-table>
-          <HandleIncomeEdit :class="handleIncomeEditClass" :data="data.items" />
+          <HandleIncomeEdit :class="handleIncomeEditClass" :data="data.items" :name="data.type" />
         </ConfigProvider>
       </template>
     </Slider>
