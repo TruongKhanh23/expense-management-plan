@@ -77,7 +77,7 @@
       <div class="flex justify-between">
         <a-button type="default" html-type="submit">Submit</a-button>
         <a-tag color="green" class="flex justify-center items-center">
-          {{ dynamicValidateForm.handleIncomes[0].type.toUpperCase() }}
+          {{ name }}
         </a-tag>
       </div>
     </a-form-item>
@@ -132,6 +132,10 @@ export default {
     data: {
       type: Object,
       default: () => ({ handleIncomes: [] }),
+    },
+    name: {
+      type: String,
+      default: "",
     },
   },
   setup(props) {
