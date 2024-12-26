@@ -48,7 +48,7 @@ const signInWithGoogle = () => {
     })
     .catch((error) => {
       console.error("Error during Google sign-in:", error);
-      alert(error.message);
+      console.log(error.message);
     });
   isOpenLoadingModal.value = close();
 };

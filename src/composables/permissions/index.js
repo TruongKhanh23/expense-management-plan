@@ -33,7 +33,7 @@ export async function getPermissions() {
     });
     return list.value;
   } catch (error) {
-    alert("Get Permissions failed\n" + error);
+    console.log("Get Permissions failed\n" + error);
   }
 }
 

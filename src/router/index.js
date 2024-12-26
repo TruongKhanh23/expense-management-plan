@@ -3,6 +3,7 @@ import Home from "@/components/home/Home.vue";
 import Login from "@/components/authentication/Login.vue";
 import SplashScreen from "@/components/global/SplashScreen.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { toastWithPromise } from "@/utils/toast.util";
 
 const routes = [
   {

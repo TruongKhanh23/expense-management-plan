@@ -49,7 +49,7 @@ export async function getEstimateNecessityExpenses(
     );
     return estimateNecessityList.value;
   } catch (error) {
-    alert("Get estimateNecessityList failed\n" + error);
+    console.log("Get estimateNecessityList failed\n" + error);
   }
 }
 

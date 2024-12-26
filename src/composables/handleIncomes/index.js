@@ -33,7 +33,7 @@ export async function getHandleIncomes(year, monthYear, user = "admin") {
       store.dispatch("setHandleIncomes", list.value);
     });
   } catch (error) {
-    alert("Get handleIncomes failed\n" + error);
+    console.log("Get handleIncomes failed\n" + error);
   }
 }
 export async function setHandleIncomes(values, isUsingToast = true) {

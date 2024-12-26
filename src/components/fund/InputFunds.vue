@@ -219,7 +219,7 @@ export default {
 
       // Check total percent
       if (totalPercent != 100) {
-        alert(
+        console.log(
           `Total of funds percentage must be 100%! Please modify! Now is ${totalPercent}`,
         );
       } else {

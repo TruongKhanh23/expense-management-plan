@@ -37,7 +37,7 @@ export async function getDebt() {
       store.dispatch("setDebts", list.value);
     });
   } catch (error) {
-    alert("Get Debt failed\n" + error);
+    console.log("Get Debt failed\n" + error);
   }
 }
 

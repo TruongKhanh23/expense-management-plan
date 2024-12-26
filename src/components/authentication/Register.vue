@@ -101,7 +101,7 @@ const register = () => {
     })
     .catch((error) => {
       console.log(error.code);
-      alert(error.message);
+      console.log(error.message);
     });
 };
 
@@ -118,7 +118,7 @@ const signInWithGoogle = () => {
     })
     .catch((error) => {
       console.error("Error during Google sign-in:", error);
-      alert(error.message);
+      console.log(error.message);
     });
 };
 </script>

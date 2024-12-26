@@ -52,13 +52,13 @@ export async function getNecessaryThings() {
       (error) => {
         // Nếu xảy ra lỗi, hiển thị thông báo lỗi
         console.error("Error fetching necessary things:", error);
-        alert("Get necessary things failed\n" + error);
+        console.log("Get necessary things failed\n" + error);
       }
     );
 
     return unsubscribe; // Dùng để dừng theo dõi sau này nếu cần
   } catch (error) {
-    alert("Error in getNecessaryThings:\n" + error);
+    console.log("Error in getNecessaryThings:\n" + error);
   }
 }
 
@@ -164,13 +164,13 @@ export async function getNecessaryThingsType() {
       },
       (error) => {
         console.error("Error fetching necessary things type:", error);
-        alert("Get necessary things type failed\n" + error);
+        console.log("Get necessary things type failed\n" + error);
       }
     );
 
     return unsubscribe; // Dùng để dừng theo dõi sau này nếu cần
   } catch (error) {
-    alert("Error in getNecessaryThingsType:\n" + error);
+    console.log("Error in getNecessaryThingsType:\n" + error);
   }
 }
 
