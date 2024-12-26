@@ -124,8 +124,6 @@ export default {
     );
 
     (async () => {
-      console.log("went async");
-
       const { currentYear, currentMonthYear } = getCurrentTime();
       setCurrentChooseMonth(currentYear, currentMonthYear);
 
@@ -189,7 +187,7 @@ export default {
       updateThemeColor();
     });
 
-    return { 
+    return {
       isDarkMode,
       dataIncome,
       funds,
