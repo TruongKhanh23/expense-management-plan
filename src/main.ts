@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 import store from "./store/index";
 import router from "./router";
 
@@ -23,6 +23,16 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
+
+// Enable offline persistence
+enableIndexedDbPersistence(db).catch((err) => {
+  if (err.code === "failed-precondition") {
+    console.error("Offline persistence can only be enabled in one tab.");
+  } else if (err.code === "unimplemented") {
+    console.error("The current browser does not support offline persistence.");
+  }
+});
+
 const auth = getAuth(firebaseApp);
 
 let isInitialized = false;

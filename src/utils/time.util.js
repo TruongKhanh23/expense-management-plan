@@ -20,18 +20,25 @@ export function getCurrentTime() {
 
   // Xác định tháng hiện tại dựa trên ngày trả lương
   let currentMonth = payDay.getUTCMonth() + 2; // Thêm 1 ở đây
+  let currentYear = payDay.getUTCFullYear(); // Dùng năm từ payDay
+
   if (currentDate < payDay) {
     currentMonth = currentMonth - 1 === 0 ? 12 : currentMonth - 1;
   }
 
+  // Điều chỉnh tháng và năm nếu tháng vượt quá 12
+  if (currentMonth > 12) {
+    currentMonth -= 12; // Quay lại tháng đầu năm
+    currentYear += 1; // Tăng năm lên 1
+  }
+
   const currentMonthString =
     currentMonth < 10 ? "0" + currentMonth : currentMonth.toString();
-  const currentYear = currentDate.getUTCFullYear().toString();
   const currentMonthYear = `${currentMonthString}-${currentYear}`;
   const currentDateString = currentDate.toString();
 
   return {
-    currentYear,
+    currentYear: currentYear.toString(),
     currentMonth: currentMonthString,
     currentMonthYear,
     currentDate: currentDateString,

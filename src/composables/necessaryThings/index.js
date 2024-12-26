@@ -9,7 +9,10 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { dataNecessaryThings, dataNecessaryThingsType } from "@/assets/data/sample";
+import {
+  dataNecessaryThings,
+  dataNecessaryThingsType,
+} from "@/assets/data/sample";
 import { toastWithPromise } from "@/utils/toast.util";
 
 // Hàm lấy necessaryThings từ Firebase
@@ -20,13 +23,13 @@ export async function getNecessaryThings() {
     const count = ref(0);
     const list = ref([]);
     const pathSegments = ["users", user, "necessaryThings"];
-    
+
     // Theo dõi thay đổi dữ liệu từ Firebase
     const unsubscribe = onSnapshot(
-      query(collection(db, ...pathSegments)), 
+      query(collection(db, ...pathSegments)),
       (snap) => {
         count.value++;
-        
+
         // Nếu không có dữ liệu (snapshot trống) thì gọi hàm setNecessaryThings
         if (snap.empty) {
           console.log("went snap.empty");
@@ -36,12 +39,12 @@ export async function getNecessaryThings() {
           snap.forEach((doc) => {
             const data = doc.data();
             const item = {
-              id: data.id,                 // ID của item từ Firebase
-              name: data.name,            // Tên sản phẩm
-              timespan: data.timespan,    // Khoảng thời gian sử dụng
-              savePerMonth: data.savePerMonth,  // Số tiền tiết kiệm mỗi tháng
+              id: data.id, // ID của item từ Firebase
+              name: data.name, // Tên sản phẩm
+              timespan: data.timespan, // Khoảng thời gian sử dụng
+              savePerMonth: data.savePerMonth, // Số tiền tiết kiệm mỗi tháng
               limitation: data.limitation, // Giới hạn số tiền
-              type: data.type,            // Loại sản phẩm (ví dụ: shampoo)
+              type: data.type, // Loại sản phẩm (ví dụ: shampoo)
             };
             list.value.push(item);
           });
@@ -53,12 +56,12 @@ export async function getNecessaryThings() {
         // Nếu xảy ra lỗi, hiển thị thông báo lỗi
         console.error("Error fetching necessary things:", error);
         alert("Get necessary things failed\n" + error);
-      }
+      },
     );
 
     return unsubscribe; // Dùng để dừng theo dõi sau này nếu cần
   } catch (error) {
-    alert("Error in getNecessaryThings:\n" + error);
+    console.log("Error in getNecessaryThings:", error);
   }
 }
 
@@ -144,7 +147,7 @@ export async function getNecessaryThingsType() {
 
     // Theo dõi thay đổi dữ liệu từ Firebase
     const unsubscribe = onSnapshot(
-      query(collection(db, ...pathSegments)), 
+      query(collection(db, ...pathSegments)),
       (snap) => {
         if (snap.empty) {
           console.log("went snap.empty");
@@ -153,8 +156,8 @@ export async function getNecessaryThingsType() {
           snap.forEach((doc) => {
             const data = doc.data();
             const item = {
-              id: data.id,      // ID của item từ Firebase
-              name: data.name,  // Tên loại sản phẩm
+              id: data.id, // ID của item từ Firebase
+              name: data.name, // Tên loại sản phẩm
             };
             list.value.push(item);
           });
@@ -165,12 +168,12 @@ export async function getNecessaryThingsType() {
       (error) => {
         console.error("Error fetching necessary things type:", error);
         alert("Get necessary things type failed\n" + error);
-      }
+      },
     );
 
     return unsubscribe; // Dùng để dừng theo dõi sau này nếu cần
   } catch (error) {
-    alert("Error in getNecessaryThingsType:\n" + error);
+    console.log("Error in getNecessaryThingsType:", error);
   }
 }
 

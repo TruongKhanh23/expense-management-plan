@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router"; // Import the neces
 import Home from "@/components/home/Home.vue";
 import Login from "@/components/authentication/Login.vue";
 import SplashScreen from "@/components/global/SplashScreen.vue";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import store from "@/store";
 
 const routes = [
   {
@@ -40,27 +41,33 @@ const getCurrentUser = () => {
 };
 
 router.beforeEach(async (to, from, next) => {
+  const auth = getAuth();
   const user = await getCurrentUser();
+  const userInfo = store.getters.getUser;
 
-  // Kiểm tra nếu đường dẫn không nằm trong danh sách đã định sẵn
   const validPaths = routes.map((route) => route.path);
   if (!validPaths.includes(to.path) && to.path !== "/login") {
     next("/login");
     return;
   }
 
-  // Kiểm tra xác thực
+  // Kiểm tra xác thực và điều hướng
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (user) {
-      next();
+    if (user && userInfo.email) {
+      next(); // User hợp lệ
     } else {
-      next("/login");
+      await signOut(auth); // Đăng xuất nếu không hợp lệ
+      next("/login"); // Chuyển hướng về trang đăng nhập
     }
   } else {
-    if (to.path === "/login" && user) {
-      next("/home");
+    if (to.path === "/login") {
+      if (user && userInfo.email) {
+        next("/home"); // Nếu user và userInfo tồn tại, chuyển hướng đến home
+      } else {
+        next(); // Không có user, tiếp tục tới trang login
+      }
     } else {
-      next();
+      next(); // Đường dẫn không yêu cầu xác thực, tiếp tục điều hướng
     }
   }
 });
